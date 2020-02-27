@@ -1,0 +1,59 @@
+<!-- TEMPLATE DEL MENU -->
+<div class="container-fluid mw-100 h-100 p-2">
+    <nav class="navbar navbar-expand-sm bg-danger navbar-dark fixed-top">
+        <a class="navbar-brand" routerLink="/home">
+          <img src="assets/images/logo_idex_blanco.png" height="40" class="d-inline-block align-top"
+          alt="Es momento de vivir mejor.">
+        </a>
+    </nav>    		
+</div>
+<!-- FIN TEMPLATE MENU -->
+<br>
+<br>
+<br>
+<div class="mt-4 col-8 offset-2">
+    <div class="card">
+        <div class="card-header">Registrar Usuario</div>
+        <div class="card-body">
+            <form #registerForm=ngForm (ngSubmit)="nuevoUsuario()">
+
+                <div class="form-group row">
+                    <label for="uName" class="col-sm-2 col-form-label">Usuario</label>
+                    <div class="col-sm-10">
+                      <input [(ngModel)]="form.name" type="text" name="uName" class="form-control" id="uName" placeholder="Nombre de usuario" required>
+                    </div>
+                    <!-- <div class="text-danger" [hidden]="!error.name">{{error.name}}</div> -->
+                </div>
+
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                  <div class="col-sm-10">
+                    <input [(ngModel)]="form.email" type="email" name="email" class="form-control" id="inputEmail3" placeholder="E-mail" required>
+                  </div>
+                  <!-- <div class="text-danger" [hidden]="!error.email">{{error.email}}</div> -->
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                      <input [(ngModel)]="form.password"  type="password" name="password" class="form-control" id="inputPassword3" placeholder="Escribe el" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="passwordConf" class="col-sm-2 col-form-label">Confirmar password</label>
+                    <div class="col-sm-10">
+                      <input [(ngModel)]="form.password_confirmation"  type="password" name="passwordConf" class="form-control" id="passwordConf" placeholder="Confirma el password" required>
+                    </div>
+                    <!-- <div class="text-danger" [hidden]="!error.password">{{error.password}}</div> -->
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-sm-2 offset-2">
+                    <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Registrar</button>
+                  </div>
+                </div>
+
+              </form>
+        </div>
+    </div>
+</div>

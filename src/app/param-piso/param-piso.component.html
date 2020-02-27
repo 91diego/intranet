@@ -1,0 +1,42 @@
+<div id="param-pisos"> 
+    <h3>Pisos</h3>
+    <table class="table table-bordered table-sm table-responsive-sm">
+        <thead>
+            <tr>
+                <th>No. Piso</th>
+                <th>Plusvalia de piso</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let piso of pisos">
+                <td>
+                    <input type="text" class="form-control" name="numero_piso" id="numero_piso{{piso.id}}" readonly value="{{piso.numero_piso}}">
+                </td>
+                <td>
+                    <input type="text" class="form-control" name="descuento" id="piso{{piso.id}}" readonly value="{{piso.descuento}}">
+                </td>
+                <td>
+                    <button (click)="editarPiso(piso.id)" type="button" id="btn_editar_piso{{piso.id}}" class="btn btn-outline-warning">Editar</button>
+                    <div id="botones_pisos_{{piso.id}}" style="display: none;">
+                        <button (click)="guardarCambios(piso.id)" type="button" id="btn_guardar_piso{{piso.id}}" class="btn btn-outline-success">Guardar</button>
+                        <button (click)="cancelarCambios(piso.id)" type="button" id="btn_cancelar_piso{{piso.id}}" class="btn btn-outline-danger">Cancelar</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-inline">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="check_piso">
+            <label class="custom-control-label" for="check_piso">Agregar Piso.</label>
+        </div>&nbsp;&nbsp;
+    </div>
+    <div class="form-inline" id="div_agregar_piso" style="display: none;">
+        <label for="piso">Piso: </label>&nbsp;
+        <input [(ngModel)]="piso.numero_piso" type="text" class="form-control" id="numero_piso" placeholder="Numero de pìso">&nbsp;&nbsp;
+        <label for="porcentaje">Porcentaje: </label>&nbsp;
+        <input [(ngModel)]="piso.descuento" type="number" class="form-control" id="descuento" placeholder="Porcentaje de descuento">&nbsp;&nbsp;
+        <button (click)="crearPiso()" type="button" class="btn btn-outline-success" id="btn_agregar_piso">Agregar</button>
+    </div>            
+</div>

@@ -3,8 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  API_ENDPOINT: 'http://127.0.0.1:8000/api',
+  // API_ENDPOINT: 'https://administracion.idex.cc/api'
 };
+
+export let position = {
+
+  work_position: ''
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

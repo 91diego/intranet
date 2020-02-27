@@ -1,0 +1,92 @@
+<!-- TEMPLATE DEL MENU -->
+<!-- TEMPLATE DEL MENU -->
+<div class="container-fluid mw-100 h-100 p-2">
+    <nav class="navbar navbar-expand-sm bg-danger navbar-dark fixed-top">
+    <a class="navbar-brand" routerLink="/{{workPosition}}">
+            <img src="assets/images/logo_idex_blanco.png" height="40" class="d-inline-block align-top"
+                alt="Es momento de vivir mejor.">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+        aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+            <ul class="nav navbar-nav ml-auto">
+                <!-- Dropdown ENCUESTA -->
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
+                        Encuestas
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="/home">Crear encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Editar encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Eliminar encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Ver resultados</a>
+                    </div>
+                </li> -->
+
+                <!-- Dropdown CALCULADORA -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
+                    Calculadora
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="/{{workPosition}}/corrida-financiera">Corrida Financiera</a>
+                        <a class="dropdown-item" routerLink="/{{workPosition}}/calculadora">Tabla de amortización</a>
+                        
+                        <div *ngIf="workPosition == '117' || workPosition == '3' || workPosition == '4'
+                        || workPosition == '19' || workPosition == '24' || workPosition == '21'
+                        || workPosition == '22' || workPosition == '12'">
+                            <a class="dropdown-item" routerLink="configuracion-calculadora">Configurar parametros</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Perfil
+                    </a>
+                    <!-- <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                        <a class="dropdown-item" routerLink="/home">Mi Perfil</a>
+                        <a class="dropdown-item" routerLink="crear-usuario">Crear usuario</a>
+                        <a class="dropdown-item" (click)="logout($event)" href="#">Cerrar sesion</a>
+                    </div> "default": "idex-48619" -->
+                </li>
+            </ul>
+        </div>
+    </nav>    		
+</div>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <h4>Selecciona el desarrollo que deseas configurar:</h4>
+    <select [(ngModel)]="valorId" class="form-control custom-select form-control-md" id="select_desarrollo">
+        <option value="{{ desarrollo.id }}" *ngFor="let desarrollo of desarrollos">{{ desarrollo.nombre }}</option>
+    </select>
+    <a routerLink="configuracion/{{valorId}}" id="config_desarrollo">Configuracion</a>
+    <div class="custom-control custom-checkbox">
+        <input [(ngModel)]="checkNuevoDesarrollo" type="checkbox" class="custom-control-input" id="check_desarrollo" name="checkDesarrollo">
+        <label class="custom-control-label" for="check_desarrollo">Agregar nuevo desarrollo.</label>
+    </div>
+    <br>
+
+    <div class="ocultar-elemento" id="agregar_desarrollo">
+        <div class="form-inline">
+            <input [(ngModel)]="datos.nombre" type="text" class="form-control" id="nombre_desarrollo" placeholder="Nombre del desarrollo">&nbsp;&nbsp;
+            <input [(ngModel)]="datos.precio_inicial" type="number" class="form-control" id="costo_mantenimiento" placeholder="Precio inicial">&nbsp;&nbsp;
+            <input [(ngModel)]="datos.fecha_inicio_obra" type="date" class="form-control" id="costo_mantenimiento" placeholder="Fecha de inicio obra">&nbsp;&nbsp;
+            <select class="custom-select elemento ocultar-elemento" id="replicar_config" name="replicar_config" >
+                <option value="0">Selecciona la configuracion</option>
+                <option value="{{ desarrollo.id }}" *ngFor="let desarrollo of desarrollos">{{ desarrollo.nombre }}</option>
+            </select>&nbsp;&nbsp;
+            <button (click)="agregarDesarrollo()" class="btn btn-outline-success">Agregar desarrollo</button>
+        </div>
+        <div class="custom-control custom-checkbox" style="display: none;">
+            <input type="checkbox" class="custom-control-input" id="check_configuracion" name="checkConfiguracion">
+            <label class="custom-control-label" for="check_configuracion">Replicar configuracion.</label>
+        </div>       
+    </div>
+</div>

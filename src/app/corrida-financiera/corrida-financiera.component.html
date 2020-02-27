@@ -1,0 +1,200 @@
+<!-- TEMPLATE DEL MENU -->
+<!-- TEMPLATE DEL MENU -->
+<div class="container-fluid mw-100 h-100 p-2">
+    <nav class="navbar navbar-expand-sm bg-danger navbar-dark fixed-top">
+    <a class="navbar-brand" routerLink="/{{workPosition}}">
+            <img src="assets/images/logo_idex_blanco.png" height="40" class="d-inline-block align-top"
+                alt="Es momento de vivir mejor.">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+        aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+            <ul class="nav navbar-nav ml-auto">
+                <!-- Dropdown ENCUESTA -->
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
+                        Encuestas
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="/home">Crear encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Editar encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Eliminar encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Ver resultados</a>
+                    </div>
+                </li> -->
+
+                <!-- Dropdown CALCULADORA -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
+                    Calculadora
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="/{{workPosition}}/corrida-financiera">Corrida Financiera</a>
+                        <a class="dropdown-item" routerLink="/{{workPosition}}/calculadora">Tabla de amortización</a>
+                        
+                        <div *ngIf="workPosition == '117' || workPosition == '3' || workPosition == '4'
+                        || workPosition == '19' || workPosition == '24' || workPosition == '21'
+                        || workPosition == '22' || workPosition == '12'">
+                            <a class="dropdown-item" routerLink="/{{workPosition}}/configuracion-calculadora">Configurar parametros</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Perfil
+                    </a>
+                    <!-- <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                        <a class="dropdown-item" routerLink="/home">Mi Perfil</a>
+                        <a class="dropdown-item" routerLink="crear-usuario">Crear usuario</a>
+                        <a class="dropdown-item" (click)="logout($event)" href="#">Cerrar sesion</a>
+                    </div> "default": "idex-48619" -->
+                </li>
+            </ul>
+        </div>
+    </nav>    		
+</div>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Corrida Financiera</h1>
+        <h4>Selecciona el desarrollo:</h4>
+        <select [(ngModel)]="idDesarrollo" [(ngModel)]="desarrolloCorrida" (change)="obtenerDetalleDesarrollo(idDesarrollo)" (change)="obtenerDatos(idDesarrollo)" class="form-control custom-select form-control-md" id="desarrollo_corrida">
+            <option *ngFor="let desarrollo of desarrollos" value="{{ desarrollo.id }} {{desarrollo.nombre}}">{{ desarrollo.nombre }}</option>
+        </select>
+
+        <input *ngFor="let desarrollo of desarrollos" type="text" class="form-control" id="desarrollo" value="{{desarrollo.nombre}}" style="display: none;">
+        <input *ngFor="let supuestoHipotecario of supuestosHipotecarios" type="text" class="form-control" id="comision_apertura" readonly value="{{supuestoHipotecario.porcentaje_comision_apertura}}" style="display: none;">
+        <hr class="my-4">
+        <div class="card" id="formulario_corrida">
+            <h5 class="card-header">
+                <p class="lead">
+                    <strong><label>Desarrollo: </label> {{desarrolloCorrida}}</strong><br>
+                    <strong><label>Cliente: </label> {{nombreClienteCorrida}}</strong><br>
+                    <strong><label>Prototipo: </label> {{prototipoCorrida}}</strong><br>
+                    <strong><label>Ubicacion: </label> {{torreLetra}}-{{pisoCorrida}}-{{numeroDeptoCorrida}}</strong><br>
+                    <!-- <strong><label>Financiamiento: </label> {{financiamientoCorrida}}</strong><br> -->
+                    <strong><label>Fecha pago apartado: </label> {{pagoApartadoCorrida}}</strong><br>
+                    <strong><label>Fecha inicio contrato</label> {{inicioContratoCorrida}}</strong><br>
+                    <strong><label>Dia pago</label> {{diaPagoCorrida}}</strong><br>
+                </p>
+            </h5>
+            <div class="card-body">
+              <div>
+                 <!-- NOMBRE DEL CLIENTE -->
+                 <div class="form-group" id="div_nombre_cliente_corrida">
+                     <label for="cliente_corrida"><strong>Cliente</strong></label>
+                     <input [(ngModel)]="nombreClienteCorrida" type="text" class="form-control" id="cliente_corrida">
+                 </div>
+                 <!-- FIN NOMBRE DEL CLIENTE -->
+                 <table class="table">
+                     <tbody>
+                         <tr>
+                            <td colspan="1">
+                                <fieldset>
+                                    <!-- POTOTIPO -->
+                                    <div class="form-group" id="div_prototipo_corrida">
+                                        <label for="prototipo_corrida"><strong>Prototipo:</strong></label>
+                                        <select [(ngModel)]="idPrototipo" [(ngModel)]="prototipoCorrida" (change)="obtenerDetallePrototipo(idPrototipo)" class="form-control custom-select" id="prototipo_corrida" name="prototipo_corrida">
+                                            <option *ngFor="let prototipo of prototipos" value="{{prototipo.id}} {{prototipo.prototipo}}">{{prototipo.prototipo}}</option>
+                                        </select>
+                                        <br><br>
+                                        <div class="form-inline" id="div_calcular_costo_corrida">
+                                            <label for="metros_cuadrados_prototipo_corrida"><strong>M2:</strong></label>&nbsp;&nbsp;
+                                            <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="metros_cuadrados_prototipo_corrida" value="{{detalles.metros_cuadrados}}">&nbsp;&nbsp;
+                                            <label for="costo_venta_metro_cuadrado_corrida"><strong>Precio:</strong></label>&nbsp;&nbsp;
+                                            <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="costo_venta_metro_cuadrado_corrida" value="{{detalles.costo_venta_metro_cuadrado}}">&nbsp;&nbsp;
+                                            <button (click)="calcularCosto()" class="btn btn-outline-success" id="recalcular_costo">Calcular costo</button>
+                                            <br><br>
+                                            <input type="number" class="form-control" readonly id="precio_preventa_corrida" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <!-- FIN POTOTIPO -->                 
+
+                                    <!-- TORRE -->
+                                    <div class="form-group" id="div_torre_corrida">
+                                        <label for="torre_corrida"><strong>Torre:</strong></label>
+                                        <select [(ngModel)]="idSupuestoObra" [(ngModel)]="torreLetra" (change)="obtenerDetalleSupuestoObra(idSupuestoObra)" class="form-control custom-select" id="torre_corrida" name="torre_corrida">
+                                            <option *ngFor="let obra of supuestosObra" value="{{obra.id}} {{obra.torre}}">{{obra.torre}}</option>
+                                        </select>
+                                        <input *ngFor="let detalles of supuestosObraDetalles" type="text" class="form-control" id="torre_obra_corrida" value="{{detalles.torre}}" style="display: none;">
+                                    </div>
+                                    <!-- FIN TORRE -->
+                                
+                                    <!-- NIVEL -->
+                                    <div class="form-group" id="div_nivel_corrida">
+                                        <label for="nivel_corrida"><strong>Nivel</strong></label>
+                                        <select [(ngModel)]="idPiso" [(ngModel)]="pisoCorrida" (change)="obtenerDetallePiso(idPiso)" class="form-control custom-select" id="nivel_corrida" name="nivel_corrida">
+                                            <option *ngFor="let piso of pisos" value="{{piso.id}} {{piso.numero_piso}}">{{piso.numero_piso}}</option>
+                                        </select>
+                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="plusvalia_piso" readonly value="{{detalles.descuento}}" style="display: none;">
+                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="numero_piso_piso" readonly value="{{detalles.numero_piso}}" style="display: none;">
+                                    </div>
+                                    <!-- FIN PISO -->
+
+                                    <!-- NUMERO DEL DEPARTAMENTO -->
+                                    <div class="form-group" id="div_numero_departamento_corrida">
+                                        <label for="numero_departamento_corrida"><strong>Numero departamento</strong></label>
+                                        <input [(ngModel)]="numeroDeptoCorrida" type="number" class="form-control" id="numero_departamento_corrida">
+                                    </div>
+                                    <!-- FIN NUMERO DEL DEPARTAMENTO -->
+                                </fieldset>
+                            </td>
+                            <td colspan="1">
+                                <fieldset>
+
+                                    <!-- METODO FINANCIMIENTO -->
+                                    <div class="form-group" id="div_metodo_financiamiento_corrida">
+                                        <label for="metodo_financiamiento_corrida"><strong>Metodo de financiamiento:</strong></label>
+                                        <select [(ngModel)]="idSupuestoVenta" [(ngModel)]="financiamientoCorrida" (change)="obtenerDetalleSupuestoVenta(idSupuestoVenta)" class="form-control custom-select" id="metodo_financiamiento_corrida" name="metodo_financiamiento_corrida">
+                                            <option *ngFor="let venta of supuestoVenta" value="{{venta.id}}">{{venta.nombre}}</option>
+                                        </select>
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="nombre_venta" readonly value="{{detalles.nombre}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="descuento_venta" readonly value="{{detalles.porcentaje_descuento}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="rendimiento_venta" readonly value="{{detalles.porcentaje_rendimiento}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="plazo_venta" readonly value="{{detalles.porcentaje_plazo}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="meses_plazo_venta" readonly value="{{detalles.meses_plazo}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="firma_venta" readonly value="{{detalles.porcentaje_firma}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="escritura_venta" readonly value="{{detalles.porcentaje_escritura}}" style="display: none;">
+                                    </div>
+                                    <!-- FIN METODO FINANCIMIENTO -->                                    
+
+                                    <!-- FECHA PAGO DE APARTADO -->
+                                    <div class="form-group" id="div_fecha_apartado_corrida">
+                                        <label for="fecha_pago_apartado_corrida"><strong>Fecha pago apartado:</strong></label>
+                                        <input [(ngModel)]="pagoApartadoCorrida" type="date" class="form-control" id="fecha_pago_apartado_corrida">
+                                    </div>
+                                    <!-- FIN FECHA PAGO DE APARTADO -->
+
+                                    <!-- FECHA INICIO DE CONTRATO -->
+                                    <div class="form-group" id="div_fecha_contrato_corrida">
+                                        <label for="fecha_inicio_contrato_corrida"><strong>Fecha inicio contrato:</strong></label>
+                                        <input [(ngModel)]="inicioContratoCorrida" type="date" class="form-control" id="fecha_inicio_contrato_corrida">
+                                    </div>
+                                    <!-- FIN FECHA INICIO DE CONTRATO -->
+
+                                    <!-- DIA DE PAGO -->
+                                    <div class="form-group" id="div_dia_pago_corrida">
+                                        <label for="dia_pago_corrida"><strong>Dia de pago:</strong></label>
+                                        <input [(ngModel)]="diaPagoCorrida" type="number" class="form-control" id="dia_pago_corrida" min="1" max="31">
+                                    </div>
+                                    <!-- FIN DIA DE PAGO --> 
+                                </fieldset>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-outline-info btn-lg" id="btn_corrida_financiera" (click)="generarPDF()">
+                    Generar corrida financiera
+                </button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

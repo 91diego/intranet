@@ -1,0 +1,62 @@
+<div id="param-compra">         
+    <h3>Supuesto de compra.</h3>
+    <table class="table table-bordered table-sm table-responsive-sm">
+        <thead>
+            <tr>
+                <th>Nombre del supuesto.</th>
+                <th>Inicio del plazo.</th>
+                <th>Fin del plazo.</th>
+                <th>Tipo de compra</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let codigo of supuestoCompra">
+                <td>
+                    <input type="text" class="form-control" name="nombre_codigo" id="nombre_codigo_{{codigo.id}}" readonly value="{{codigo.nombre}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="inicio_plazo" id="inicio_plazo_{{codigo.id}}" readonly value="{{codigo.inicio_plazo}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="fin_plazo" id="fin_plazo_{{codigo.id}}" readonly value="{{codigo.fin_plazo}}">
+                </td>
+                <td>
+                    <!--<div *ngIf="codigo.tipo_compra === 'RENTA'" id="div_tipo_compra_{{codigo.id}}" style="display: none;">
+                        <select class="custom-select" name="tipo_compra" id="tipo_compra_{{codigo.id}}">
+                            <option value="RENTA">RENTA</option>
+                            <option value="PROPIO">PROPIO</option>
+                        </select>
+                    </div>
+                    <div *ngIf="codigo.tipo_compra === 'PROPIO'" id="div_tipo_compra_{{codigo.id}}" style="display: none;">
+                        <select class="custom-select" name="tipo_compra" id="tipo_compra_{{codigo.id}}">
+                            <option value="PROPIO">PROPIO</option>
+                            <option value="PROPIO">RENTA</option>
+                        </select>
+                    </div>-->       
+                    <input type="text" class="form-control" name="tipo_compra_" id="tipo_compra_{{codigo.id}}" readonly value="{{codigo.tipo_compra}}">
+                </td>
+                <td>
+                    <button (click)="editarSupuestoCompra(codigo.id)" type="button" class="btn btn-outline-warning" id="btn_editar_supuesto_compra_{{codigo.id}}">Editar</button>
+                    <div id="botones_supuesto_compra_{{codigo.id}}" style="display: none;">
+                        <button (click)="guardarCambios(codigo.id)" type="button" id="btn_guardar_supuesto_compra_{{codigo.id}}" class="btn btn-outline-success">Guardar</button>
+                        <button (click)="cancelarCambios(codigo.id)" type="button" id="btn_cancelar_supuesto_compra_{{codigo.id}}" class="btn btn-outline-danger">Cancelar</button>
+                    </div>
+                </td>                
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-inline">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="check_supuesto_compra">
+            <label class="custom-control-label" for="check_supuesto_compra">Agregar Supuesto de compra.</label>
+        </div>&nbsp;&nbsp;
+        </div>
+    <div class="form-inline" id="div_agregar_supuesto_compra" style="display: none;">
+        <input [(ngModel)]="datos.nombre" type="text" class="form-control" id="nombre_supuesto_compra" placeholder="Nombre">&nbsp;
+        <input [(ngModel)]="datos.inicio_plazo" type="number" class="form-control" id="inicio_plazo_supuesto_compra" placeholder="Año inicio del plazo">&nbsp;
+        <input [(ngModel)]="datos.fin_plazo" type="number" class="form-control" id="fin_plazo_supuesto_compra" placeholder="Año fin del plazo">&nbsp;
+        <input [(ngModel)]="datos.tipo_compra" type="text" class="form-control" id="tipo_supuesto_compra" placeholder="Renta o Propio">&nbsp;
+        <button (click)="crearSupuestoCompra()" type="button" class="btn btn-outline-success" id="btn_agregar_supuesto_compra">Agregar</button>
+    </div>
+</div>

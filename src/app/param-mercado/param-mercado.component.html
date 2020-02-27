@@ -1,0 +1,50 @@
+<div id="param-mercado">         
+    <h3>Supuestos de mercado</h3>
+    <table class="table table-bordered table-sm table-responsive-sm">
+        <thead>
+            <tr>
+                <th>Valor Renta / Valor Inmueble</th>
+                <th>Costo de Mantenimiento / M2</th>
+                <th>Costo de Cierre / Valor Inmueble</th>
+                <th>Inflacion</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let mercado of supuestoMercado">
+                <td>
+                    <input type="number" class="form-control" name="valor_renta" id="valor_renta_{{mercado.id}}" readonly value="{{mercado.valor_renta}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="costo_mantenimiento" id="costo_mantenimiento_{{mercado.id}}" readonly value="{{mercado.costo_mantenimiento}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="costo_cierre" id="costo_cierre_{{mercado.id}}" readonly value="{{mercado.costo_cierre}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="inflacion" id="inflacion_{{mercado.id}}" readonly value="{{mercado.inflacion}}">
+                </td>
+                <td>
+                    <button (click)="editarSupuestoMercado(mercado.id)" type="button" id="btn_editar_supuesto_mercado_{{mercado.id}}" class="btn btn-outline-warning">Editar</button>
+                    <div id="botones_supuesto_mercado_{{mercado.id}}" style="display: none;">
+                        <button (click)="guardarCambios(mercado.id)" type="button" id="btn_guardar_supuesto_mercado_{{mercado.id}}" class="btn btn-outline-success">Guardar</button>
+                        <button (click)="cancelarCambios(mercado.id)" type="button" id="btn_cancelar_supuesto_mercado_{{mercado.id}}" class="btn btn-outline-danger">Cancelar</button>
+                    </div>
+                </td>                
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-inline" id="div_check_supuesto_mercado">
+        <div class="custom-control custom-checkbox" id="div_supuesto_mercado">
+            <input type="checkbox" class="custom-control-input" id="check_supuesto_mercado">
+            <label class="custom-control-label" for="check_supuesto_mercado">Agregar Supuesto de mercado.</label>
+        </div>&nbsp;&nbsp;
+    </div>
+    <div class="form-inline" id="div_agregar_supuesto_mercado" style="display: none;">
+        <input [(ngModel)]="datos.valor_renta" type="number" class="form-control" id="valor_renta" placeholder="Valor inmueble">&nbsp;
+        <input [(ngModel)]="datos.costo_mantenimiento" type="number" class="form-control" id="costo_mantenimiento" placeholder="Costo mantenimiento">&nbsp;
+        <input [(ngModel)]="datos.costo_cierre" type="number" class="form-control" id="costo_cierre" placeholder="Costo cierre">&nbsp;
+        <input [(ngModel)]="datos.inflacion" type="number" class="form-control" id="inflacion" placeholder="Inflacion">&nbsp;
+        <button (click)="crearSupuestoMercado()" type="button" class="btn btn-outline-success" id="btn_agregar_supuesto_mercado">Agregar</button>
+    </div>  
+</div>

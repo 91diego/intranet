@@ -1,0 +1,66 @@
+<div id="param-hipotecario">         
+    <h3>Supuesto Hipotecario.</h3>
+    <table class="table table-bordered table-sm table-responsive-sm">
+        <thead>
+            <tr>
+                <th>% Comision por apertura</th>
+                <th>% Enganche Hipotecario</th>
+                <th>Credito hipotecario (duracion en años)</th>
+                <th>% Tasa Hipotecaria promedio del sistema financiero</th>
+                <!-- <th>% Tasa Extra</th>
+                <th>% Repago Capital</th> -->
+                <th>% Descuento por pago Hipotecario</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let hipoteca of supuestoHipotecario">
+                <td>
+                    <input type="number" class="form-control" name="porcentaje_comision_apertura" id="porcentaje_comision_apertura_{{hipoteca.id}}" readonly value="{{hipoteca.porcentaje_comision_apertura}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="porcentaje_enganche" id="porcentaje_enganche_{{hipoteca.id}}" readonly value="{{hipoteca.porcentaje_enganche}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="duracion_credito" id="duracion_credito_{{hipoteca.id}}" readonly value="{{hipoteca.duracion_credito}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="tasa_interes" id="tasa_interes_{{hipoteca.id}}" readonly value="{{hipoteca.tasa_interes}}">
+                </td>
+                <!-- <td>
+                    <input type="number" class="form-control" name="tasa_extra" id="tasa_extra_{{hipoteca.id}}" readonly value="{{hipoteca.tasa_extra}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="repago_capital" id="repago_capital_{{hipoteca.id}}" readonly value="{{hipoteca.repago_capital}}">
+                </td> -->
+                <td>
+                    <input type="number" class="form-control" name="porcentaje_descuento_hipotecario" id="porcentaje_descuento_hipotecario_{{hipoteca.id}}" readonly value="{{hipoteca.porcentaje_descuento}}">
+                </td>
+                <td>
+                    <button (click)="editarSupuestoHipotecario(hipoteca.id)" type="button" id="btn_editar_supuesto_hipotecario_{{hipoteca.id}}" class="btn btn-outline-warning">Editar</button>
+                    <div id="botones_supuesto_venta_hipotecario_{{hipoteca.id}}" style="display: none;">
+                        <button (click)="guardarCambios(hipoteca.id)" type="button" id="btn_guardar_supuesto_hipotecario_{{hipoteca.id}}" class="btn btn-outline-success">Guardar</button>
+                        <button (click)="cancelarCambios(hipoteca.id)" type="button" id="btn_cancelar_supuesto_hipotecario_{{hipoteca.id}}" class="btn btn-outline-danger">Cancelar</button>
+                    </div>
+                </td>                
+            </tr>
+        </tbody>
+    </table>
+    <!-- SI NO EXISTEN REGISTROS, SE MUESTRA EL DIV CON EL CHECK SUPUESTO HIPOTECARIO -->
+    <div class="form-inline" id="div_check_supuesto_hipotecario">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="check_supuesto_hipotecario">
+            <label class="custom-control-label" for="check_supuesto_hipotecario">Agregar Supuesto Hipotecario.</label>
+        </div>&nbsp;&nbsp;
+    </div>
+    <div class="form-inline" id="div_agregar_supuesto_hipotecario" style="display: none;">
+        <input [(ngModel)]="datos.porcentaje_comision_apertura" type="number" class="form-control" id="porcentaje_comision_apertura" placeholder="% Comision por apertura">&nbsp;
+        <input [(ngModel)]="datos.porcentaje_enganche" type="number" class="form-control" id="porcentaje_enganche" placeholder="% Enganche">&nbsp;
+        <input [(ngModel)]="datos.duracion_credito" type="number" class="form-control" id="duracion_credito" placeholder="Duracion años credito">&nbsp;
+        <input [(ngModel)]="datos.tasa_interes" type="number" class="form-control" id="tasa_interes" placeholder="% Tasa Interes">&nbsp;
+        <input [(ngModel)]="datos.tasa_extra" type="number" class="form-control" id="tasa_extra" placeholder="% Tasa Extra">&nbsp;
+        <input [(ngModel)]="datos.repago_capital" type="number" class="form-control" id="repago_capital" placeholder="% Repago Capital">&nbsp;
+        <input [(ngModel)]="datos.porcentaje_descuento" type="number" class="form-control" id="porcentaje_descuento" placeholder="% Descuento">&nbsp;
+        <button (click)="crearSupuestoHipotecario()" type="button" class="btn btn-outline-success" id="btn_agregar_supuesto_hipotecario">Agregar</button>
+    </div>
+</div>

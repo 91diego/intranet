@@ -1,0 +1,490 @@
+<!-- TEMPLATE DEL MENU -->
+<div class="container-fluid mw-100 h-100 p-2">
+    <nav class="navbar navbar-expand-sm bg-danger navbar-dark fixed-top">
+    <a class="navbar-brand" routerLink="/{{workPosition}}">
+            <img src="assets/images/logo_idex_blanco.png" height="40" class="d-inline-block align-top"
+                alt="Es momento de vivir mejor.">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+        aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+            <ul class="nav navbar-nav ml-auto">
+                <!-- Dropdown ENCUESTA -->
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
+                        Encuestas
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="/home">Crear encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Editar encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Eliminar encuesta</a>
+                        <a class="dropdown-item" routerLink="/home">Ver resultados</a>
+                    </div>
+                </li> -->
+
+                <!-- Dropdown CALCULADORA -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">
+                    Calculadora
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="/{{workPosition}}/corrida-financiera">Corrida Financiera</a>
+                        <a class="dropdown-item" routerLink="/{{workPosition}}/calculadora">Tabla de amortización</a>
+                        <div *ngIf="workPosition == '117' || workPosition == '3' || workPosition == '4'
+                        || workPosition == '19' || workPosition == '24' || workPosition == '21'
+                        || workPosition == '22' || workPosition == '12'">
+                            <a class="dropdown-item" routerLink="/{{workPosition}}/configuracion-calculadora">Configurar parametros</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Perfil
+                    </a>
+                    <!-- <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                        <a class="dropdown-item" routerLink="/home">Mi Perfil</a>
+                        <a class="dropdown-item" routerLink="crear-usuario">Crear usuario</a>
+                        <a class="dropdown-item" (click)="logout($event)" href="#">Cerrar sesion</a>
+                    </div> -->
+                </li>
+            </ul>
+        </div>
+    </nav>    		
+</div>
+<!-- FIN TEMPLATE MENU -->
+<br>
+<br>
+<br>
+<div class="container">
+    <div id="div_calculos_desarrollo">
+        <h4>Selecciona el desarrollo para generar su flujo:</h4>
+        <select [(ngModel)]="idDesarrollo" (change)="obtenerDetalleDesarrollo(idDesarrollo)" (change)="obtenerDatos(idDesarrollo)" class="form-control custom-select form-control-md" id="select_desarrollo_calculos">
+            <option *ngFor="let desarrollo of desarrollos" value="{{ desarrollo.id }}">{{ desarrollo.nombre }}</option>
+        </select>
+        <input *ngFor="let desarrollo of desarrollos" type="text" class="form-control" id="nombre_pdf" readonly value="{{desarrollo.nombre}}" style="display: none;">
+        <!-- <input *ngFor="let detalles of desarrolloDetalles" type="text" class="form-control" id="precio_incial_desarrollo" readonly value="{{detalles.precio_inicial}}" style="display: none;"> -->
+        <input *ngFor="let detalles of prototipoDetalles" type="text" class="form-control" id="precio_incial_desarrollo" readonly value="{{detalles.costo_venta_metro_cuadrado}}" style="display: none;">
+        <input *ngFor="let detalles of prototipoDetalles" type="text" class="form-control" id="nombre_prototipo_desarrollo" readonly value="{{detalles.prototipo}}" style="display: none;">
+        <input *ngFor="let detalles of desarrolloDetalles" type="text" class="form-control" id="fecha_inicio_desarrollo" readonly value="{{detalles.fecha_inicio_obra}}" style="display: none;">
+        <input *ngFor="let mercado of supuestoMercado" type="text" class="form-control" id="costo_cierre_mercado" readonly value="{{mercado.costo_cierre}}" style="display: none;">
+        <input *ngFor="let mercado of supuestoMercado" type="number" class="form-control" id="inflacion_mercado" readonly value="{{mercado.inflacion}}" style="display: none;">
+        <input *ngFor="let mercado of supuestoMercado" type="text" class="form-control" id="renta_mercado" readonly value="{{mercado.valor_renta}}" style="display: none;">
+        <input *ngFor="let mercado of supuestoMercado" type="text" class="form-control" id="mantenimiento_mercado" readonly value="{{mercado.costo_mantenimiento}}" style="display: none;">
+    </div>
+    <br>
+
+    <div id="div_hoja_llenado">
+        <h1>Hoja de llenado.</h1>
+        <!-- DIV FORMULARIO CALCULOS -->
+        <div class="col-lg-6 col-md-6 col-sm-6"></div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+    
+            <div class="shadow-lg p-4 mb-4 bg-white">
+
+                <div id="formulario_calculos">
+
+                    <!-- NOMBRE DEL CLIENTE -->
+                    <!-- <div class="form-group" id="div_nombre_cliente">
+                        <label for="nombre_cliente_hoja_llenado"><strong>Nombre del cliente</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input [formControl]="validacionNombreCliente" type="text" class="form-control" id="nombre_cliente_hoja_llenado">
+                        <p *ngIf="validacionNombreCliente.invalid">El campo es requerido</p>
+                    </div> -->
+                    <!-- FIN NOMBRE DEL CLIENTE -->
+
+                    <!-- METODO FINANCIMIENTO -->
+                    <div class="form-group" id="div_metodo_financiamiento">
+                        <label for="metodo_financiamiento_hoja_llenado"><strong>Metodo de financiamiento:</strong></label>
+                        <span><a href="#" id="texto_financiamiento_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title="Se paga un 15% de enganche en parcialidades: $100,000.00 aprox. a la firma de contrato, el resto del enganche en pagos iguales de acuerdo a la terminación de la obra y el 85% se liquida en la escritura ya sea con crédito Hipotecario o Recursos propios."><i class="material-icons">help</i></a></span>							
+                        <select [formControl]="opcionFinanciamiento" [(ngModel)]="idSupuestoVenta" (change)="obtenerDetalleSupuestoVenta(idSupuestoVenta)" class="form-control custom-select" id="metodo_financiamiento_hoja_llenado" name="metodo_financiamiento_hoja_llenado">
+                            <option *ngFor="let venta of supuestoVenta" value="{{venta.id}} {{venta.nombre}}">{{venta.nombre}}</option>
+                        </select>
+                        <p *ngIf="opcionFinanciamiento.invalid">El campo es requerido</p>
+                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="nombre_venta" readonly value="{{detalles.nombre}}" style="display: none;">
+                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="descuento_venta" readonly value="{{detalles.porcentaje_descuento}}" style="display: none;">
+                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="rendimiento_venta" readonly value="{{detalles.porcentaje_rendimiento}}" style="display: none;">
+                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="plazo_venta" readonly value="{{detalles.porcentaje_plazo}}" style="display: none;">
+                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="meses_plazo_venta" readonly value="{{detalles.meses_plazo}}" style="display: none;">
+                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="firma_venta" readonly value="{{detalles.porcentaje_firma}}" style="display: none;">
+                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="escritura_venta" readonly value="{{detalles.porcentaje_escritura}}" style="display: none;">
+                    </div>
+                    <!-- FIN METODO FINANCIMIENTO -->
+
+                    <!-- TASA HIPOTECARIA -->
+                    <div id="div_tasa_hipotecaria" style="display: none;">
+                        <div class="form-group">
+                            <label for="tasa_hipotecaria_llenado"><strong>¿Conoce su tasa hipotecaria?</strong></label>
+                            <span><a href="#" id="texto_financiamiento_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title="Se paga un 15% de enganche en parcialidades: $100,000.00 aprox. a la firma de contrato, el resto del enganche en pagos iguales de acuerdo a la terminación de la obra y el 85% se liquida en la escritura ya sea con crédito Hipotecario o Recursos propios."><i class="material-icons">help</i></a></span>
+                            <select [formControl]="validacionTasaHipotecaria" class="form-control custom-select" id="tasa_hipotecaria_llenado" name="tasa_hipotecaria_llenado">
+                                <option value="NA">Selecciona una respuesta</option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </select>
+                            <p *ngIf="validacionTasaHipotecaria.invalid">El campo es requerido</p>
+                        </div>
+                        <div class="form-group" id="div_tasa_cliente" style="display: none;">
+                            <label for="tasa_cliente"><strong>Tasa del cliente</strong></label>
+                            <span><a href="#" id="texto_financiamiento_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                            <input type="number" class="form-control" id="tasa_cliente" placeholder="Tasa del cliente">
+                        </div>
+                        <div class="form-group" id="div_tasa_banxico" style="display: none;">
+                            <label for="tasa_banxico"><strong>Tasa BANXICO</strong></label>
+                            <span><a href="#" id="texto_financiamiento_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                            <input *ngFor="let supuestoHipotecario of supuestosHipotecarios" type="text" class="form-control" id="tasa_banxico" readonly value="{{supuestoHipotecario.tasa_interes}}">
+                            <input *ngFor="let supuestoHipotecario of supuestosHipotecarios" type="text" class="form-control" id="comision_apertura" readonly value="{{supuestoHipotecario.porcentaje_comision_apertura}}" style="display: none;">
+                            <input *ngFor="let supuestoHipotecario of supuestosHipotecarios" type="text" class="form-control" id="tasa_extra" readonly value="{{supuestoHipotecario.tasa_extra}}" style="display: none;">
+                            <input *ngFor="let supuestoHipotecario of supuestosHipotecarios" type="text" class="form-control" id="repago_capital" readonly value="{{supuestoHipotecario.repago_capital}}" style="display: none;">
+                        </div>
+                    </div>
+                    <!-- FIN TASA HIPOTECARIA -->
+
+                    <!-- NOMBRE DEL DEPARTAMENTO -->
+                    <!-- <div class="form-group" id="div_nombre_departamento">
+                        <label for="nombre_departamento_hoja_llenado"><strong>Numero Departamento</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input [formControl]="validacionNombreDepartamento" type="number" class="form-control" id="nombre_departamento_hoja_llenado">
+                        <p *ngIf="validacionNombreDepartamento.invalid">El campo es requerido</p>
+                    </div> -->
+                    <!-- FIN NOMBRE DEL DEPARTAMENTO -->
+
+                    <!-- POTOTIPO -->
+                    <div class="form-group" id="div_prototipo">
+                        <label for="prototipo_hoja_llenado"><strong>Prototipo:</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title="Se paga un 15% de enganche en parcialidades: $100,000.00 aprox. a la firma de contrato, el resto del enganche en pagos iguales de acuerdo a la terminación de la obra y el 85% se liquida en la escritura ya sea con crédito Hipotecario o Recursos propios."><i class="material-icons">help</i></a></span>
+                        <select [formControl]="validacionPrototipo" [(ngModel)]="idPrototipo" (change)="obtenerDetallePrototipo(idPrototipo)" class="form-control custom-select" id="prototipo_hoja_llenado" name="prototipo_hoja_llenado">
+                            <option *ngFor="let prototipo of prototipos" value="{{prototipo.id}}">{{prototipo.prototipo}}</option>
+                        </select>
+                        <p *ngIf="validacionPrototipo.invalid">El campo es requerido</p>
+                        <input *ngFor="let detalles of prototipoDetalles" type="text" class="form-control" id="metros_cuadrados_prototipo" readonly value="{{detalles.metros_cuadrados}}" style="display: none;">
+                    </div>
+                    <!-- FIN POTOTIPO -->
+
+                    <!-- TORRE -->
+                    <div class="form-group" id="div_piso">
+                        <label for="torre_hoja_llenado"><strong>Torre:</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title="Se paga un 15% de enganche en parcialidades: $100,000.00 aprox. a la firma de contrato, el resto del enganche en pagos iguales de acuerdo a la terminación de la obra y el 85% se liquida en la escritura ya sea con crédito Hipotecario o Recursos propios."><i class="material-icons">help</i></a></span>
+                        <select [formControl]="validacionTorre" [(ngModel)]="idSupuestoObra" (change)="obtenerDetalleSupuestoObra(idSupuestoObra)" class="form-control custom-select" id="torre_hoja_llenado" name="torre_hoja_llenado">
+                            <option *ngFor="let obra of supuestosObra" value="{{obra.id}}">{{obra.torre}}</option>
+                        </select>
+                        <p *ngIf="validacionTorre.invalid">El campo es requerido</p>
+                        <input *ngFor="let detalles of supuestosObraDetalles" type="text" class="form-control" id="fecha_termino_obra" readonly value="{{detalles.fecha_termino}}" style="display: none;">
+                        <input *ngFor="let detalles of supuestosObraDetalles" type="text" class="form-control" id="torre_obra" readonly value="{{detalles.torre}}" style="display: none;">
+                    </div>
+                    <!-- FIN TORRE -->                    
+
+                    <!-- PISO -->
+                    <div class="form-group" id="div_piso">
+                        <label for="piso_hoja_llenado"><strong>Piso:</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title="Se paga un 15% de enganche en parcialidades: $100,000.00 aprox. a la firma de contrato, el resto del enganche en pagos iguales de acuerdo a la terminación de la obra y el 85% se liquida en la escritura ya sea con crédito Hipotecario o Recursos propios."><i class="material-icons">help</i></a></span>
+                        <select [formControl]="validacionPiso" [(ngModel)]="idPiso" (change)="obtenerDetallePiso(idPiso)" class="form-control custom-select" id="piso_hoja_llenado" name="piso_hoja_llenado">
+                            <option *ngFor="let piso of pisos" value="{{piso.id}}">{{piso.numero_piso}}</option>
+                        </select>
+                        <p *ngIf="validacionPiso.invalid">El campo es requerido</p>
+                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="plusvalia_piso" readonly value="{{detalles.descuento}}" style="display: none;">
+                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="numero_piso_piso" readonly value="{{detalles.numero_piso}}" style="display: none;">
+                    </div>
+                    <!-- FIN PISO -->
+
+                    <!-- FECHA PAGO DE APARTADO -->
+                    <!-- <div class="form-group" id="div_fecha_apartado">
+                        <label for="fecha_pago_apartado_hoja_llenado"><strong>Fecha de pago apartado:</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title="Se paga un 15% de enganche en parcialidades: $100,000.00 aprox. a la firma de contrato, el resto del enganche en pagos iguales de acuerdo a la terminación de la obra y el 85% se liquida en la escritura ya sea con crédito Hipotecario o Recursos propios."><i class="material-icons">help</i></a></span>
+                        <input [formControl]="validacionFechaContrato" type="date" class="form-control" id="fecha_pago_apartado_hoja_llenado">
+                        <p *ngIf="validacionFechaContrato.invalid">El campo es requerido</p>
+                    </div> -->
+                    <!-- FIN FECHA PAGO DE APARTADO -->
+
+                    <!-- FECHA INICIO DE CONTRATO -->
+                    <!-- <div class="form-group" id="div_fecha_contrato">
+                        <label for="fecha_inicio_contrato_hoja_llenado"><strong>Fecha de inicio de contrato:</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input [formControl]="validacionFechaContrato" type="date" class="form-control" id="fecha_inicio_contrato_hoja_llenado">
+                        <p *ngIf="validacionFechaContrato.invalid">El campo es requerido</p>
+                    </div> -->
+                    <!-- FIN FECHA INICIO DE CONTRATO -->
+
+                    <!-- DIA DE PAGO -->
+                    <!-- <div class="form-group" id="div_dia_pago">
+                        <label for="dia_pago_hoja_llenado"><strong>Dia de pago:</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input [formControl]="validacionFechaContrato" type="number" class="form-control" id="dia_pago_hoja_llenado" min="1" max="31">
+                        <p *ngIf="validacionFechaContrato.invalid">El campo es requerido</p>
+                    </div> -->
+                    <!-- FIN DIA DE PAGO -->
+
+                    <!-- TASA PLUSVALIA -->
+                    <div id="div_tasa_plusvalia">
+                        <div class="form-group">
+                            <label for="tasa_plusvalia"><strong>¿Desea agregar una tasa de plusvalia anual?</strong></label>
+                            <span><a href="#" id="texto_financiamiento_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>							
+                            <select [formControl]="validacionPlusvalia" class="form-control custom-select" id="tasa_plusvalia" name="tasa_plusvalia">
+                                <option value="NA">Selecciona una respuesta</option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </select>
+                            <p *ngIf="validacionPlusvalia.invalid">El campo es requerido</p>
+                        </div>
+                        <div class="form-group" id="div_tasa" style="display: none;">
+                            <span><a href="#" id="texto_financiamiento_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>							
+                            <select class="form-control custom-select" id="tasa_plusvalia_hoja_llenado" name="tasa_plusvalia_hoja_llenado">
+                                <option *ngFor="let plusvalia of plusvalias" value="{{plusvalia.porcentaje_plusvalia}}">{{plusvalia.porcentaje_plusvalia}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="div_tasa_0" style="display: none;">
+                            <span><a href="#" id="tasa_0" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                            <input type="text" class="form-control" id="tasa_0" readonly value="0">
+                        </div>
+                    </div>
+                    <!-- FIN TASA PLUSVALIA -->
+    
+                    <!-- OBJETIVO COMPRA -->
+                    <div id="div_objetivo_compra">
+                        <div class="form-group">
+                            <label for="objetivo_compra_hoja_llenado"><strong>Selecciona el objetivo de compra.</strong></label>
+                            <span><a href="#" id="texto_financiamiento_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>							
+                            <select [formControl]="validacionObjetivoCompra" [(ngModel)]="idSupuestoCompra" (change)="obtenerDetalleSupuestoCompra(idSupuestoCompra)" class="form-control custom-select" id="objetivo_compra_hoja_llenado" name="objetivo_compra_hoja_llenado">
+                                <option *ngFor="let supuestoCompra of supuestosCompra" value="{{supuestoCompra.id}}">{{supuestoCompra.nombre}}</option>
+                            </select>
+                            <p *ngIf="validacionObjetivoCompra.invalid">El campo es requerido</p>
+                        </div>
+                        <!-- FIN AGREGAR EL COSTO DE MANTENIMIENTO -->
+                        <div class="form-group" id="div_años_objetivo_compra">
+                            <label for="años_objetivo_compra_hoja_llenado"><strong>Años objetivo de compra.</strong></label>
+                            <span><a href="#" id="años_objetivo_compra_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>							
+                            <input *ngFor="let detalles of supuestosCompraDetalles" type="number" class="form-control" id="años_objetivo_compra" min="{{detalles.inicio_plazo}}" max="{{detalles.fin_plazo}}">
+                            <input *ngFor="let detalles of supuestosCompraDetalles" type="text" class="form-control" id="objetivo_compra" readonly value="{{detalles.nombre}}" style="display: none;">
+                            <input *ngFor="let detalles of supuestosCompraDetalles" type="text" class="form-control" id="codigo_compra" readonly value="{{detalles.tipo_compra}}" style="display: none;">
+                        </div>
+                        <!-- AGREGAR EL COSTO DE MANTENIMIENTO -->
+                        <div id="div_agregar_mantenimiento">
+                            <div class="form-group">
+                                <label for="agregar_mantenimiento"><strong>¿Desea añadir el costo de mantenimiento a la renta mensual?</strong></label>
+                                <span><a href="#" id="texto_financiamiento_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>							
+                                <select [formControl]="validacionPlusvalia" class="form-control custom-select" id="agregar_mantenimiento" name="agregar_mantenimiento">
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                                <p *ngIf="validacionPlusvalia.invalid">El campo es requerido</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- FIN OBJETIVO COMPRA -->
+                    <!-- <a routerLink="/calculadora/caratula"> -->
+                    <!-- *ngIf="opcionFinanciamiento.valid && validacionPrototipo.valid && validacionTorre.valid && validacionPiso.valid && validacionFechaContrato.valid && validacionTasaHipotecaria.valid && validacionPlusvalia.valid && validacionObjetivoCompra.valid" -->
+                    <button class="btn btn-outline-info btn-lg" id="btn_caratula" style="display: none;">
+                        Caratula
+                    </button>
+                    <!-- </a> -->
+
+                </div>
+
+            </div>
+        </div>
+        <!--  FIN DIV FOMULARIO CALCULOS -->
+    </div>
+
+    <div id="div_caratula" style="display: none;">
+        <h1>Vista previa de datos.</h1>
+        <!-- DIV FORMULARIO CALCULOS -->
+        <div class="col-lg-4 col-md-4 col-sm-4"></div>
+        <div class="col-lg-8 col-md-8 col-sm-8">
+    
+            <div class="shadow-lg p-4 mb-4 bg-white">
+                <div id="formulario_calculos">
+
+                    <!-- METODO FINANCIAMIENTO -->
+                    <div class="form-group" id="div_caratula_metodo_financiamiento">
+                        <label for="caratula_metodo_financiamiento"><strong>Metodo financiamiento</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_metodo_financiamiento" readonly>
+                    </div>
+                    <!-- FIN METODO FINANCIAMIENTO -->
+
+                    <!-- PRECIO INICIAL -->
+                    <div class="form-group" id="div_caratula_precio_inicial">
+                        <label for="caratula_precio_inicial"><strong>Precio inicial</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_precio_inicial" readonly>
+                    </div>
+                    <!-- FIN PRECIO INICIAL -->
+
+                    <!-- METROS CUADRADOS -->
+                    <div class="form-group" id="div_caratula_metros_cuadrados">
+                        <label for="caratula_metros_cuadrados"><strong>Metros cuadrados</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_metros_cuadrados" readonly>
+                    </div>
+                    <!-- METROS CUADRADOS -->
+
+                    <!-- PLUSVALIA PISO -->
+                    <div class="form-group" id="div_caratula_plusvalia_piso">
+                        <label for="caratula_plusvalia_piso"><strong>Plusvalia de piso</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_plusvalia_piso" readonly>
+                    </div>
+                    <!-- FIN PLUSVALIA PISO -->
+
+                    <!-- DESCUENTO POR MF -->
+                    <div class="form-group" id="div_caratula_descuento_mf">
+                        <label for="caratula_descuento_mf"><strong>Descuento por mf</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_descuento_mf" readonly>
+                    </div>
+                    <!-- FIN DESCUENTO POR MF -->
+
+                    <!-- RENDIMIENTO -->
+                    <div class="form-group" id="div_caratula_rendimiento">
+                        <label for="caratula_rendimiento"><strong>Rendimiento</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_rendimiento" readonly>
+                    </div>
+                    <!-- FIN RENDIMIENTO -->
+    
+                    <!-- COMISION APERTURA -->
+                    <div class="form-group" id="div_caratula_comision_apertura">
+                        <label for="caratula_comision_apertura"><strong>Comision por apertura</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_comision_apertura" readonly>
+                    </div>
+                    <!-- FIN COMISION APERTURA -->
+
+                    <!-- PAGO A LA FIRMA -->
+                    <div class="form-group" id="div_caratula_pago_firma">
+                        <label for="caratula_pago_firma"><strong>Pago a la firma</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_pago_firma" readonly>
+                    </div>
+                    <!-- FIN PAGO A LA FIRMA -->
+    
+                    <!-- PAGO A PLAZOS -->
+                    <div class="form-group" id="div_caratula_pago_plazos">
+                        <label for="caratula_pago_plazos"><strong>Pago a plazos</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_pago_plazos" readonly>
+                    </div>
+                    <!-- FIN PAGO A PLAZOS -->
+
+                    <!-- CONOCE TASA -->
+                    <div class="form-group" id="div_caratula_conoce_tasa">
+                        <label for="caratula_conoce_tasa"><strong>Conoce tasa</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_conoce_tasa" readonly>
+                    </div>
+                    <!-- FIN CONOCE TASA -->
+    
+                    <!-- TASA HIPOTECARIA -->
+                    <div class="form-group" id="div_caratula_tasa_hipotecaria">
+                        <label for="caratula_tasa_hipotecaria"><strong>Tasa hipotecaria</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_tasa_hipotecaria" readonly>
+                    </div>
+                    <!-- FIN TASA HIPOTECARIA -->
+    
+                    <!-- COSTO CIERRE -->
+                    <div class="form-group" id="div_caratula_costo_cierre">
+                        <label for="caratula_costo_cierre"><strong>Costo cierre</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_costo_cierre" readonly>
+                    </div>
+                    <!-- FIN COSTO CIERRE -->
+    
+                    <!-- MESES FINANCIMIENTO CONTRATO -->     
+                    <div class="form-group" id="div_caratula_meses_financiamiento">
+                        <label for="caratula_meses_financiamiento"><strong>Meses financiamiento contrato</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_meses_financiamiento" readonly>
+                    </div>
+                    <!-- FIN MESES FINANCIMIENTO CONTRATO -->
+
+                    <!-- FECHA INICIO OBRA -->
+                    <div class="form-group" id="div_caratula_fecha_inicio_obra">
+                        <label for="caratula_fecha_inicio_obra"><strong>Fecha de inicio obra</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_fecha_inicio_obra" readonly>
+                    </div>
+                    <!-- FIN FECHA INICIO OBRA -->
+    
+                    <!-- FECHA FIN TORRE -->
+                    <div class="form-group" id="div_caratula_fecha_fin_torre">
+                        <label for="caratula_fecha_fin_torre"><strong>Fecha fin de torre</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_fecha_fin_torre" readonly>
+                    </div>
+                    <!-- FIN FECHA FIN TORRE --> 
+
+                    <!-- MESES FINANCIMIENTO EXTRA POR OBRA -->
+                    <div class="form-group" id="div_caratula_meses_financimiento_extra">
+                        <label for="caratula_meses_financimiento_extra"><strong>Meses financiamiento extra por obra</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_meses_financimiento_extra" readonly>
+                    </div>
+                    <!-- FIN MESES FINANCIMIENTO EXTRA POR OBRA -->
+
+                    <!-- OBJETIVO COMPRA -->
+                    <div class="form-group" id="div_caratula_objetivo_compra">
+                        <label for="caratula_objetivo_compra"><strong>Objetivo compra</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_objetivo_compra" readonly>
+                    </div>
+                    <!-- FIN OBJETIVO COMPRA -->
+
+                    <!-- CODIGO COMPRA -->
+                    <div class="form-group" id="div_caratula_codigo_compra">
+                        <label for="caratula_codigo_compra"><strong>Codigo de compra</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_codigo_compra" readonly>
+                    </div>
+                    <!-- FIN CODIGO COMPRA -->
+    
+                    <!-- MES REVENTA -->
+                    <div class="form-group" id="div_caratula_meses_reventa">
+                        <label for="caratula_meses_reventa"><strong>Mes reventa</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_mes_reventa" readonly>
+                    </div>
+                    <!-- FIN MES REVENTA -->
+
+                    <!-- INFLACION -->
+                    <div class="form-group" id="div_caratula_inflacion">
+                        <label for="caratula_inflacion"><strong>Inflacion</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_inflacion" readonly>
+                    </div>
+                    <!-- FIN INFLACION -->
+
+                    <!-- AGREGO PLUSVALIA -->
+                    <div class="form-group" id="div_caratula_agrego_plusvalia">
+                        <label for="caratula_agrego_plusvalia"><strong>Agrego plusvalia</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_agrego_plusvalia" readonly>
+                    </div>
+                    <!-- FIN AGREGO PLUSVALIA -->
+
+                    <!-- PLUSVALIA -->
+                    <div class="form-group" id="div_caratula_plusvalia">
+                        <label for="caratula_plusvalia"><strong>Plusvalia</strong></label>
+                        <span><a href="#" id="texto_financiamiento" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>
+                        <input type="text" class="form-control" id="caratula_plusvalia" readonly>
+                    </div>
+                    <!-- FIN PLUSVALIA -->
+
+                    <!-- <a routerLink="/calculadora/caratula"> -->
+                    <button class="btn btn-outline-info btn-lg" id="btn_amortizacion" (click)="generarPDF()">
+                        Generar Tabla amortizacion.
+                    </button>
+                    <button class="btn btn-outline-info btn-lg" id="btn_hoja_llenado">
+                        Regresar a Hoja llenado.
+                    </button>
+                    <!-- </a> -->
+
+                </div>
+            </div>
+        </div>
+        <!--  FIN DIV FOMULARIO CALCULOS -->
+    </div>
+</div>

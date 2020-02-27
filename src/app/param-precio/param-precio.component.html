@@ -1,0 +1,60 @@
+<div id="param-precios">
+    <h3>Prototipos</h3>
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th>Prototipo</th>
+                <th>M2</th>
+                <th>Costo de venta m2</th>
+                <th>Precio</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let prototipo of prototipos">
+                <td>
+                    <input type="text" class="form-control uppercase" name="prototipo" id="nombre_prototipo_{{prototipo.id}}" readonly value="{{prototipo.prototipo}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="metros_cuadrados" id="mts_cuadrados_{{prototipo.id}}" readonly value="{{prototipo.metros_cuadrados}}">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="costo_venta_mt2" id="costo_venta_mt2_{{prototipo.id}}" readonly value="{{prototipo.costo_venta_metro_cuadrado}}">
+                </td>
+                <td>
+                    <input type="text" class="form-control" name="precio" id="precio_prototipo_{{prototipo.id}}" readonly value="{{prototipo.precio | currency}}">
+                </td>
+                <td>
+                    <button (click)="editarPrecio(prototipo.id)" type="button" class="btn btn-outline-warning" id="btn_editar_precio_{{prototipo.id}}">Editar</button>
+                    <div id="botones_precio_{{prototipo.id}}" style="display: none;">
+                        <button (click)="guardarCambios(prototipo.id)" type="button" id="btn_guardar_precio{{prototipo.id}}" class="btn btn-outline-success">Guardar</button>
+                        <button (click)="cancelarCambios(prototipo.id)" type="button" id="btn_cancelar_precio{{prototipo.id}}" class="btn btn-outline-danger">Cancelar</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-inline">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="check_prototipo" name="checkConfiguracion">
+            <label class="custom-control-label" for="check_prototipo">Agregar Prototipo.</label>
+        </div>&nbsp;&nbsp;
+        <!-- <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="check_costo" name="checkConfiguracion">
+            <label class="custom-control-label" for="check_costo">Modificar costo mantenimiento.</label>
+        </div> -->
+    </div>   
+    <div class="form-inline ocultar-elemento" id="div_agregar_prototipo">
+        <input [(ngModel)]="datos.prototipo" type="text" id="nombre_prototipo" class="form-control" placeholder="Nombre prototipo">&nbsp;&nbsp;
+        <input [(ngModel)]="datos.metros_cuadrados" type="number" id="mts_cuadrados" class="form-control" placeholder="Metros cuadrados">&nbsp;&nbsp;
+        <input [(ngModel)]="datos.costo_venta_metro_cuadrado" type="number" id="costo_venta_metro_cuadrado" class="form-control" placeholder="Costo venta m2">&nbsp;&nbsp;
+        <input [(ngModel)]="datos.precio" type="number" id="precio_prototipo" class="form-control" placeholder="Precio del prototipo" readonly>&nbsp;&nbsp;        
+        <button (click)="agregarPrototipo()" type="button" class="btn btn-outline-success" id="btn_agregar_prototipo">Agregar</button>
+    </div>
+    <br>
+    <div class="form-inline ocultar-elemento" id="div_modificar_costo" *ngFor="let informacion of costo">
+        <input type="number" id="costo_metro" name="precio_inicial" class="form-control" value="{{informacion.precio_inicial}}" 
+        placeholder="Precio inicial por metro cuadrado">&nbsp;&nbsp;
+        <button (click)="modificarCosto()" class="btn btn-outline-success">Modificar</button>
+    </div>
+</div>
