@@ -129,7 +129,7 @@
                                 
                                     <!-- NIVEL -->
                                     <div class="form-group" id="div_nivel_corrida">
-                                        <label for="nivel_corrida"><strong>Nivel</strong></label>
+                                        <label for="nivel_corrida"><strong>Nivel:</strong></label>
                                         <select [(ngModel)]="idPiso" [(ngModel)]="pisoCorrida" (change)="obtenerDetallePiso(idPiso)" class="form-control custom-select" id="nivel_corrida" name="nivel_corrida">
                                             <option *ngFor="let piso of pisos" value="{{piso.id}} {{piso.numero_piso}}">{{piso.numero_piso}}</option>
                                         </select>
@@ -138,12 +138,24 @@
                                     </div>
                                     <!-- FIN PISO -->
 
+                                    <!-- VISTA -->
+                                    <!-- <div class="form-group" id="div_vista_corrida">
+                                        <label for="nivel_corrida"><strong>Vista:</strong></label>
+                                        <select [(ngModel)]="idPiso" [(ngModel)]="pisoCorrida" (change)="obtenerDetallePiso(idPiso)" class="form-control custom-select" id="vista_corrida" name="vista_corrida">
+                                            <option *ngFor="let piso of pisos" value="{{piso.id}} {{piso.numero_piso}}">{{piso.numero_piso}}</option>
+                                        </select>
+                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="plusvalia_piso" readonly value="{{detalles.descuento}}" style="display: none;">
+                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="numero_piso_piso" readonly value="{{detalles.numero_piso}}" style="display: none;">
+                                    </div> -->
+                                    <!-- FIN VISTA -->
+
                                     <!-- NUMERO DEL DEPARTAMENTO -->
                                     <div class="form-group" id="div_numero_departamento_corrida">
-                                        <label for="numero_departamento_corrida"><strong>Numero departamento</strong></label>
+                                        <label for="numero_departamento_corrida"><strong>Numero departamento:</strong></label>
                                         <input [(ngModel)]="numeroDeptoCorrida" type="number" class="form-control" id="numero_departamento_corrida">
                                     </div>
                                     <!-- FIN NUMERO DEL DEPARTAMENTO -->
+
                                 </fieldset>
                             </td>
                             <td colspan="1">
@@ -155,15 +167,22 @@
                                         <select [(ngModel)]="idSupuestoVenta" [(ngModel)]="financiamientoCorrida" (change)="obtenerDetalleSupuestoVenta(idSupuestoVenta)" class="form-control custom-select" id="metodo_financiamiento_corrida" name="metodo_financiamiento_corrida">
                                             <option *ngFor="let venta of supuestoVenta" value="{{venta.id}}">{{venta.nombre}}</option>
                                         </select>
-                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="nombre_venta" readonly value="{{detalles.nombre}}" style="display: none;">
-                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="descuento_venta" readonly value="{{detalles.porcentaje_descuento}}" style="display: none;">
-                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="rendimiento_venta" readonly value="{{detalles.porcentaje_rendimiento}}" style="display: none;">
-                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="plazo_venta" readonly value="{{detalles.porcentaje_plazo}}" style="display: none;">
-                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="meses_plazo_venta" readonly value="{{detalles.meses_plazo}}" style="display: none;">
-                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="firma_venta" readonly value="{{detalles.porcentaje_firma}}" style="display: none;">
-                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="escritura_venta" readonly value="{{detalles.porcentaje_escritura}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="nombre_venta" value="{{detalles.nombre}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="descuento_venta" value="{{detalles.porcentaje_descuento}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="rendimiento_venta" value="{{detalles.porcentaje_rendimiento}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="plazo_venta" value="{{detalles.porcentaje_plazo}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="meses_plazo_venta" value="{{detalles.meses_plazo}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="firma_venta" value="{{detalles.porcentaje_firma}}" style="display: none;">
+                                        <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="escritura_venta" value="{{detalles.porcentaje_escritura}}" style="display: none;">
                                     </div>
-                                    <!-- FIN METODO FINANCIMIENTO -->                                    
+                                    <!-- FIN METODO FINANCIMIENTO -->
+
+                                    <!-- MESES FINANCIAMIENTO -->
+                                    <div class="form-group" id="div_meses_financiamiento_corrida">
+                                        <label for="meses_financiamiento_corrida"><strong>Meses de financiamiento:</strong></label>
+                                        <input [(ngModel)]="mesesFinanciamientoCorrida" type="number" class="form-control" id="meses_financiamiento_corrida" min="0" max="60">
+                                    </div>
+                                    <!-- FIN MESES FINANCIAMIENTO -->
 
                                     <!-- FECHA PAGO DE APARTADO -->
                                     <div class="form-group" id="div_fecha_apartado_corrida">
@@ -179,12 +198,20 @@
                                     </div>
                                     <!-- FIN FECHA INICIO DE CONTRATO -->
 
+                                    <!-- FECHA FIRMA -->
+                                    <div class="form-group" id="div_fecha_firma_corrida">
+                                        <label for="fecha_firma_corrida"><strong>Fecha firma:</strong></label>
+                                        <input [(ngModel)]="fechaFirmaCorrida" type="date" class="form-control" id="fecha_firma_corrida">
+                                    </div>
+                                    <!-- FIN FECHA FIRMA -->
+
                                     <!-- DIA DE PAGO -->
                                     <div class="form-group" id="div_dia_pago_corrida">
                                         <label for="dia_pago_corrida"><strong>Dia de pago:</strong></label>
                                         <input [(ngModel)]="diaPagoCorrida" type="number" class="form-control" id="dia_pago_corrida" min="1" max="31">
                                     </div>
                                     <!-- FIN DIA DE PAGO --> 
+
                                 </fieldset>
                             </td>
                         </tr>

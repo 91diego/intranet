@@ -79,6 +79,8 @@ export class CorridaFinancieraComponent implements OnInit {
   financiamientoCorrida;
   pagoApartadoCorrida;
   inicioContratoCorrida;
+  fechaFirmaCorrida;
+  mesesFinanciamientoCorrida;
   diaPagoCorrida;
   plusvalias: Plusvalia[];
   supuestosCompra: SupuestoCompra[];
@@ -314,6 +316,7 @@ export class CorridaFinancieraComponent implements OnInit {
     let fechaPagoApartado: any;
     let fechaInicioContrato: any;
     let diaPago: any;
+    let metodoFinanciamiento: any;
     let mesesFinanciamientoContrato: any;
     let firmaVenta: any;
     let porcentajeComisionInmueble: any;
@@ -325,6 +328,7 @@ export class CorridaFinancieraComponent implements OnInit {
     let pagoInicial: any;
     let plazoVenta: any;
     let escritura: any;
+    let fechaFirmaCorrida: any;
 
     // ASIGNACION DE VALORES
     conversionTorre = {
@@ -353,7 +357,26 @@ export class CorridaFinancieraComponent implements OnInit {
     fechaPagoApartado = $('#fecha_pago_apartado_corrida').val();
     fechaInicioContrato = $('#fecha_inicio_contrato_corrida').val();
     diaPago = $('#dia_pago_corrida').val();
-    mesesFinanciamientoContrato = $('#meses_plazo_venta').val();
+    metodoFinanciamiento = $('#nombre_venta').val();
+    fechaFirmaCorrida = $('#fecha_firma_corrida').val();
+
+    // VERIFICA EL METODO DE FINANCIAMIENTO
+    if (metodoFinanciamiento.includes('CONTADO')) {
+
+      // SI ES CONTADO Y TIENE MESES DE FINANCIAMIENTO, ASIGNA EL VALOR DE meses_plazo_venta
+      if ($('#meses_financiamiento_corrida').val() > 0 ) {
+
+        mesesFinanciamientoContrato = $('#meses_plazo_venta').val();
+        this.notificacion.warning('El metodo de financiamiento CONTADO no puede tener meses de financiamiento', {
+          showProgressBar: false,
+          titleMaxLength: 200
+        });
+      }
+    } else {
+
+      mesesFinanciamientoContrato = $('#meses_financiamiento_corrida').val();
+    }
+
     firmaVenta = $('#firma_venta').val();
     plusvaliaPiso = $('#plusvalia_piso').val();
     descuentoVenta = $('#descuento_venta').val();
@@ -368,7 +391,6 @@ export class CorridaFinancieraComponent implements OnInit {
         torreLetraCorridaPDF = conversionTorre[value];
       }
     }
-
     valorInmuebleDescuento = precioPreventaCorridaPDF * superficieCorridaPDF
     * (1 + (plusvaliaPiso / 100)) * (1 - (descuentoVenta / 100 ));
     /* CALCULO DEL PAGO INICIAL Y PAGO A LA FIRMA */
@@ -570,7 +592,6 @@ export class CorridaFinancieraComponent implements OnInit {
     docPdfCorridaFinanciera.setFontSize(16);
     docPdfCorridaFinanciera.text(nombreClientePDF, ancho / 3.5, 68);
 
-
     // CARACTERISTICAS
     docPdfCorridaFinanciera.autoTable({
       margin: {top: 80},
@@ -614,8 +635,8 @@ export class CorridaFinancieraComponent implements OnInit {
         ],
         [
           {colSpan: 2, content: 'Precio preventa', styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}},
-          {colSpan: 2, content: formatterPeso.format(( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) )
-            * (Math.pow(1.01, this.pisoCorrida))),
+          {colSpan: 2, content: formatterPeso.format( Math.round( ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) )
+            * (Math.pow(1.01, this.pisoCorrida)) ) ),
             styles: {valign: 'middle', halign: 'center',
           fontStyle: 'bold'}}
         ]
@@ -775,7 +796,7 @@ export class CorridaFinancieraComponent implements OnInit {
 
     bodyCorridaFinanciera.push([
       'FIRMA',
-      '',
+      new Date(fechaFirmaCorrida).toISOString().slice(0 , 10).split('T')[0],
       '',
       '',
       formatterPeso.format(Math.round( (escritura / 100) *
@@ -816,7 +837,6 @@ export class CorridaFinancieraComponent implements OnInit {
     docPdfCorridaFinanciera.save('Corrida financiera-' + nombreClientePDF + '-' + numeroDepartamentoCorridaPDF
     + '-' + $('#desarrollo').val() + '.pdf');
     this.notificacion.info('El archivo ha sido generado.', 'PDF Generado', {
-      placeholder: 'pruebas',
       showProgressBar: false,
       titleMaxLength: 200
     });
