@@ -12,6 +12,7 @@ import { Piso } from '../interfaces/piso';
 import { Plusvalia } from '../interfaces/plusvalia';
 import { HojaLlenado } from '../interfaces/calculadora/hoja-llenado';
 import * as $ from 'jquery';
+import * as moment from 'moment';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Finance } from 'financejs';
@@ -1050,13 +1051,22 @@ export class CalculadoraComponent implements OnInit {
 
         /* OBTENEMOS LA DIFERENCIA DE MESES */
         let fechaInicio: any;
+        let fechaI: any;
         let fechaFin: any;
+        let fechaF: any;
         let nMeses: any;
+
         // fechaInicio = new Date(fechaInicioDesarrollo);
         fechaInicio = new Date(fechaInicioDesarrollo);
         fechaFin = new Date(fechaTerminoObra);
+        fechaI = moment(fechaInicio);
+        fechaF = moment(fechaFin);
 
-        const a1: any = fechaInicio.getFullYear();
+        console.log('DIFERENCIAS');
+        console.log(fechaF.diff(fechaI, 'months'), ' meses de diferencia');
+        console.log((Number(fechaF.diff(fechaI, 'days'))) / 30, ' dias de diferencia');
+        nMeses = Number(fechaF.diff(fechaI, 'months')) - Number(mesesFinanciamientoContrato);
+        /* const a1: any = fechaInicio.getFullYear();
         const a2: any = fechaFin.getFullYear();
         let m1: any = fechaInicio.getMonth();
         let m2: any = fechaFin.getMonth();
@@ -1065,7 +1075,7 @@ export class CalculadoraComponent implements OnInit {
           m1++;
           m2++;
         }
-        nMeses = ( ( (a2 - a1) * 12 + (m2 - m1) ) + 1 ) - Number(mesesFinanciamientoContrato);
+        nMeses = ( ( ( (a2 - a1) * 12 ) + ( (m2 - m1) ) + 1 ) ) - Number(mesesFinanciamientoContrato); */
         console.log('Dif meses: ' + nMeses);
         const mesesFinanciamientoExtra: any = $('#caratula_meses_financimiento_extra').val(nMeses);
         /* FIN OBTENEMOS LA DIFERENCIA DE MESES */
@@ -1400,7 +1410,7 @@ export class CalculadoraComponent implements OnInit {
         let base: any;
         let resPotencia: any;
         base = ( 1 + ( ( (Number(inflacion) / 100) + (Number(plusvalia) / 100) ) / 12 ) );
-        exponente = Number(mesesFinanciamientoContrato) + ( Number(nMeses) - 2) + Number(mesReventa);
+        exponente = Number(mesesFinanciamientoContrato) + ( Number(nMeses) ) + Number(mesReventa);
         resPotencia = Math.pow(base, exponente);
         precioDeVenta = ( Number(valorInmuebleDescuento) * ( 1 + (Number(descuentoVenta) / 100) ) ) * ( resPotencia );
         console.log('COSTO PRECIO DE VENTA');
@@ -1483,7 +1493,7 @@ export class CalculadoraComponent implements OnInit {
           datosPrecioFinal.push([0]);
           for (let i = 1; i <= 240; i++) {
 
-            if (i < ( Number(mesesFinanciamientoContrato) + ( Number(nMeses) - 2 ) )) {
+            if (i < ( Number(mesesFinanciamientoContrato) + ( Number(nMeses) ) )) {
               if (Number(rendimientoVenta) > 0) {
                 cantidadFlujoRentaContado = Number(pagoInicial) * ( ( Number(rendimientoVenta) / 100 ) / 12 );
               } else {
