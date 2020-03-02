@@ -1400,7 +1400,7 @@ export class CalculadoraComponent implements OnInit {
         let base: any;
         let resPotencia: any;
         base = ( 1 + ( ( (Number(inflacion) / 100) + (Number(plusvalia) / 100) ) / 12 ) );
-        exponente = Number(mesesFinanciamientoContrato) + Number(nMeses) + Number(mesReventa);
+        exponente = Number(mesesFinanciamientoContrato) + ( Number(nMeses) - 2) + Number(mesReventa);
         resPotencia = Math.pow(base, exponente);
         precioDeVenta = ( Number(valorInmuebleDescuento) * ( 1 + (Number(descuentoVenta) / 100) ) ) * ( resPotencia );
         console.log('COSTO PRECIO DE VENTA');
@@ -1483,7 +1483,7 @@ export class CalculadoraComponent implements OnInit {
           datosPrecioFinal.push([0]);
           for (let i = 1; i <= 240; i++) {
 
-            if (i < ( Number(mesesFinanciamientoContrato) + Number(nMeses) + Number(mesReventa) )) {
+            if (i < ( Number(mesesFinanciamientoContrato) + ( Number(nMeses) - 2 ) )) {
               if (Number(rendimientoVenta) > 0) {
                 cantidadFlujoRentaContado = Number(pagoInicial) * ( ( Number(rendimientoVenta) / 100 ) / 12 );
               } else {
