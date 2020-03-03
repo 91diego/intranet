@@ -331,6 +331,7 @@ export class CalculadoraComponent implements OnInit {
       if ($('#select_desarrollo_calculos').val() === null) {
 
         $('#div_hoja_llenado').hide();
+        $('#div_formulario_calculos').hide();
       }
       /* FIN VALIDA SELECCION DEL DESARROLLO */
 
@@ -345,6 +346,7 @@ export class CalculadoraComponent implements OnInit {
             this.ngxService.stop(); // stop foreground loading with 'default' id
           }, 3000);
           $('#div_hoja_llenado').show();
+          $('#div_formulario_calculos').show();
         }
       });
       /* FIN MUESTRA HOJA DE LLENADO */

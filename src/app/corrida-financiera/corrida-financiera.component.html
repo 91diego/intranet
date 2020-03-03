@@ -63,7 +63,7 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1 class="display-4">Corrida Financiera</h1>
+        <h1 class="display-4">Corrida Financiera.</h1>
         <h4>Selecciona el desarrollo:</h4>
         <select [(ngModel)]="idDesarrollo" [(ngModel)]="desarrolloCorrida" (change)="obtenerDetalleDesarrollo(idDesarrollo)" (change)="obtenerDatos(idDesarrollo)" class="form-control custom-select form-control-md" id="desarrollo_corrida">
             <option *ngFor="let desarrollo of desarrollos" value="{{ desarrollo.id }} {{desarrollo.nombre}}">{{ desarrollo.nombre }}</option>
