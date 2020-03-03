@@ -436,21 +436,19 @@ export class CalculadoraComponent implements OnInit {
 
         /* OBTENEMOS LA DIFERENCIA DE MESES */
         let fechaInicio: any;
+        let fechaI: any;
         let fechaFin: any;
+        let fechaF: any;
         let nMeses: any;
+
+        // fechaInicio = new Date(fechaInicioDesarrollo);
         fechaInicio = new Date(fechaInicioDesarrollo);
         fechaFin = new Date(fechaTerminoObra);
+        fechaI = moment(fechaInicio);
+        fechaF = moment(fechaFin);
 
-        const a1: any = fechaInicio.getFullYear();
-        const a2: any = fechaFin.getFullYear();
-        let m1: any = fechaInicio.getMonth();
-        let m2: any = fechaFin.getMonth();
-
-        if (m1 === 0) {
-          m1++;
-          m2++;
-        }
-        nMeses = ( (a2 - a1) * 12 + (m2 - m1) ) - Number(mesesFinanciamientoContrato);
+        /* OBTENEMOS LA DIFERENCIA DE MESES */
+        nMeses = Math.floor(((Number(fechaF.diff(fechaI, 'days'))) / 30)) - Number(mesesFinanciamientoContrato);
         console.log('Dif meses: ' + nMeses);
         const mesesFinanciamientoExtra: any = $('#caratula_meses_financimiento_extra').val(nMeses);
         /* FIN OBTENEMOS LA DIFERENCIA DE MESES */
@@ -549,7 +547,7 @@ export class CalculadoraComponent implements OnInit {
           pagoInicial = ((Number(firmaVenta) / 100) * Number(valorInmuebleDescuento));
         }
 
-        $('#caratula_pago_firma').val(pagoFirma);
+        $('#caratula_pago_firma').val(Number(pagoFirma));
         console.log('PAGO INICIAL Y PAGO A LA FIRMA');
         console.log('Pago a la firma: ' + pagoFirma);
         console.log('Porcentaje comision inmueble: ' + porcentajeComisionInmueble);
@@ -752,7 +750,6 @@ export class CalculadoraComponent implements OnInit {
         } else {
           valorRestanteHipoteca = 0;
         }
-        console.log('VALOR RESTANTO DE LA HIPOTECA');
         console.log('Valor restante hipoteca: ' + valorRestanteHipoteca);
         /* FIN CALCULO VALOR RESTANTE HIPOTECA */
 
@@ -1056,26 +1053,13 @@ export class CalculadoraComponent implements OnInit {
         let fechaF: any;
         let nMeses: any;
 
-        // fechaInicio = new Date(fechaInicioDesarrollo);
         fechaInicio = new Date(fechaInicioDesarrollo);
         fechaFin = new Date(fechaTerminoObra);
         fechaI = moment(fechaInicio);
         fechaF = moment(fechaFin);
 
-        console.log('DIFERENCIAS');
-        console.log(fechaF.diff(fechaI, 'months'), ' meses de diferencia');
-        console.log((Number(fechaF.diff(fechaI, 'days'))) / 30, ' dias de diferencia');
-        nMeses = Number(fechaF.diff(fechaI, 'months')) - Number(mesesFinanciamientoContrato);
-        /* const a1: any = fechaInicio.getFullYear();
-        const a2: any = fechaFin.getFullYear();
-        let m1: any = fechaInicio.getMonth();
-        let m2: any = fechaFin.getMonth();
-
-        if (m1 === 0) {
-          m1++;
-          m2++;
-        }
-        nMeses = ( ( ( (a2 - a1) * 12 ) + ( (m2 - m1) ) + 1 ) ) - Number(mesesFinanciamientoContrato); */
+        console.log((Number(fechaF.diff(fechaI, 'days'))) / 30);
+        nMeses = Math.floor(((Number(fechaF.diff(fechaI, 'days'))) / 30)) - Number(mesesFinanciamientoContrato);
         console.log('Dif meses: ' + nMeses);
         const mesesFinanciamientoExtra: any = $('#caratula_meses_financimiento_extra').val(nMeses);
         /* FIN OBTENEMOS LA DIFERENCIA DE MESES */
@@ -1085,7 +1069,7 @@ export class CalculadoraComponent implements OnInit {
         $('#div_calculos_desarrollo').hide();
         $('#caratula_metodo_financiamiento').val(metodo);
         $('#caratula_metros_cuadrados').val(metrosCuadradosPrototipo);
-        $('#caratula_precio_inicial').val(precioInicialDesarrollo);
+        $('#caratula_precio_inicial').val(formatterPeso.format(precioInicialDesarrollo));
         $('#caratula_plusvalia_piso').val(plusvaliaPiso); // plusvalia
         $('#caratula_descuento_mf').val(descuentoVenta);
         $('#caratula_rendimiento').val(rendimientoVenta);
@@ -1181,7 +1165,7 @@ export class CalculadoraComponent implements OnInit {
           pagoFirma = ((Number(firmaVenta) / 100) * Number(valorInmuebleDescuento)) + Number(porcentajeComisionInmueble);
           pagoInicial = ((Number(firmaVenta) / 100) * Number(valorInmuebleDescuento));
         }
-        $('#caratula_pago_firma').val(pagoInicial);
+        $('#caratula_pago_firma').val(Number(pagoInicial));
         console.log('PAGO INICIAL Y PAGO A LA FIRMA');
         console.log('Pago a la firma: ' + pagoFirma);
         console.log('Porcentaje comision inmueble: ' + porcentajeComisionInmueble);
