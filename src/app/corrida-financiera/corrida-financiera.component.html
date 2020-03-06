@@ -110,7 +110,7 @@
                                             <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="metros_cuadrados_prototipo_corrida" value="{{detalles.metros_cuadrados}}">&nbsp;&nbsp;
                                             <label for="costo_venta_metro_cuadrado_corrida"><strong>Precio:</strong></label>&nbsp;&nbsp;
                                             <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="costo_venta_metro_cuadrado_corrida" value="{{detalles.costo_venta_metro_cuadrado}}">&nbsp;&nbsp;
-                                            <button (click)="calcularCosto()" class="btn btn-outline-success" id="recalcular_costo">Calcular costo</button>
+                                            <button (click)="calcularCosto('prototipo')" class="btn btn-outline-success" id="recalcular_costo">Calcular costo</button>
                                             <br><br>
                                             <input type="number" class="form-control" readonly id="precio_preventa_corrida" style="display: none;">
                                         </div>
@@ -135,8 +135,18 @@
                                         </select>
                                         <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="plusvalia_piso" readonly value="{{detalles.descuento}}" style="display: none;">
                                         <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="numero_piso_piso" readonly value="{{detalles.numero_piso}}" style="display: none;">
+                                        <br><br>
+                                        <div class="form-inline" id="div_calcular_costo_patio_corrida" style="display: none;">
+                                            <label for="metros_cuadrados_patio_corrida"><strong>M2:</strong></label>&nbsp;&nbsp;
+                                            <input type="number" class="form-control" id="metros_cuadrados_patio_corrida">&nbsp;&nbsp;
+                                            <label for="costo_venta_metro_cuadrado_patio_corrida"><strong>Precio:</strong></label>&nbsp;&nbsp;
+                                            <input type="number" class="form-control" id="costo_venta_metro_cuadrado_patio_corrida">&nbsp;&nbsp;
+                                            <button (click)="calcularCosto('excedente')" class="btn btn-outline-success" id="recalcular_costo_patio">Calcular costo</button>
+                                            <br><br>
+                                            <input type="number" class="form-control" readonly id="precio_preventa_patio_corrida" style="display: none;">
+                                        </div>
                                     </div>
-                                    <!-- FIN PISO -->
+                                    <!-- FIN NIVEL -->
 
                                     <!-- VISTA -->
                                     <!-- <div class="form-group" id="div_vista_corrida">
@@ -200,7 +210,7 @@
 
                                     <!-- FECHA FIRMA -->
                                     <div class="form-group" id="div_fecha_firma_corrida">
-                                        <label for="fecha_firma_corrida"><strong>Fecha firma:</strong></label>
+                                        <label for="fecha_firma_corrida"><strong>Pago a la firma de escritura:</strong></label>
                                         <input [(ngModel)]="fechaFirmaCorrida" type="date" class="form-control" id="fecha_firma_corrida">
                                     </div>
                                     <!-- FIN FECHA FIRMA -->

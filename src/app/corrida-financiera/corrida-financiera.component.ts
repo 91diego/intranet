@@ -288,16 +288,23 @@ export class CorridaFinancieraComponent implements OnInit {
   }
   /* FIN OBTENER INFORMACION */
 
-  calcularCosto() {
+  calcularCosto(type: any) {
 
     let mtsCuadrados: any;
     let costoVentaMtsCuadrados: any;
     let precio: any;
 
-    mtsCuadrados = $('#metros_cuadrados_prototipo_corrida').val();
-    costoVentaMtsCuadrados = $('#costo_venta_metro_cuadrado_corrida').val();
-    // precio = $('#precio_prototipo_' + id).val(costo * mtsCuadrados);
-    precio = $('#precio_preventa_corrida').val(costoVentaMtsCuadrados * mtsCuadrados);
+    if (type === 'prototipo') {
+
+      mtsCuadrados = $('#metros_cuadrados_prototipo_corrida').val();
+      costoVentaMtsCuadrados = $('#costo_venta_metro_cuadrado_corrida').val();
+      precio = $('#precio_preventa_corrida').val(costoVentaMtsCuadrados * mtsCuadrados);
+    } else if(type === 'excedente'){
+
+      mtsCuadrados = $('#metros_cuadrados_patio_corrida').val();
+      costoVentaMtsCuadrados = $('#costo_venta_metro_cuadrado_patio_corrida').val();
+      precio = $('#precio_preventa_patio_corrida').val(costoVentaMtsCuadrados * mtsCuadrados);
+    }
   }
 
   generarPDF() {
@@ -312,6 +319,7 @@ export class CorridaFinancieraComponent implements OnInit {
     let torreLetraCorridaPDF: any;
     let numeroDepartamentoCorridaPDF: any;
     let precioPreventaCorridaPDF: any;
+    let precioPrecentaPatioCorridaPDF: any;
     let conversionTorre: any;
     let fechaPagoApartado: any;
     let fechaInicioContrato: any;
@@ -348,6 +356,7 @@ export class CorridaFinancieraComponent implements OnInit {
     nombreClientePDF = $('#cliente_corrida').val();
     superficieCorridaPDF = $('#metros_cuadrados_prototipo_corrida').val();
     precioPreventaCorridaPDF = $('#precio_preventa_corrida').val();
+    precioPrecentaPatioCorridaPDF = $('#precio_preventa_patio_corrida').val();
     prototipoCorridaPDF = this.prototipoCorrida;
     nivelCorridaPDF = this.pisoCorrida;
     torreCorridaPDF = this.torreCorrida;
@@ -404,6 +413,19 @@ export class CorridaFinancieraComponent implements OnInit {
       pagoInicial = ((Number(firmaVenta) / 100) * Number(valorInmuebleDescuento));
     }
     console.log(precioPreventaCorridaPDF);
+
+    // GUARDA EL PRECIO DE PREVENTA DE ACUERDO A SU NIVEL
+    let calculoPrecioPreventa: any;
+
+    // VERIFICAMOS EL NUMERO DE PISO
+    if (this.pisoCorrida === 'PB') {
+
+      calculoPrecioPreventa = Math.round( ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) ) + ( 30.77 * 15000)
+      * (Math.pow(1.01, this.pisoCorrida)) );
+    } else if(this.pisoCorrida === '2') {
+
+
+    } else {    }
 
     // INSTANCIA JSPDF
     const docPdfCorridaFinanciera = new jsPDF('p', 'px', 'a4');
@@ -873,6 +895,27 @@ export class CorridaFinancieraComponent implements OnInit {
       });
       /* FIN MUESTRA FORMULARIO DE LA CORRIDA */
 
+      /* VALIDA SELECCION DEL NIVEL */
+      if ($('#nivel_corrida').val() === null) {
+
+        $('#div_calcular_costo_patio_corrida').hide();
+
+      }
+      /* FIN VALIDA SELECCION DEL NIVEL */
+
+      /* MUESTRA EL DIV DEL FORMULARIO CALCULO COSTO PATIO */
+      $('#nivel_corrida').on('change', () => {
+
+        if (this.pisoCorrida === 'PB' || this.pisoCorrida === '2') {
+
+          $('#div_calcular_costo_patio_corrida').show();
+        } else {
+
+          $('#div_calcular_costo_patio_corrida').hide();
+        }
+      });
+      /* FIN MUESTRA FORMULARIO CALCULO COSTO PATIO*/
+
       /* VALIDA SELECCION DE DESARROLLO */
       if ($('#desarrollo_corrida').val() === null) {
 
@@ -896,6 +939,10 @@ export class CorridaFinancieraComponent implements OnInit {
       /* FIN MUESTRA FORMULARIO DE LA CORRIDA */
       $('#recalcular_costo').on('click', () => {
         $('#precio_preventa_corrida').show();
+      });
+
+      $('#recalcular_costo_patio').on('click', () => {
+        $('#precio_preventa_patio_corrida').show();
       });
 
     });

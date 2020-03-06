@@ -1554,8 +1554,8 @@ export class CalculadoraComponent implements OnInit {
         }
 
         /* SE OBTIENE LOS VALORES DEL ARRAY */
-        // OBTIENE LA SUMA DE LOS NUMERO NEGATIVOS
-        let datosNumerosNegativos: any = 0;
+        // OBTIENE LA SUMA DE LOS NUMEROS NEGATIVOS
+        let datosNumerosNegativos: any = -pagoInicial;
         for (let i = 0; i < datosFlujoFinal.length; i++) {
 
           for (let j = 0; j < datosFlujoFinal[i].length; j++) {
@@ -1563,6 +1563,7 @@ export class CalculadoraComponent implements OnInit {
             for (let k = 0; k < datosFlujoFinal[i][j].length; k++) {
 
               if (datosFlujoFinal[i][j][k].valor < 0) {
+
                 datosNumerosNegativos = datosNumerosNegativos + Number(datosFlujoFinal[i][j][k].valor);
               }
               valores.push([datosFlujoFinal[i][j][k].valor]);
@@ -1681,17 +1682,17 @@ export class CalculadoraComponent implements OnInit {
               + Number( ((datosPrecioFinal.toString()).split(','))[2] );
               break;
         }
+        // UTILIDAD
         resultadoUtilidad = Number(utilidad)  - Number(valorPrecioFinal);
-        // console.log('UTILIDAD: ' + utilidad);
-        // console.log('PRECIO FINAL: ' + valorPrecioFinal);
         console.log('RESULTADO UTILIDAD: ' + utilidad);
         console.log('RESULTADO UTILIDAD: ' + resultadoUtilidad);
-        // UTILIDAD
 
         // CAPITAL
         if (metodo.includes('HIPOTECARIO')) {
-          capital = ( Number(datosNumerosNegativos) + ( - valorPrecioFinal) ) +
-          ( (Number(-mensualidadHipoteca)) + Number(valorRentaMenosMantenimiento) );
+          capital = Number(datosNumerosNegativos) + (Number(mensualidadHipoteca) + Number(valorRentaMenosMantenimiento)
+          - Number(ingresosProyectadosPorRenta));
+          /* capital = ( Number(datosNumerosNegativos) + ( - valorPrecioFinal) ) +
+          ( (Number(-mensualidadHipoteca)) + Number(ingresosProyectadosPorRenta) ); */
         } else if (codigoCompra.includes('RENTA')) {
           capital = ( Number(datosNumerosNegativos) + ( - valorPrecioFinal) ) - Number(mensualidadHipoteca);
         } else {
