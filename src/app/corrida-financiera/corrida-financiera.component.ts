@@ -319,7 +319,7 @@ export class CorridaFinancieraComponent implements OnInit {
     let torreLetraCorridaPDF: any;
     let numeroDepartamentoCorridaPDF: any;
     let precioPreventaCorridaPDF: any;
-    let precioPrecentaPatioCorridaPDF: any;
+    let precioPreventaPatioCorridaPDF: any;
     let conversionTorre: any;
     let fechaPagoApartado: any;
     let fechaInicioContrato: any;
@@ -337,6 +337,8 @@ export class CorridaFinancieraComponent implements OnInit {
     let plazoVenta: any;
     let escritura: any;
     let fechaFirmaCorrida: any;
+    let calculoPrecioPreventa: any;
+    let superficiePatioCorridaPDF: any;
 
     // ASIGNACION DE VALORES
     conversionTorre = {
@@ -356,7 +358,8 @@ export class CorridaFinancieraComponent implements OnInit {
     nombreClientePDF = $('#cliente_corrida').val();
     superficieCorridaPDF = $('#metros_cuadrados_prototipo_corrida').val();
     precioPreventaCorridaPDF = $('#precio_preventa_corrida').val();
-    precioPrecentaPatioCorridaPDF = $('#precio_preventa_patio_corrida').val();
+    superficiePatioCorridaPDF = $('#metros_cuadrados_patio_corrida').val();
+    precioPreventaPatioCorridaPDF = $('#costo_venta_metro_cuadrado_patio_corrida').val();
     prototipoCorridaPDF = this.prototipoCorrida;
     nivelCorridaPDF = this.pisoCorrida;
     torreCorridaPDF = this.torreCorrida;
@@ -368,6 +371,7 @@ export class CorridaFinancieraComponent implements OnInit {
     diaPago = $('#dia_pago_corrida').val();
     metodoFinanciamiento = $('#nombre_venta').val();
     fechaFirmaCorrida = $('#fecha_firma_corrida').val();
+    superficiePatioCorridaPDF = $('#metros_cuadrados_patio_corrida').val();
 
     // VERIFICA EL METODO DE FINANCIAMIENTO
     if (metodoFinanciamiento.includes('CONTADO')) {
@@ -412,21 +416,34 @@ export class CorridaFinancieraComponent implements OnInit {
       pagoFirma = ((Number(firmaVenta) / 100) * Number(valorInmuebleDescuento)) + Number(porcentajeComisionInmueble);
       pagoInicial = ((Number(firmaVenta) / 100) * Number(valorInmuebleDescuento));
     }
-    console.log(precioPreventaCorridaPDF);
+    // console.log(precioPreventaCorridaPDF);
 
     // GUARDA EL PRECIO DE PREVENTA DE ACUERDO A SU NIVEL
-    let calculoPrecioPreventa: any;
-
     // VERIFICAMOS EL NUMERO DE PISO
     if (this.pisoCorrida === 'PB') {
 
-      calculoPrecioPreventa = Math.round( ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) ) + ( 30.77 * 15000)
-      * (Math.pow(1.01, this.pisoCorrida)) );
+      calculoPrecioPreventa = Math.round(
+        ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) ) +
+        ( Number(superficiePatioCorridaPDF) * Number(precioPreventaPatioCorridaPDF) )
+      );
+      console.log('SUPERFICIE PROTOTIPO' + Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF));
+      console.log('SUPERFICIE PATIO' + Number(superficiePatioCorridaPDF) * Number(precioPreventaPatioCorridaPDF));
     } else if(this.pisoCorrida === '2') {
 
+      calculoPrecioPreventa = Math.round(
+        (
+          ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) ) +
+          ( Number(superficiePatioCorridaPDF) * Number(precioPreventaPatioCorridaPDF) )
+        ) *
+        (Math.pow(1.01, this.pisoCorrida))
+      );
+    } else {
 
-    } else {    }
+      calculoPrecioPreventa = Math.round( ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) ) + ( 30.77 * 15000)
+      * (Math.pow(1.01, this.pisoCorrida)) );
+    }
 
+    console.log('Calculo preventa piso ' + this.pisoCorrida + '. ' + calculoPrecioPreventa);
     // INSTANCIA JSPDF
     const docPdfCorridaFinanciera = new jsPDF('p', 'px', 'a4');
     let ancho: any;
@@ -657,8 +674,7 @@ export class CorridaFinancieraComponent implements OnInit {
         ],
         [
           {colSpan: 2, content: 'Precio preventa', styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}},
-          {colSpan: 2, content: formatterPeso.format( Math.round( ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) )
-            * (Math.pow(1.01, this.pisoCorrida)) ) ),
+          {colSpan: 2, content: formatterPeso.format( calculoPrecioPreventa ),
             styles: {valign: 'middle', halign: 'center',
           fontStyle: 'bold'}}
         ]
@@ -686,8 +702,7 @@ export class CorridaFinancieraComponent implements OnInit {
       body: [
         [
           {colSpan: 2, content: 'Precio', styles: {valign: 'middle', halign: 'center'}},
-          {colSpan: 4, content: formatterPeso.format(Math.round((superficieCorridaPDF * precioPreventaCorridaPDF)
-            * (Math.pow(1.01, this.pisoCorrida)))), styles: {valign: 'middle', halign: 'center'}}
+          {colSpan: 4, content: formatterPeso.format(calculoPrecioPreventa), styles: {valign: 'middle', halign: 'center'}}
         ],
         [
           {colSpan: 2, content: 'Enganche a la firma', styles: {valign: 'middle', halign: 'center'}},
@@ -697,35 +712,25 @@ export class CorridaFinancieraComponent implements OnInit {
           { colSpan: 2, content: 'Enganche financiado', styles: {valign: 'middle', halign: 'center', cellWidth: '200'} },
           { colSpan: 2, content: [
             'Porcentaje: ' + formatterPercent.format(plazoVenta / 100),
-            '  Monto: ' + formatterPeso.format( Math.round( (plazoVenta / 100) *
-            ( (superficieCorridaPDF * precioPreventaCorridaPDF)
-            * (Math.pow(1.01, this.pisoCorrida)) ) ) )
+            '  Monto: ' + formatterPeso.format( Math.round( (plazoVenta / 100) * calculoPrecioPreventa ) )
           ], styles: {valign: 'middle', halign: 'center'}},
           { colSpan: 2, content: [
             'Financiamiento: ' + mesesFinanciamientoContrato + ' meses',
-            ' Mensualidad: ' + formatterPeso.format( Math.round( ( ( (plazoVenta / 100) *
-            ( (superficieCorridaPDF * precioPreventaCorridaPDF)
-            * (Math.pow(1.01, this.pisoCorrida)) ) ) - pagoInicial ) / mesesFinanciamientoContrato
+            ' Mensualidad: ' + formatterPeso.format( Math.round( ( ( (plazoVenta / 100) * calculoPrecioPreventa ) -
+            pagoInicial ) / mesesFinanciamientoContrato
             ) )
           ], styles: {valign: 'middle', halign: 'center'}},
         ],
         [
           {colSpan: 2, content: 'Pago a la firma de escritura', styles: {valign: 'middle', halign: 'center'}},
           {colSpan: 2, content: formatterPercent.format(escritura / 100), styles: {valign: 'middle', halign: 'center'}},
-          {colSpan: 2, content: formatterPeso.format(Math.round( (escritura / 100) *
-            ( (superficieCorridaPDF * precioPreventaCorridaPDF)
-            * (Math.pow(1.01, this.pisoCorrida)) ) )),
+          {colSpan: 2, content: formatterPeso.format( Math.round( (escritura / 100) * calculoPrecioPreventa ) ),
             styles: {valign: 'middle', halign: 'center'}}
         ],
         [
           {colSpan: 2, content: 'TOTAL', styles: {valign: 'middle', halign: 'center'}},
-          {colSpan: 4, content:  formatterPeso.format(Math.round( ( (escritura / 100) *
-            ( (superficieCorridaPDF * precioPreventaCorridaPDF)
-            * (Math.pow(1.01, this.pisoCorrida)) ) ) +
-            ( (plazoVenta / 100) *
-            ( (superficieCorridaPDF * precioPreventaCorridaPDF)
-            * (Math.pow(1.01, this.pisoCorrida)) ) )
-            )),
+          {colSpan: 4, content:  formatterPeso.format( Math.round( ( (escritura / 100) * calculoPrecioPreventa ) +
+            ( (plazoVenta / 100) * calculoPrecioPreventa ) ) ),
             styles: {valign: 'middle', halign: 'center'}}
         ]
       ],
@@ -760,9 +765,7 @@ export class CorridaFinancieraComponent implements OnInit {
     let mensualidadCorrida: any;
     capitalPactadoCorrida = Math.round(valorInmuebleDescuento);
     abonoCapitalCorrida =  Math.round( ( ( (plazoVenta / 100) *
-    ( (superficieCorridaPDF * precioPreventaCorridaPDF)
-    * (Math.pow(1.01, this.pisoCorrida)) ) ) - pagoInicial ) / mesesFinanciamientoContrato
-    );
+    calculoPrecioPreventa ) - pagoInicial ) / mesesFinanciamientoContrato);
     mensualidadCorrida = abonoCapitalCorrida;
 
     bodyCorridaFinanciera.push([
@@ -821,9 +824,7 @@ export class CorridaFinancieraComponent implements OnInit {
       new Date(fechaFirmaCorrida).toISOString().slice(0 , 10).split('T')[0],
       '',
       '',
-      formatterPeso.format(Math.round( (escritura / 100) *
-      ( (superficieCorridaPDF * precioPreventaCorridaPDF)
-      * (Math.pow(1.01, this.pisoCorrida)) ) ))
+      formatterPeso.format(Math.round( (escritura / 100) * calculoPrecioPreventa ))
     ]);
 
     bodyCorridaFinanciera.push([
@@ -831,9 +832,8 @@ export class CorridaFinancieraComponent implements OnInit {
       '',
       '',
       '',
-      formatterPeso.format(Math.round( ((escritura / 100) *
-      ( (superficieCorridaPDF * precioPreventaCorridaPDF)
-      * (Math.pow(1.01, this.pisoCorrida)) )) + totalmensualidadCorrida + pagoInicial ))
+      formatterPeso.format(Math.round( ( (escritura / 100) * calculoPrecioPreventa ) +
+      totalmensualidadCorrida + pagoInicial ))
     ]);
     docPdfCorridaFinanciera.autoTable({
       styles: {
