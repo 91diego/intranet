@@ -68,7 +68,6 @@
         <select [(ngModel)]="idDesarrollo" [(ngModel)]="desarrolloCorrida" (change)="obtenerDetalleDesarrollo(idDesarrollo)" (change)="obtenerDatos(idDesarrollo)" class="form-control custom-select form-control-md" id="desarrollo_corrida">
             <option *ngFor="let desarrollo of desarrollos" value="{{ desarrollo.id }} {{desarrollo.nombre}}">{{ desarrollo.nombre }}</option>
         </select>
-
         <input *ngFor="let desarrollo of desarrollos" type="text" class="form-control" id="desarrollo" value="{{desarrollo.nombre}}" style="display: none;">
         <input *ngFor="let supuestoHipotecario of supuestosHipotecarios" type="text" class="form-control" id="comision_apertura" readonly value="{{supuestoHipotecario.porcentaje_comision_apertura}}" style="display: none;">
         <hr class="my-4">
