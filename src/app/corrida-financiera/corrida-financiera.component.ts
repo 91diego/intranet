@@ -439,8 +439,9 @@ export class CorridaFinancieraComponent implements OnInit {
       );
     } else {
 
-      calculoPrecioPreventa = Math.round( ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) ) + ( 30.77 * 15000)
+      calculoPrecioPreventa = Math.round( ( Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF) )
       * (Math.pow(1.01, this.pisoCorrida)) );
+      superficiePatioCorridaPDF = 'No aplica';
     }
 
     console.log('Calculo preventa piso ' + this.pisoCorrida + '. ' + calculoPrecioPreventa);

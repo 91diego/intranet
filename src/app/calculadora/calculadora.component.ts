@@ -1706,8 +1706,6 @@ export class CalculadoraComponent implements OnInit {
         if (metodo.includes('HIPOTECARIO')) {
           capital = Number(sumaNumerosNegativos) + (Number(mensualidadHipoteca) + Number(valorRentaMenosMantenimiento)
           - Number(ingresosProyectadosPorRenta));
-          /* capital = ( Number(datosNumerosNegativos) + ( - valorPrecioFinal) ) +
-          ( (Number(-mensualidadHipoteca)) + Number(ingresosProyectadosPorRenta) ); */
         } else if (codigoCompra.includes('RENTA')) {
           capital = ( Number(sumaNumerosNegativos) ) - Number(mensualidadHipoteca);
         } else {
