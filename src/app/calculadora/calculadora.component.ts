@@ -1555,7 +1555,8 @@ export class CalculadoraComponent implements OnInit {
 
         /* SE OBTIENE LOS VALORES DEL ARRAY */
         // OBTIENE LA SUMA DE LOS NUMEROS NEGATIVOS
-        let datosNumerosNegativos: any = -pagoInicial;
+        let datosNumerosNegativos: any;
+        datosNumerosNegativos = -pagoInicial;
         for (let i = 0; i < datosFlujoFinal.length; i++) {
 
           for (let j = 0; j < datosFlujoFinal[i].length; j++) {
@@ -1575,12 +1576,18 @@ export class CalculadoraComponent implements OnInit {
          /* OBTENER VALORES */
          // DIVISOR
         let divisor: any;
+        let sumaNumerosNegativos: any;
+        sumaNumerosNegativos = -pagoInicial;
         divisor = datosFlujoFinal.length;
+        console.log('DIVISOR: ' + divisor);
         // NUMERO DE DATOS
         let numeroDatos: any;
         numeroDatos = valores.length;
+        console.log('NUMERO DE DATOS: ' + numeroDatos);
         let resultadoDatos: any;
         resultadoDatos = numeroDatos / divisor;
+        console.log('RESULTADO DE DATOS: ' + resultadoDatos);
+        console.log('INFORMACION: ' + valores);
         switch (divisor) {
           case 1:
             console.log('uno');
@@ -1591,6 +1598,9 @@ export class CalculadoraComponent implements OnInit {
               console.log('Resultado de Posicion ' + irf);
               console.log('Suma de flujos: ' + (Number(valores[irf])) );
               sumaValores.push([Number(valores[irf])]);
+              if (valores[irf] < 0) {
+                sumaNumerosNegativos = Number(sumaNumerosNegativos) + Number(valores[irf]);
+              }
             }
             break;
           case 2:
@@ -1606,6 +1616,9 @@ export class CalculadoraComponent implements OnInit {
               console.log('Resultado de Posicion ' + irf + ' + Posicion ' + x);
               console.log('Suma de flujos: ' + (Number(valores[irf]) + Number(valores[x])));
               sumaValores.push([(Number(valores[irf]) + Number(valores[x]))]);
+              if (valores[irf] < 0) {
+                sumaNumerosNegativos = Number(sumaNumerosNegativos) + Number(valores[irf]);
+              }
             }
             break;
           case 3:
@@ -1618,6 +1631,7 @@ export class CalculadoraComponent implements OnInit {
         console.log('');
         console.log('FLUJO FINAL');
         console.log(sumaValores);
+        console.log('NEGATIVOS: ' + Number(sumaNumerosNegativos));
          /* OBTENER VALORES */
       /* FIN CALCULO FLUJO FINAL */
 
@@ -1650,7 +1664,7 @@ export class CalculadoraComponent implements OnInit {
 
         // CREDITO HIPOTECARIO RESTANTE
         if (valorRestanteHipoteca === 0) {
-          creditoHipotecarioRestante = 'No aplica';
+          creditoHipotecarioRestante = 0;
         } else {
           creditoHipotecarioRestante = - (Number(valorRestanteHipoteca));
         }
@@ -1666,6 +1680,7 @@ export class CalculadoraComponent implements OnInit {
         }
 
         let valorPrecioFinal: any = 0;
+        console.log('PRECIO FINAL: ' + datosPrecioFinal);
         switch (((datosPrecioFinal.toString()).split(',')).length) {
           case 1:
             valorPrecioFinal = Number( ( (datosPrecioFinal.toString()).split(','))[0] );
@@ -1689,21 +1704,21 @@ export class CalculadoraComponent implements OnInit {
 
         // CAPITAL
         if (metodo.includes('HIPOTECARIO')) {
-          capital = Number(datosNumerosNegativos) + (Number(mensualidadHipoteca) + Number(valorRentaMenosMantenimiento)
+          capital = Number(sumaNumerosNegativos) + (Number(mensualidadHipoteca) + Number(valorRentaMenosMantenimiento)
           - Number(ingresosProyectadosPorRenta));
           /* capital = ( Number(datosNumerosNegativos) + ( - valorPrecioFinal) ) +
           ( (Number(-mensualidadHipoteca)) + Number(ingresosProyectadosPorRenta) ); */
         } else if (codigoCompra.includes('RENTA')) {
-          capital = ( Number(datosNumerosNegativos) + ( - valorPrecioFinal) ) - Number(mensualidadHipoteca);
+          capital = ( Number(sumaNumerosNegativos) ) - Number(mensualidadHipoteca);
         } else {
-          capital = ( Number(datosNumerosNegativos) + ( - valorPrecioFinal) ) +
+          capital = ( Number(sumaNumerosNegativos) ) +
           ( (Number(-mensualidadHipoteca)) + Number(valorRentaMenosMantenimiento) );
         }
         console.log('MENSUALIDAD HIPOTECA: ' + mensualidadHipoteca);
         console.log('VALOR RENTA MENOS MTTO: ' + valorRentaMenosMantenimiento);
-        console.log('SUMA NEGATIVOS: ' + datosNumerosNegativos);
+        console.log('SUMA NEGATIVOS: ' + sumaNumerosNegativos);
         console.log('PRECIO FINAL: ' + valorPrecioFinal);
-        console.log('SUMA: ' + ( Number(datosNumerosNegativos) + ( - valorPrecioFinal) ) );
+        console.log('SUMA: ' + ( Number(sumaNumerosNegativos) + ( - valorPrecioFinal) ) );
         console.log('CAPITAL: ' + capital);
         // FIN CAPITAL
 
@@ -2122,14 +2137,7 @@ export class CalculadoraComponent implements OnInit {
               formatterPeso.format(tablaAmortizacion[x][5])
             ]);
           }
-          /* bodyPrueba.push([
-            'TOTAL',
-            '',
-            '',
-            formatterPeso.format(sumaTotalInteres),
-            // formatterPeso.format(valorHipoteca)
-            formatterPeso.format(sumaTotalPagoCapital)
-          ]); */
+
           doc.autoTable({
             styles: {
               overflow: 'linebreak',
@@ -2151,257 +2159,6 @@ export class CalculadoraComponent implements OnInit {
           });
 
         }
-
-        // SE GENERA DOCUEMENTO CORRIDA FINANCIERA
-        /*docPdfCorridaFinanciera.addImage(imgData, 'PNG', 15, 10, 55, 15);
-        docPdfCorridaFinanciera.setFont('helvetica');
-        docPdfCorridaFinanciera.setFontType('bold');
-        docPdfCorridaFinanciera.text('Corrida financiera ' + $('#nombre_pdf').val(), 15, 42.5);
-        docPdfCorridaFinanciera.setDrawColor(255, 0, 0);
-        docPdfCorridaFinanciera.setLineWidth(1.5);
-        docPdfCorridaFinanciera.line(15, 52.5, ancho - 15, 52.5);
-        docPdfCorridaFinanciera.setFontSize(16);
-        docPdfCorridaFinanciera.text(nombreCliente, ancho / 3.5, 68);
-
-        // CARACTERISTICAS
-        docPdfCorridaFinanciera.autoTable({
-          margin: {top: 80},
-          styles: {
-            overflow: 'linebreak',
-            cellWidth: '100',
-            font: 'arial',
-            fontSize: 8,
-            cellPadding: 2,
-            overflowColumns: 'linebreak'
-          },
-          /*head: [
-            [
-              {content: 'Informacion Financiera', colSpan: 4, styles: {halign: 'center', fillColor: [22, 160, 133]}},
-            ]
-          ], */
-          /* body: [
-            [
-              {colSpan: 2, content: 'Unidad', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 2, content: torreDepartamento +
-                '-' + nivelDepartamento +
-                '-' + nombreDepartamento,
-                styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}
-              }
-            ],
-            [
-              {colSpan: 2, content: 'Superficie en M2', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 2, content: metrosCuadradosPrototipo, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
-            ],
-            [
-              {colSpan: 2, content: 'Prototipo', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 2, content: prototipoDepartamento, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
-            ],
-            [
-              {colSpan: 2, content: 'Nivel', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 2, content: nivelDepartamento, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
-            ],
-            [
-              {colSpan: 2, content: 'Torre', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 2, content: torreDepartamento, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
-            ],
-            [
-              {colSpan: 2, content: 'Precio preventa', styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}},
-              {colSpan: 2, content: formatterPeso.format((metrosCuadradosPrototipo * precioInicialDesarrollo)
-                * (Math.pow(1.01, nivelDepartamento))),
-                styles: {valign: 'middle', halign: 'center',
-              fontStyle: 'bold'}}
-            ]
-          ],
-          theme: 'plain'
-        });
-
-        // PLAN HIPOTECARIO
-        docPdfCorridaFinanciera.autoTable({
-          margin: {top: 60},
-          styles: {
-            overflow: 'linebreak',
-            cellWidth: '100',
-            font: 'arial',
-            fontSize: 8,
-            cellPadding: 2,
-            overflowColumns: 'linebreak'
-          },
-          head: [
-            [
-              {content: 'Plan Hipotecario', colSpan: 6, styles: {halign: 'center', fillColor: [22, 160, 133]}},
-            ]
-          ],
-          body: [
-            [
-              {colSpan: 2, content: 'Precio', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 4, content: formatterPeso.format(Math.round((metrosCuadradosPrototipo * precioInicialDesarrollo)
-                * (Math.pow(1.01, nivelDepartamento)))), styles: {valign: 'middle', halign: 'center'}}
-            ],
-            [
-              {colSpan: 2, content: 'Enganche a la firma', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 4, content: formatterPeso.format(pagoInicial), styles: {valign: 'middle', halign: 'center'}}
-            ],
-            [
-              { colSpan: 2, content: 'Enganche financiado', styles: {valign: 'middle', halign: 'center', cellWidth: '200'} },
-              { colSpan: 2, content: [
-                'Porcentaje: ' + formatterPercent.format(plazoVenta / 100),
-                '  Monto: ' + formatterPeso.format( Math.round( (plazoVenta / 100) *
-                ( (metrosCuadradosPrototipo * precioInicialDesarrollo)
-                * (Math.pow(1.01, nivelDepartamento)) ) ) )
-              ], styles: {valign: 'middle', halign: 'center'}},
-              { colSpan: 2, content: [
-                'Financiamiento: ' + mesesFinanciamientoContrato + ' meses',
-                ' Mensualidad: ' + formatterPeso.format( Math.round( ( ( (plazoVenta / 100) *
-                ( (metrosCuadradosPrototipo * precioInicialDesarrollo)
-                * (Math.pow(1.01, nivelDepartamento)) ) ) - pagoInicial ) / mesesFinanciamientoContrato
-                ) )
-              ], styles: {valign: 'middle', halign: 'center'}},
-            ],
-            [
-              {colSpan: 2, content: 'Pago a la firma de escritura', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 2, content: formatterPercent.format(escritura / 100), styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 2, content: formatterPeso.format(Math.round( (escritura / 100) *
-                ( (metrosCuadradosPrototipo * precioInicialDesarrollo)
-                * (Math.pow(1.01, nivelDepartamento)) ) )),
-                styles: {valign: 'middle', halign: 'center'}}
-            ],
-            [
-              {colSpan: 2, content: 'TOTAL', styles: {valign: 'middle', halign: 'center'}},
-              {colSpan: 4, content:  formatterPeso.format(Math.round( ( (escritura / 100) *
-                ( (metrosCuadradosPrototipo * precioInicialDesarrollo)
-                * (Math.pow(1.01, nivelDepartamento)) ) ) +
-                ( (plazoVenta / 100) *
-                ( (metrosCuadradosPrototipo * precioInicialDesarrollo)
-                * (Math.pow(1.01, nivelDepartamento)) ) )
-                )),
-                styles: {valign: 'middle', halign: 'center'}}
-            ]
-          ],
-          theme: 'grid'
-        });
-
-        // TABLA CORRIDA FINANCIERA
-        const bodyCorridaFinanciera: any = [];
-        docPdfCorridaFinanciera.autoTable({
-          margin: {top: 60},
-          styles: {
-            overflow: 'linebreak',
-            cellWidth: '100',
-            font: 'arial',
-            fontSize: 10,
-            cellPadding: 5,
-            overflowColumns: 'linebreak'
-          },
-          head: [
-            [
-              {content: 'Pago', styles: {halign: 'center'}},
-              {content: 'Fecha', styles: {halign: 'center'}},
-              {content: 'Capital Pactado', styles: {halign: 'center'}},
-              {content: 'Abono a Capital', styles: {halign: 'center'}},
-              {content: 'Mensualidad', styles: {halign: 'center'}}
-            ]
-          ]
-        });
-
-        let capitalPactadoCorrida: any;
-        let abonoCapitalCorrida: any;
-        let mensualidadCorrida: any;
-        capitalPactadoCorrida = Math.round(valorInmuebleDescuento);
-        abonoCapitalCorrida =  Math.round( ( ( (plazoVenta / 100) *
-        ( (metrosCuadradosPrototipo * precioInicialDesarrollo)
-        * (Math.pow(1.01, nivelDepartamento)) ) ) - pagoInicial ) / mesesFinanciamientoContrato
-        );
-        mensualidadCorrida = abonoCapitalCorrida;
-
-        bodyCorridaFinanciera.push([
-          'Apartado',
-          fechaPagoApartado,
-          formatterPeso.format(Math.round(valorInmuebleDescuento)),
-          formatterPeso.format(20000),
-          formatterPeso.format(20000)
-        ]);
-
-        bodyCorridaFinanciera.push([
-          'Enganche',
-          fechaInicioContrato,
-          formatterPeso.format(Math.round(Number(valorInmuebleDescuento) - 20000)),
-          formatterPeso.format(pagoInicial - 20000),
-          formatterPeso.format(pagoInicial - 20000)
-        ]);
-
-        let fechaInicioPagosCorrida: any;
-        let fechaFormatoCorrida: any;
-        let mesFormatoCorrida: any;
-        let diaFormatoCorrida: any;
-        let totalmensualidadCorrida: any;
-        totalmensualidadCorrida = 0;
-        fechaInicioPagosCorrida = new Date(fechaInicioContrato);
-        console.log(fechaInicioPagosCorrida.setDate(Number(diaPago)));
-
-        for (let x = 1; x <= mesesFinanciamientoContrato; x++) {
-
-          fechaInicioPagosCorrida = new Date(fechaInicioContrato);
-
-          if (x === 1) {
-            capitalPactadoCorrida = capitalPactadoCorrida - pagoInicial - 20000;
-          } else {
-            capitalPactadoCorrida = capitalPactadoCorrida - abonoCapitalCorrida;
-          }
-
-          mesFormatoCorrida = fechaInicioPagosCorrida.setMonth((fechaInicioPagosCorrida.getMonth() + 1) +
-          Number(x - 1));
-          diaFormatoCorrida = fechaInicioPagosCorrida.setDate(diaPago);
-          if (mesFormatoCorrida.length < 2) {
-            mesFormatoCorrida = '0' + mesFormatoCorrida;
-          }
-          bodyCorridaFinanciera.push([
-            x,
-            fechaFormatoCorrida = new Date(fechaInicioPagosCorrida).toISOString().slice(0 , 10).split('T')[0],
-            formatterPeso.format(Math.round(capitalPactadoCorrida)),
-            formatterPeso.format(Math.round(abonoCapitalCorrida)),
-            formatterPeso.format(Math.round(mensualidadCorrida))
-          ]);
-          totalmensualidadCorrida = totalmensualidadCorrida + mensualidadCorrida;
-        }
-
-        bodyCorridaFinanciera.push([
-          'FIRMA',
-          '',
-          '',
-          '',
-          formatterPeso.format(Math.round( (escritura / 100) *
-          ( (metrosCuadradosPrototipo * precioInicialDesarrollo)
-          * (Math.pow(1.01, nivelDepartamento)) ) ))
-        ]);
-
-        bodyCorridaFinanciera.push([
-          'TOTAL',
-          '',
-          '',
-          '',
-          formatterPeso.format(Math.round( ((escritura / 100) *
-          ( (metrosCuadradosPrototipo * precioInicialDesarrollo)
-          * (Math.pow(1.01, nivelDepartamento)) )) + totalmensualidadCorrida + pagoInicial ))
-        ]);
-        docPdfCorridaFinanciera.autoTable({
-          styles: {
-            overflow: 'linebreak',
-            cellWidth: '100',
-            font: 'arial',
-            fontSize: 8,
-            cellPadding: 2,
-            overflowColumns: 'linebreak',
-            halign: 'center'
-          },
-          columnStyles: {
-            0: {halign: 'center', fillColor: [30, 144, 255]},
-            1: {halign: 'center'},
-            2: {halign: 'center'},
-            3: {halign: 'center'},
-            4: {halign: 'center'}
-          },
-          body: bodyCorridaFinanciera
-        }); */
 
         // SE GUARDA EL DOCUMENTO PDF
         doc.save('Tabla-amortizacion-' + $('#nombre_pdf').val() + '.pdf');
