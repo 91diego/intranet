@@ -1704,11 +1704,14 @@ export class CalculadoraComponent implements OnInit {
 
         // CAPITAL
         if (metodo.includes('HIPOTECARIO')) {
-          capital = Number(sumaNumerosNegativos) + (Number(mensualidadHipoteca) + Number(valorRentaMenosMantenimiento)
+
+          capital = Number(sumaNumerosNegativos) + (Number(-mensualidadHipoteca) + Number(valorRentaMenosMantenimiento)
           - Number(ingresosProyectadosPorRenta));
         } else if (codigoCompra.includes('RENTA')) {
+
           capital = ( Number(sumaNumerosNegativos) ) - Number(mensualidadHipoteca);
         } else {
+
           capital = ( Number(sumaNumerosNegativos) ) +
           ( (Number(-mensualidadHipoteca)) + Number(valorRentaMenosMantenimiento) );
         }

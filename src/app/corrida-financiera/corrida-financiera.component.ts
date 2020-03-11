@@ -299,7 +299,7 @@ export class CorridaFinancieraComponent implements OnInit {
       mtsCuadrados = $('#metros_cuadrados_prototipo_corrida').val();
       costoVentaMtsCuadrados = $('#costo_venta_metro_cuadrado_corrida').val();
       precio = $('#precio_preventa_corrida').val(costoVentaMtsCuadrados * mtsCuadrados);
-    } else if(type === 'excedente'){
+    } else if (type === 'excedente') {
 
       mtsCuadrados = $('#metros_cuadrados_patio_corrida').val();
       costoVentaMtsCuadrados = $('#costo_venta_metro_cuadrado_patio_corrida').val();
@@ -428,7 +428,7 @@ export class CorridaFinancieraComponent implements OnInit {
       );
       console.log('SUPERFICIE PROTOTIPO' + Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF));
       console.log('SUPERFICIE PATIO' + Number(superficiePatioCorridaPDF) * Number(precioPreventaPatioCorridaPDF));
-    } else if(this.pisoCorrida === '2') {
+    } else if (this.pisoCorrida === '2') {
 
       calculoPrecioPreventa = Math.round(
         (
@@ -648,7 +648,7 @@ export class CorridaFinancieraComponent implements OnInit {
     xOffset = (docPdfCorridaFinanciera.internal.pageSize.width / 2) -
     (docPdfCorridaFinanciera.getStringUnitWidth(nombreClientePDF.toUpperCase()) *
     docPdfCorridaFinanciera.internal.getFontSize() / 2);
-    docPdfCorridaFinanciera.text(nombreClientePDF.toUpperCase(), xOffset, 155,);
+    docPdfCorridaFinanciera.text(nombreClientePDF.toUpperCase(), xOffset, 155);
 
     // CARACTERISTICAS
     docPdfCorridaFinanciera.autoTable({
