@@ -214,7 +214,7 @@
                                     <span><a href="#" id="años_objetivo_compra_hoja_llenado" data-toggle="tooltip" data-placement="bottom" title=""><i class="material-icons">help</i></a></span>							
                                     <input *ngFor="let detalles of supuestosCompraDetalles" type="number" class="form-control" id="años_objetivo_compra" min="{{detalles.inicio_plazo}}" max="{{detalles.fin_plazo}}">
                                     <input *ngFor="let detalles of supuestosCompraDetalles" type="text" class="form-control" id="objetivo_compra" readonly value="{{detalles.nombre}}" style="display: none;">
-                                    <input *ngFor="let detalles of supuestosCompraDetalles" type="text" class="form-control" id="codigo_compra" readonly value="{{detalles.tipo_compra}}">
+                                    <input *ngFor="let detalles of supuestosCompraDetalles" type="text" class="form-control" id="codigo_compra" readonly value="{{detalles.tipo_compra}}" style="display: none;">
                                 </div>
                                 <!-- AGREGAR EL COSTO DE MANTENIMIENTO -->
                                 <div id="div_agregar_mantenimiento">
