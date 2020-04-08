@@ -77,7 +77,7 @@
                     <strong><label>Desarrollo: </label> {{desarrolloCorrida}}</strong><br>
                     <strong><label>Cliente: </label> {{nombreClienteCorrida}}</strong><br>
                     <strong><label>Prototipo: </label> {{prototipoCorrida}}</strong><br>
-                    <strong><label>Ubicacion: </label> {{torreLetra}}-{{pisoCorrida}}-{{numeroDeptoCorrida}}</strong><br>
+                    <strong><label>Ubicacion: </label> {{ubicacionCrm}}</strong><br>
                     <!-- <strong><label>Financiamiento: </label> {{financiamientoCorrida}}</strong><br> -->
                     <strong><label>Fecha pago apartado: </label> {{pagoApartadoCorrida}}</strong><br>
                     <strong><label>Fecha inicio contrato</label> {{inicioContratoCorrida}}</strong><br>
@@ -91,12 +91,57 @@
                      <label for="cliente_corrida"><strong>Cliente</strong></label>
                      <input [(ngModel)]="nombreClienteCorrida" type="text" class="form-control" id="cliente_corrida">
                  </div>
+                 <select [(ngModel)]="idNegociacionCrm" class="form-control custom-select form-control-md" (change)="detallesNegociacion(idNegociacionCrm)" id="negociaciones_corrida">
+                    <option *ngFor="let apartadoCrm of apartadosCrm" value="{{ apartadoCrm.id_negociacion }}">{{ apartadoCrm.id_negociacion }} - {{ apartadoCrm.nombre_negociacion }}</option>
+                 </select>
                  <!-- FIN NOMBRE DEL CLIENTE -->
                  <table class="table">
                      <tbody>
                          <tr>
                             <td colspan="1">
                                 <fieldset>
+
+                                    <!-- DETALLES UBICACION -->
+                                    Ubicacion
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="proyecto_crm"><strong>Proyecto:</strong></label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <input type="text" class="form-control" id="proyecto_crm" value="{{proyectoCrm}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label for="torre_crm"><strong>Torre:</strong></label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <input type="text" class="form-control" id="torre_crm" value="{{torreCrm}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label for="nivel_crm"><strong>Nivel:</strong></label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <select [(ngModel)]="idNegociacionCrm" class="form-control custom-select form-control-md" (change)="detallesNivel(idDesarrollo, pisoCrm)" id="" disabled>
+                                                        <option selected value="{{ pisoCrm}}">{{ pisoCrm }}</option>
+                                                     </select>
+                                                    <!-- <input type="text" class="form-control" id="nivel_crm" value="{{pisoCrm}}" (click)="detallesNivel(idDesarrollo, pisoCrm)" readonly> -->
+                                                    <input *ngFor="let detalles of nivelDetalles" type="text" class="form-control" id="plusvalia_nivel" value="{{detalles.descuento}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label for="departamento_crm"><strong>Depto:</strong></label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <input type="text" class="form-control" id="departamento_crm" value="{{departamentoCrm}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FIN DETALLES UBICACION -->
                                     <!-- POTOTIPO -->
                                     <div class="form-group" id="div_prototipo_corrida">
                                         <label for="prototipo_corrida"><strong>Prototipo:</strong></label>

@@ -16,6 +16,7 @@ import { SupuestoMercado } from '../interfaces/supuesto-mercado';
 import { SupuestoCompra } from '../interfaces/supuesto-compra';
 import { Plusvalia } from '../interfaces/plusvalia';
 import { SupuestoHipotecario } from '../interfaces/supuesto-hipotecario';
+import { Apartados } from '../interfaces/apartados';
 
 // CONSTANTE PARA DAR FORMATO DE MONEDA A LOS NUMEROS
 const formatterPeso = new Intl.NumberFormat('en-US', {
@@ -51,6 +52,7 @@ export class CorridaFinancieraComponent implements OnInit {
   // GUARDA LOS DATOS LA RESPUESTA GET DE LA API
   pisos: Piso[];
   pisoDetalles: Piso[];
+  nivelDetalles: Piso[];
 
   // GUARDA LOS DATOS LA RESPUESTA GET DE LA API
   prototipos: Prototipo[];
@@ -60,6 +62,16 @@ export class CorridaFinancieraComponent implements OnInit {
   supuestosHipotecarios: SupuestoHipotecario[];
   supuestosHipotecariosDetalles: SupuestoHipotecario[];
 
+  // GUARDA LOS DATOS DE LA RESPUESTA GET DE LA API
+  apartadosCrm: Apartados[];
+  apartadosCrmDetalles: Apartados[];
+  // GUARDAMOS LA INFORMACION DE LA UBICACION
+  ubicacionCrm;
+  proyectoCrm;
+  torreCrm;
+  pisoCrm;
+  departamentoCrm;
+
   // PUESTO DEL USUARIO
   workPosition;
   idDesarrollo;
@@ -67,6 +79,7 @@ export class CorridaFinancieraComponent implements OnInit {
   idPiso;
   idPrototipo;
   idSupuestoVenta;
+  idNegociacionCrm;
 
   /* DATOS A MOSTRAR EN TIEMPO REAL */
   nombreClienteCorrida;
@@ -101,6 +114,64 @@ export class CorridaFinancieraComponent implements OnInit {
     } );
   }
 
+  /* DETALLES DEL NIVEL POR NOMBRE Y ID DE DESARROLLO */
+  detallesNivel(id: any, nivel: any) {
+    this.httpClient.get(environment.API_ENDPOINT + '/pisos/' + id + '/' + parseInt(nivel, 10)).subscribe(
+      (data: Piso[]) => {
+        this.nivelDetalles = data;
+        console.log('DETALLES PISO');
+        console.log(data);
+      }
+    );
+  }
+  /* FIN DETALLES DEL NIVEL */
+
+  /* DETALLES NEGOCIACIONES CRM */
+  detallesNegociacion(id: any) {
+
+    this.httpClient.get(environment.API_ENDPOINT + '/apartados-crm/detalles-negociacion/' + id).subscribe(
+      (data: Apartados[]) => {
+
+        let conversionTorre: any;
+        let ubicacion: any;
+        let ubicacionCompleta: any;
+        this.apartadosCrmDetalles = data;
+        ubicacionCompleta = data[0].producto1;
+        ubicacion = data[0].producto1.split('-');
+        this.proyectoCrm = ubicacion[0];
+        this.torreCrm = ubicacion[1];
+        this.pisoCrm = ubicacion[2];
+        this.departamentoCrm = ubicacion[3];
+        this.ubicacionCrm = ubicacionCompleta;
+
+        // ASIGNACION DE VALORES
+        conversionTorre = {
+          A: 1,
+          B: 2,
+          C: 3,
+          D: 4,
+          E: 5,
+          F: 6,
+          G: 7,
+          H: 8,
+          I: 9,
+          J: 10,
+          K: 11
+        };
+        // ASIGNAR LETRA AL NIVEL
+        for (const value in conversionTorre) {
+          if (value === this.torreCrm ) {
+            this.torreCrm = conversionTorre[value];
+          }
+        }
+
+        console.log('DETALLES NEGOCIACION ' + data[0].id_negociacion);
+        console.log(data);
+      }
+    )
+    console.log(id);
+  }
+  /* FIN DETALLES NEGOCIACION CRM */
   /* OBTIENE DETALLES DESARROLLO */
   obtenerDetalleDesarrollo(id: any) {
     console.log('Datos');
@@ -114,13 +185,12 @@ export class CorridaFinancieraComponent implements OnInit {
         this.desarrolloDetalles = data;
         console.log('DETALLES DESARROLLO');
         console.log(data);
-        console.log('DESARROLLO DETALLES');
-        console.log(data[0].nombre);
 
         this.httpClient.get(environment.API_ENDPOINT + '/apartados-crm/lista-desarrollo/' + data[0].nombre).subscribe(
-          (info) => {
-            console.log('INFORMACION');
-            console.log(info);
+          (apartadosCrm: Apartados[]) => {
+            this.apartadosCrm = apartadosCrm;
+            console.log('NEGOCIACIONES EN FASE DE APARTADO');
+            console.log(apartadosCrm);
           }
         );
       }
@@ -161,7 +231,6 @@ export class CorridaFinancieraComponent implements OnInit {
       }
     }
 
-
     this.httpClient.get(environment.API_ENDPOINT + '/supuesto-obra/details/' + id).subscribe(
       (data: SupuestoObra[]) => {
         this.supuestosObraDetalles = data;
@@ -169,6 +238,7 @@ export class CorridaFinancieraComponent implements OnInit {
         console.log(data);
       }
     );
+
   }
   /* FIN OBTIENE DETALLES DEL SUPUESTO DE OBRA */
 
