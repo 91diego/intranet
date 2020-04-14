@@ -527,7 +527,7 @@ export class CorridaFinancieraComponent implements OnInit {
       );
       console.log('SUPERFICIE PROTOTIPO' + Number(superficieCorridaPDF) * Number(precioPreventaCorridaPDF));
       console.log('SUPERFICIE PATIO' + Number(superficiePatioCorridaPDF) * Number(precioPreventaPatioCorridaPDF));
-    } else if (this.pisoCorrida === '2') {
+    } else if (this.pisoCorrida === '02') {
 
       calculoPrecioPreventa = Math.round(
         (
@@ -1021,7 +1021,6 @@ export class CorridaFinancieraComponent implements OnInit {
       if ($('#nivel_crm').val() === 0) {
 
         $('#div_calcular_costo_patio_corrida').hide();
-        alert('Es 0');
 
       }
       /* FIN VALIDA SELECCION DEL NIVEL */
@@ -1029,7 +1028,7 @@ export class CorridaFinancieraComponent implements OnInit {
       /* MUESTRA EL DIV DEL FORMULARIO CALCULO COSTO PATIO */
       $('#nivel_crm').on('change', () => {
 
-        if (this.pisoCorrida === 'PB' || this.pisoCorrida === '04') {
+        if (this.pisoCorrida === 'PB' || this.pisoCorrida === '02') {
 
           $('#div_calcular_costo_patio_corrida').show();
         } else {
