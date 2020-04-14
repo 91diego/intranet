@@ -1,5 +1,4 @@
 <!-- TEMPLATE DEL MENU -->
-<!-- TEMPLATE DEL MENU -->
 <div class="container-fluid mw-100 h-100 p-2">
     <nav class="navbar navbar-expand-sm bg-danger navbar-dark fixed-top">
     <a class="navbar-brand" routerLink="/{{workPosition}}">
@@ -63,7 +62,8 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1 class="display-4">Corrida Financiera.</h1>
+
+        <h1 class="display-4 text-center">Corrida financiera {{ desarrolloCorrida }}</h1>
         <h4>Selecciona el desarrollo:</h4>
         <select [(ngModel)]="idDesarrollo" [(ngModel)]="desarrolloCorrida" (change)="obtenerDetalleDesarrollo(idDesarrollo)" (change)="obtenerDatos(idDesarrollo)" class="form-control custom-select form-control-md" id="desarrollo_corrida">
             <option *ngFor="let desarrollo of desarrollos" value="{{ desarrollo.id }} {{desarrollo.nombre}}">{{ desarrollo.nombre }}</option>
@@ -71,151 +71,203 @@
         <input *ngFor="let desarrollo of desarrollos" type="text" class="form-control" id="desarrollo" value="{{desarrollo.nombre}}" style="display: none;">
         <input *ngFor="let supuestoHipotecario of supuestosHipotecarios" type="text" class="form-control" id="comision_apertura" readonly value="{{supuestoHipotecario.porcentaje_comision_apertura}}" style="display: none;">
         <hr class="my-4">
-        <div class="card" id="formulario_corrida">
-            <h5 class="card-header">
-                <p class="lead">
-                    <strong><label>Desarrollo: </label> {{desarrolloCorrida}}</strong><br>
-                    <strong><label>Cliente: </label> {{nombreClienteCorrida}}</strong><br>
-                    <strong><label>Prototipo: </label> {{prototipoCorrida}}</strong><br>
-                    <strong><label>Ubicacion: </label> {{ubicacionCrm}}</strong><br>
-                    <!-- <strong><label>Financiamiento: </label> {{financiamientoCorrida}}</strong><br> -->
-                    <strong><label>Fecha pago apartado: </label> {{pagoApartadoCorrida}}</strong><br>
-                    <strong><label>Fecha inicio contrato</label> {{inicioContratoCorrida}}</strong><br>
-                    <strong><label>Dia pago</label> {{diaPagoCorrida}}</strong><br>
-                </p>
-            </h5>
-            <div class="card-body">
-              <div>
-                 <!-- NOMBRE DEL CLIENTE -->
-                 <div class="form-group" id="div_nombre_cliente_corrida">
-                     <label for="cliente_corrida"><strong>Cliente</strong></label>
-                     <input [(ngModel)]="nombreClienteCorrida" type="text" class="form-control" id="cliente_corrida">
-                 </div>
-                 <select [(ngModel)]="idNegociacionCrm" class="form-control custom-select form-control-md" (change)="detallesNegociacion(idNegociacionCrm)" id="negociaciones_corrida">
-                    <option *ngFor="let apartadoCrm of apartadosCrm" value="{{ apartadoCrm.id_negociacion }}">{{ apartadoCrm.id_negociacion }} - {{ apartadoCrm.nombre_negociacion }}</option>
-                 </select>
-                 <!-- FIN NOMBRE DEL CLIENTE -->
-                 <table class="table">
-                     <tbody>
-                         <tr>
-                            <td colspan="1">
-                                <fieldset>
 
-                                    <!-- DETALLES UBICACION -->
-                                    Ubicacion
-                                    <div class="row">
-                                        <div class="col">
-                                            <label for="proyecto_crm"><strong>Proyecto:</strong></label>
+        <div class="card" id="formulario_corrida">
+
+            <h5 class="card-header">
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col">
+                            <p class="lead">
+                                <strong><label>Desarrollo: </label> {{desarrolloCorrida}}</strong><br>
+                                <strong><label>Cliente: </label> {{idNegociacionCrm}}</strong><br>
+                                <strong><label>Ubicacion: </label> {{ubicacionCrm}}</strong><br>
+                                <strong><label>Prototipo: </label> {{prototipoCorrida}}</strong>
+                            </p>
+                        </div>
+
+                        <div class="col">
+                            <p class="lead">
+                                <!-- <strong><label>Financiamiento: </label> {{financiamientoCorrida}}</strong><br> -->
+                                <strong><label>Fecha pago apartado: </label> {{pagoApartadoCorrida}}</strong><br>
+                                <strong><label>Fecha inicio contrato</label> {{inicioContratoCorrida}}</strong><br>
+                                <strong><label>Dia pago</label> {{diaPagoCorrida}}</strong>
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </h5>
+
+            <div class="card-body">
+
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col">
+                            <!-- NOMBRE DEL CLIENTE -->
+                            <div class="form-group" id="div_nombre_cliente_corrida">
+                                <label for="cliente_corrida"><strong>Cliente</strong></label>
+                                <select [(ngModel)]="idNegociacionCrm" [(ngModel)]="nombreClienteCorrida" class="form-control custom-select form-control-md" (change)="detallesNegociacion(idNegociacionCrm)" id="cliente_corrida">
+                                <option *ngFor="let apartadoCrm of apartadosCrm" value="{{ apartadoCrm.id_negociacion }} {{ apartadoCrm.nombre_negociacion }}">{{ apartadoCrm.id_negociacion }} - {{ apartadoCrm.nombre_negociacion }}</option>
+                                </select>
+                            </div>
+                            <!-- FIN NOMBRE DEL CLIENTE -->
+                        </div>
+                    </div>
+                    <hr class="my-8">
+
+                    <div class="row">
+
+                        <!-- INFORMACION DEL PRODUCTO -->
+                        <div class="col">
+
+                            <h3 class="text-center">Detalles de la ubicacion.</h3>
+                            <hr class="my-8">
+
+                            <!-- PROYECTO -->
+                            <div class="row">
+                                <div class="col">
+                                    <label for="proyecto_crm"><strong>Proyecto:</strong></label>
+                                    <select class="form-control custom-select form-control-md" id="proyecto_crm" readonly>
+                                        <option selected value="{{ proyectoCrm}}">{{ proyectoCrm }}</option>
+                                        </select>
+                                    <input type="text" class="form-control" id="proyecto_crm" value="{{proyectoCrm}}" readonly style="display: none;">
+                                </div>
+                            </div>
+                            <!-- FIN PROYECTO -->
+                            
+                            <!-- UBICACION -->
+                            <div class="row">
+
+                                <!-- TORRE -->
+                                <div class="col">
+                                    <label for="torre_crm"><strong>Torre:</strong></label>
+                                    <select class="form-control custom-select form-control-md" id="torre_crm" readonly>
+                                        <option selected value="{{ torreCrm}}">{{ torreCrm }}</option>
+                                        </select>
+                                    <input type="text" class="form-control" id="torre_obra_corrida" value="{{torreCrm}}" readonly style="display: none;">
+                                </div>
+                                <!-- FIN TORRE -->
+
+                                <!-- NIVEL -->
+                                <div class="col">
+                                    <label for="nivel_crm"><strong>Nivel:</strong></label>
+                                    <select [(ngModel)]="pisoCorrida" class="form-control custom-select form-control-md" id="nivel_crm" name="nivel_crm" (change)="detallesNivel(idDesarrollo, pisoCrm)">
+                                        <option selected value="0">Selecciona el nivel</option>
+                                        <option value="{{ pisoCrm }}">{{ pisoCrm }}</option>
+                                     </select>
+                                    <input *ngFor="let detalles of nivelDetalles" type="text" class="form-control" id="plusvalia_piso" value="{{detalles.descuento}}" readonly style="display: none;">
+                                    <input *ngFor="let detalles of nivelDetalles" type="text" class="form-control" id="numero_piso_piso" value="{{detalles.numero_piso}}" readonly style="display: none;">
+                                    <br>
+                                    <div class="form-inline" id="div_calcular_costo_patio_corrida" style="display: none;">
+            
+                                        <div class="container">
+
                                             <div class="row">
-                                                <div class="col">
-                                                    <input type="text" class="form-control" id="proyecto_crm" value="{{proyectoCrm}}" readonly>
-                                                </div>
+                                                <h5 class="text-center">Calcular excedente.</h5>
                                             </div>
-                                        </div>
-                                        <div class="col">
-                                            <label for="torre_crm"><strong>Torre:</strong></label>
                                             <div class="row">
-                                                <div class="col">
-                                                    <input type="text" class="form-control" id="torre_crm" value="{{torreCrm}}" readonly>
-                                                </div>
+                                                <label for="metros_cuadrados_patio_corrida"><strong>Metros cuadrados:</strong></label>
+                                                <input type="number" class="form-control" id="metros_cuadrados_patio_corrida">
                                             </div>
-                                        </div>
-                                        <div class="col">
-                                            <label for="nivel_crm"><strong>Nivel:</strong></label>
                                             <div class="row">
-                                                <div class="col">
-                                                    <select [(ngModel)]="idNegociacionCrm" class="form-control custom-select form-control-md" (change)="detallesNivel(idDesarrollo, pisoCrm)" id="" disabled>
-                                                        <option selected value="{{ pisoCrm}}">{{ pisoCrm }}</option>
-                                                     </select>
-                                                    <!-- <input type="text" class="form-control" id="nivel_crm" value="{{pisoCrm}}" (click)="detallesNivel(idDesarrollo, pisoCrm)" readonly> -->
-                                                    <input *ngFor="let detalles of nivelDetalles" type="text" class="form-control" id="plusvalia_nivel" value="{{detalles.descuento}}" readonly>
-                                                </div>
+                                                <label for="costo_venta_metro_cuadrado_patio_corrida"><strong>Precio:</strong></label>
+                                                <input type="number" class="form-control" id="costo_venta_metro_cuadrado_patio_corrida">
                                             </div>
-                                        </div>
-                                        <div class="col">
-                                            <label for="departamento_crm"><strong>Depto:</strong></label>
+                                            <div class="row" id="div_precio_preventa_patio_corrida" style="display: none;">
+                                                <label for="precio_preventa_patio_corrida"><strong>Total:</strong></label>
+                                                <input type="number" class="form-control" readonly id="precio_preventa_patio_corrida">
+                                            </div>
                                             <div class="row">
-                                                <div class="col">
-                                                    <input type="text" class="form-control" id="departamento_crm" value="{{departamentoCrm}}" readonly>
-                                                </div>
+                                                <button (click)="calcularCosto('excedente')" class="btn btn-lg btn-outline-info" id="recalcular_costo_patio">Calcular costo</button>
                                             </div>
+
                                         </div>
                                     </div>
-                                    <!-- FIN DETALLES UBICACION -->
-                                    <!-- POTOTIPO -->
+
+                                </div>
+                                <!-- FIN NIVEL -->
+
+                                <!-- DEPARTAMENTO -->
+                                <div class="col">
+                                    <label for="departamento_crm"><strong>Departamento:</strong></label>
+                                    <select class="form-control custom-select form-control-md" id="departamento_crm" readonly>
+                                        <option selected value="{{ departamentoCrm }}">{{ departamentoCrm }}</option>
+                                     </select>
+                                    <input type="text" class="form-control" id="numero_departamento_corrida" value="{{departamentoCrm}}" readonly style="display: none;">
+                                </div>
+                                <!-- FIN DEPARTAMENTO -->
+                            </div>
+                            <!-- FIN UBICACION -->
+
+                            <!-- PROTOTIPO -->
+                            <div class="row">
+                                <div class="col">
                                     <div class="form-group" id="div_prototipo_corrida">
                                         <label for="prototipo_corrida"><strong>Prototipo:</strong></label>
                                         <select [(ngModel)]="idPrototipo" [(ngModel)]="prototipoCorrida" (change)="obtenerDetallePrototipo(idPrototipo)" class="form-control custom-select" id="prototipo_corrida" name="prototipo_corrida">
                                             <option *ngFor="let prototipo of prototipos" value="{{prototipo.id}} {{prototipo.prototipo}}">{{prototipo.prototipo}}</option>
                                         </select>
-                                        <br><br>
-                                        <div class="form-inline" id="div_calcular_costo_corrida">
-                                            <label for="metros_cuadrados_prototipo_corrida"><strong>M2:</strong></label>&nbsp;&nbsp;
-                                            <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="metros_cuadrados_prototipo_corrida" value="{{detalles.metros_cuadrados}}">&nbsp;&nbsp;
-                                            <label for="costo_venta_metro_cuadrado_corrida"><strong>Precio:</strong></label>&nbsp;&nbsp;
-                                            <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="costo_venta_metro_cuadrado_corrida" value="{{detalles.costo_venta_metro_cuadrado}}">&nbsp;&nbsp;
-                                            <button (click)="calcularCosto('prototipo')" class="btn btn-outline-success" id="recalcular_costo">Calcular costo</button>
-                                            <br><br>
-                                            <input type="number" class="form-control" readonly id="precio_preventa_corrida" style="display: none;">
+                                        <br>
+                                        <div id="div_calcular_costo_corrida">
+
+                                            <div class="container">
+
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5 class="text-center">Calcular costo.</h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label for="metros_cuadrados_prototipo_corrida"><strong>Metros cuadrados:</strong></label>&nbsp;&nbsp;
+                                                        <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="metros_cuadrados_prototipo_corrida" value="{{detalles.metros_cuadrados}}">
+                                                    </div>
+                                                    <div class="col">
+                                                        <label for="costo_venta_metro_cuadrado_corrida"><strong>Precio:</strong></label>&nbsp;&nbsp;
+                                                    <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="costo_venta_metro_cuadrado_corrida" value="{{detalles.costo_venta_metro_cuadrado}}">
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div class="row" id="div_precio_preventa_corrida" style="display: none;">
+                                                    <div class="col">
+                                                        <label for="precio_preventa_corrida"><strong>Total:</strong></label>
+                                                        <input type="number" class="form-control" readonly id="precio_preventa_corrida">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <button (click)="calcularCosto('prototipo')" class="btn btn-lg btn-outline-info" id="recalcular_costo">Calcular</button>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <!-- FIN POTOTIPO -->                 
+                                    </div>  
+                                </div>                      
+                            </div>
+                            <!-- FIN PROTOTIPO --> 
 
-                                    <!-- TORRE -->
-                                    <div class="form-group" id="div_torre_corrida">
-                                        <label for="torre_corrida"><strong>Torre:</strong></label>
-                                        <select [(ngModel)]="idSupuestoObra" [(ngModel)]="torreLetra" (change)="obtenerDetalleSupuestoObra(idSupuestoObra)" class="form-control custom-select" id="torre_corrida" name="torre_corrida">
-                                            <option *ngFor="let obra of supuestosObra" value="{{obra.id}} {{obra.torre}}">{{obra.torre}}</option>
-                                        </select>
-                                        <input *ngFor="let detalles of supuestosObraDetalles" type="text" class="form-control" id="torre_obra_corrida" value="{{detalles.torre}}" style="display: none;">
-                                    </div>
-                                    <!-- FIN TORRE -->
-                                
-                                    <!-- NIVEL -->
-                                    <div class="form-group" id="div_nivel_corrida">
-                                        <label for="nivel_corrida"><strong>Nivel:</strong></label>
-                                        <select [(ngModel)]="idPiso" [(ngModel)]="pisoCorrida" (change)="obtenerDetallePiso(idPiso)" class="form-control custom-select" id="nivel_corrida" name="nivel_corrida">
-                                            <option *ngFor="let piso of pisos" value="{{piso.id}} {{piso.numero_piso}}">{{piso.numero_piso}}</option>
-                                        </select>
-                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="plusvalia_piso" readonly value="{{detalles.descuento}}" style="display: none;">
-                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="numero_piso_piso" readonly value="{{detalles.numero_piso}}" style="display: none;">
-                                        <br><br>
-                                        <div class="form-inline" id="div_calcular_costo_patio_corrida" style="display: none;">
-                                            <label for="metros_cuadrados_patio_corrida"><strong>M2:</strong></label>&nbsp;&nbsp;
-                                            <input type="number" class="form-control" id="metros_cuadrados_patio_corrida">&nbsp;&nbsp;
-                                            <label for="costo_venta_metro_cuadrado_patio_corrida"><strong>Precio:</strong></label>&nbsp;&nbsp;
-                                            <input type="number" class="form-control" id="costo_venta_metro_cuadrado_patio_corrida">&nbsp;&nbsp;
-                                            <button (click)="calcularCosto('excedente')" class="btn btn-outline-success" id="recalcular_costo_patio">Calcular costo</button>
-                                            <br><br>
-                                            <input type="number" class="form-control" readonly id="precio_preventa_patio_corrida" style="display: none;">
-                                        </div>
-                                    </div>
-                                    <!-- FIN NIVEL -->
+                        </div>
+                        <!-- FIN INFORMACION PRODUCTO -->
 
-                                    <!-- VISTA -->
-                                    <!-- <div class="form-group" id="div_vista_corrida">
-                                        <label for="nivel_corrida"><strong>Vista:</strong></label>
-                                        <select [(ngModel)]="idPiso" [(ngModel)]="pisoCorrida" (change)="obtenerDetallePiso(idPiso)" class="form-control custom-select" id="vista_corrida" name="vista_corrida">
-                                            <option *ngFor="let piso of pisos" value="{{piso.id}} {{piso.numero_piso}}">{{piso.numero_piso}}</option>
-                                        </select>
-                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="plusvalia_piso" readonly value="{{detalles.descuento}}" style="display: none;">
-                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="numero_piso_piso" readonly value="{{detalles.numero_piso}}" style="display: none;">
-                                    </div> -->
-                                    <!-- FIN VISTA -->
+                        <!-- INFORMACION FINANCIAMIENTO -->
+                        <div class="col">
 
-                                    <!-- NUMERO DEL DEPARTAMENTO -->
-                                    <div class="form-group" id="div_numero_departamento_corrida">
-                                        <label for="numero_departamento_corrida"><strong>Numero departamento:</strong></label>
-                                        <input [(ngModel)]="numeroDeptoCorrida" type="number" class="form-control" id="numero_departamento_corrida">
-                                    </div>
-                                    <!-- FIN NUMERO DEL DEPARTAMENTO -->
+                            <h3 class="text-center">Informacion financiamiento.</h3>
+                            <hr class="my-8">
 
-                                </fieldset>
-                            </td>
-                            <td colspan="1">
-                                <fieldset>
-
-                                    <!-- METODO FINANCIMIENTO -->
+                            <!-- METODO FINANCIMIENTO -->
+                            <div class="row">
+                                <div class="col">
                                     <div class="form-group" id="div_metodo_financiamiento_corrida">
                                         <label for="metodo_financiamiento_corrida"><strong>Metodo de financiamiento:</strong></label>
                                         <select [(ngModel)]="idSupuestoVenta" [(ngModel)]="financiamientoCorrida" (change)="obtenerDetalleSupuestoVenta(idSupuestoVenta)" class="form-control custom-select" id="metodo_financiamiento_corrida" name="metodo_financiamiento_corrida">
@@ -229,52 +281,228 @@
                                         <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="firma_venta" value="{{detalles.porcentaje_firma}}" style="display: none;">
                                         <input *ngFor="let detalles of supuestoVentaDetalles" type="text" class="form-control" id="escritura_venta" value="{{detalles.porcentaje_escritura}}" style="display: none;">
                                     </div>
-                                    <!-- FIN METODO FINANCIMIENTO -->
+                                </div>
+                            </div>
+                            <!-- FIN METODO FINANCIMIENTO -->
 
-                                    <!-- MESES FINANCIAMIENTO -->
+                            <!-- MESES FINANCIAMIENTO -->
+                            <div class="row">
+                                <div class="col">
                                     <div class="form-group" id="div_meses_financiamiento_corrida">
                                         <label for="meses_financiamiento_corrida"><strong>Meses de financiamiento:</strong></label>
                                         <input [(ngModel)]="mesesFinanciamientoCorrida" type="number" class="form-control" id="meses_financiamiento_corrida" min="0" max="60">
                                     </div>
-                                    <!-- FIN MESES FINANCIAMIENTO -->
+                                </div>
+                            </div>
+                            <!-- FIN MESES FINANCIAMIENTO -->
 
-                                    <!-- FECHA PAGO DE APARTADO -->
+                            <!-- FECHA PAGO DE APARTADO -->
+                            <div class="row">
+                                <div class="col">
                                     <div class="form-group" id="div_fecha_apartado_corrida">
                                         <label for="fecha_pago_apartado_corrida"><strong>Fecha pago apartado:</strong></label>
                                         <input [(ngModel)]="pagoApartadoCorrida" type="date" class="form-control" id="fecha_pago_apartado_corrida">
                                     </div>
-                                    <!-- FIN FECHA PAGO DE APARTADO -->
+                                </div>
+                            </div>
+                            <!-- FIN FECHA PAGO DE APARTADO -->
 
-                                    <!-- FECHA INICIO DE CONTRATO -->
+                            <!-- FECHA INICIO DE CONTRATO -->
+                            <div class="row">
+                                <div class="col">
                                     <div class="form-group" id="div_fecha_contrato_corrida">
                                         <label for="fecha_inicio_contrato_corrida"><strong>Fecha inicio contrato:</strong></label>
                                         <input [(ngModel)]="inicioContratoCorrida" type="date" class="form-control" id="fecha_inicio_contrato_corrida">
                                     </div>
-                                    <!-- FIN FECHA INICIO DE CONTRATO -->
+                                </div>
+                            </div>
+                            <!-- FIN FECHA INICIO DE CONTRATO -->
 
-                                    <!-- FECHA FIRMA -->
+                            <!-- FECHA FIRMA -->
+                            <div class="row">
+                                <div class="col">
                                     <div class="form-group" id="div_fecha_firma_corrida">
                                         <label for="fecha_firma_corrida"><strong>Pago a la firma de escritura:</strong></label>
                                         <input [(ngModel)]="fechaFirmaCorrida" type="date" class="form-control" id="fecha_firma_corrida">
                                     </div>
-                                    <!-- FIN FECHA FIRMA -->
+                                </div>
+                            </div>
+                            <!-- FIN FECHA FIRMA -->
 
-                                    <!-- DIA DE PAGO -->
+                            <!-- DIA DE PAGO -->
+                            <div class="row">
+                                <div class="col">
                                     <div class="form-group" id="div_dia_pago_corrida">
                                         <label for="dia_pago_corrida"><strong>Dia de pago:</strong></label>
                                         <input [(ngModel)]="diaPagoCorrida" type="number" class="form-control" id="dia_pago_corrida" min="1" max="31">
                                     </div>
-                                    <!-- FIN DIA DE PAGO --> 
+                                </div>
+                            </div>
+                            <!-- FIN DIA DE PAGO -->
+                        </div>
+                        <!-- FIN INFORMACION FINANCIAMIENTO -->
 
-                                </fieldset>
+                    </div>
+                </div>
+
+                <!-- <div> -->
+
+                 <!-- <table class="table">
+                     <tbody>
+                         <tr>
+                            <td colspan="1">
+                                <fieldset> -->
+
+                                    <!-- DETALLES UBICACION -->
+                                    <!-- Ubicacion
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="proyecto_crm"><strong>Proyecto:</strong></label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <select class="form-control custom-select form-control-md" id="proyecto_crm" readonly>
+                                                        <option selected value="{{ proyectoCrm}}">{{ proyectoCrm }}</option>
+                                                     </select>
+                                                    <input type="text" class="form-control" id="proyecto_crm" value="{{proyectoCrm}}" readonly style="display: none;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label for="torre_crm"><strong>Torre:</strong></label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <select class="form-control custom-select form-control-md" id="torre_crm" readonly>
+                                                        <option selected value="{{ torreCrm}}">{{ torreCrm }}</option>
+                                                     </select>
+                                                    <input type="text" class="form-control" id="torre_obra_corrida" value="{{torreCrm}}" readonly style="display: none;">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label for="nivel_crm"><strong>Nivel:</strong></label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <select [(ngModel)]="pisoCorrida" class="form-control custom-select form-control-md" id="nivel_crm" name="nivel_crm" (change)="detallesNivel(idDesarrollo, pisoCrm)">
+                                                        <option selected value="0">Selecciona el nivel</option>
+                                                        <option value="{{ pisoCrm }}">{{ pisoCrm }}</option>
+                                                     </select>
+                                                    <input *ngFor="let detalles of nivelDetalles" type="text" class="form-control" id="plusvalia_piso" value="{{detalles.descuento}}" readonly style="display: none;">
+                                                    <input *ngFor="let detalles of nivelDetalles" type="text" class="form-control" id="numero_piso_piso" value="{{detalles.numero_piso}}" readonly style="display: none;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label for="departamento_crm"><strong>Depto:</strong></label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <select class="form-control custom-select form-control-md" id="departamento_crm" readonly>
+                                                        <option selected value="{{ departamentoCrm }}">{{ departamentoCrm }}</option>
+                                                     </select>
+                                                    <input type="text" class="form-control" id="numero_departamento_corrida" value="{{departamentoCrm}}" readonly style="display: none;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- FIN DETALLES UBICACION -->
+
+                                    <!-- NIVEL -->
+                                    <!-- <div class="form-group" id="div_nivel_corrida"> -->
+                                        <!-- <label for="nivel_corrida"><strong>Nivel:</strong></label>
+                                        <select [(ngModel)]="idPiso" [(ngModel)]="pisoCorrida" (change)="obtenerDetallePiso(idPiso)" class="form-control custom-select" id="nivel_corrida" name="nivel_corrida">
+                                            <option *ngFor="let piso of pisos" value="{{piso.id}} {{piso.numero_piso}}">{{piso.numero_piso}}</option>
+                                        </select>
+                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="plusvalia_piso" readonly value="{{detalles.descuento}}" style="display: none;">
+                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="numero_piso_piso" readonly value="{{detalles.numero_piso}}" style="display: none;">
+                                        <br><br> -->
+                                        <!-- <div class="form-inline" id="div_calcular_costo_patio_corrida" style="display: none;">
+                                            <h6>Cacular excedente del nivel.</h6>
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label for="metros_cuadrados_patio_corrida"><strong>M2:</strong></label>
+                                                        <input type="number" class="form-control" id="metros_cuadrados_patio_corrida">
+                                                    </div>
+                                                    <div class="col">
+                                                        <label for="costo_venta_metro_cuadrado_patio_corrida"><strong>Precio:</strong></label>
+                                                        <input type="number" class="form-control" id="costo_venta_metro_cuadrado_patio_corrida">
+                                                    </div>
+                                                    <div class="col">
+                                                        <button (click)="calcularCosto('excedente')" class="btn btn-outline-success" id="recalcular_costo_patio">Calcular costo</button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="number" class="form-control" readonly id="precio_preventa_patio_corrida" style="display: none;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    FIN NIVEL -->
+
+                                    <!-- POTOTIPO -->
+                                    <!-- <div class="form-group" id="div_prototipo_corrida">
+                                        <label for="prototipo_corrida"><strong>Prototipo:</strong></label>
+                                        <select [(ngModel)]="idPrototipo" [(ngModel)]="prototipoCorrida" (change)="obtenerDetallePrototipo(idPrototipo)" class="form-control custom-select" id="prototipo_corrida" name="prototipo_corrida">
+                                            <option *ngFor="let prototipo of prototipos" value="{{prototipo.id}} {{prototipo.prototipo}}">{{prototipo.prototipo}}</option>
+                                        </select>
+                                        <br><br>
+                                        <div class="form-inline" id="div_calcular_costo_corrida">
+                                            <h3>Cacular costo.</h3>
+                                            <label for="metros_cuadrados_prototipo_corrida"><strong>M2:</strong></label>&nbsp;&nbsp;
+                                            <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="metros_cuadrados_prototipo_corrida" value="{{detalles.metros_cuadrados}}">&nbsp;&nbsp;
+                                            <label for="costo_venta_metro_cuadrado_corrida"><strong>Precio:</strong></label>&nbsp;&nbsp;
+                                            <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="costo_venta_metro_cuadrado_corrida" value="{{detalles.costo_venta_metro_cuadrado}}">&nbsp;&nbsp;
+                                            <button (click)="calcularCosto('prototipo')" class="btn btn-outline-success" id="recalcular_costo">Calcular costo</button>
+                                            <br><br>
+                                            <input type="number" class="form-control" readonly id="precio_preventa_corrida" style="display: none;">
+                                        </div>
+                                    </div>
+                                    FIN POTOTIPO -->
+
+                                    <!-- TORRE -->
+                                    <!-- <div class="form-group" id="div_torre_corrida">
+                                        <label for="torre_corrida"><strong>Torre:</strong></label>
+                                        <select [(ngModel)]="idSupuestoObra" [(ngModel)]="torreLetra" (change)="obtenerDetalleSupuestoObra(idSupuestoObra)" class="form-control custom-select" id="torre_corrida" name="torre_corrida">
+                                            <option *ngFor="let obra of supuestosObra" value="{{obra.id}} {{obra.torre}}">{{obra.torre}}</option>
+                                        </select>
+                                        <input *ngFor="let detalles of supuestosObraDetalles" type="text" class="form-control" id="torre_obra_corrida" value="{{detalles.torre}}" style="display: none;">
+                                    </div> -->
+                                    <!-- FIN TORRE -->
+
+                                    <!-- VISTA -->
+                                    <!-- <div class="form-group" id="div_vista_corrida">
+                                        <label for="nivel_corrida"><strong>Vista:</strong></label>
+                                        <select [(ngModel)]="idPiso" [(ngModel)]="pisoCorrida" (change)="obtenerDetallePiso(idPiso)" class="form-control custom-select" id="vista_corrida" name="vista_corrida">
+                                            <option *ngFor="let piso of pisos" value="{{piso.id}} {{piso.numero_piso}}">{{piso.numero_piso}}</option>
+                                        </select>
+                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="plusvalia_piso" readonly value="{{detalles.descuento}}" style="display: none;">
+                                        <input *ngFor="let detalles of pisoDetalles" type="text" class="form-control" id="numero_piso_piso" readonly value="{{detalles.numero_piso}}" style="display: none;">
+                                    </div> -->
+                                    <!-- FIN VISTA -->
+
+                                    <!-- NUMERO DEL DEPARTAMENTO -->
+                                    <!-- <div class="form-group" id="div_numero_departamento_corrida">
+                                        <label for="numero_departamento_corrida"><strong>Numero departamento:</strong></label>
+                                        <input [(ngModel)]="numeroDeptoCorrida" type="number" class="form-control" id="numero_departamento_corrida">
+                                    </div> -->
+                                    <!-- FIN NUMERO DEL DEPARTAMENTO -->
+
+                                <!-- </fieldset>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-                <button class="btn btn-outline-info btn-lg" id="btn_corrida_financiera" (click)="generarPDF()">
-                    Generar corrida financiera
-                </button>
-              </div>
+                    </tbody> 
+                </table> -->
+                <hr class="my-8">
+                <div class="container">
+                    <div class="row">
+                      <div class="col text-center">
+                        <button class="btn btn-outline-info btn-lg" id="btn_corrida_financiera" (click)="generarPDF()">
+                            Generar corrida financiera
+                        </button>
+                      </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

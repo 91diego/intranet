@@ -69,6 +69,7 @@ export class CorridaFinancieraComponent implements OnInit {
   ubicacionCrm;
   proyectoCrm;
   torreCrm;
+  torreCrmLetra;
   pisoCrm;
   departamentoCrm;
 
@@ -119,8 +120,11 @@ export class CorridaFinancieraComponent implements OnInit {
     this.httpClient.get(environment.API_ENDPOINT + '/pisos/' + id + '/' + parseInt(nivel, 10)).subscribe(
       (data: Piso[]) => {
         this.nivelDetalles = data;
+        this.pisoCorrida = data[0].numero_piso;
+        // this.pisoCorrida = data[0].numero_piso;
         console.log('DETALLES PISO');
         console.log(data);
+        console.log(this.pisoCorrida);
       }
     );
   }
@@ -129,7 +133,11 @@ export class CorridaFinancieraComponent implements OnInit {
   /* DETALLES NEGOCIACIONES CRM */
   detallesNegociacion(id: any) {
 
-    this.httpClient.get(environment.API_ENDPOINT + '/apartados-crm/detalles-negociacion/' + id).subscribe(
+    // SEPARAMOS EL ID DE LA CADENA
+    let onlyId: any;
+    onlyId = id.split(' ');
+
+    this.httpClient.get(environment.API_ENDPOINT + '/apartados-crm/detalles-negociacion/' + onlyId[0]).subscribe(
       (data: Apartados[]) => {
 
         let conversionTorre: any;
@@ -139,6 +147,7 @@ export class CorridaFinancieraComponent implements OnInit {
         ubicacionCompleta = data[0].producto1;
         ubicacion = data[0].producto1.split('-');
         this.proyectoCrm = ubicacion[0];
+        this.torreCrmLetra = ubicacion[1];
         this.torreCrm = ubicacion[1];
         this.pisoCrm = ubicacion[2];
         this.departamentoCrm = ubicacion[3];
@@ -168,10 +177,11 @@ export class CorridaFinancieraComponent implements OnInit {
         console.log('DETALLES NEGOCIACION ' + data[0].id_negociacion);
         console.log(data);
       }
-    )
+    );
     console.log(id);
   }
   /* FIN DETALLES NEGOCIACION CRM */
+
   /* OBTIENE DETALLES DESARROLLO */
   obtenerDetalleDesarrollo(id: any) {
     console.log('Datos');
@@ -387,10 +397,12 @@ export class CorridaFinancieraComponent implements OnInit {
   }
 
   generarPDF() {
-    console.log('Corrida financiera');
+
+    console.log('FENERANDO CORRIDA FINANCIERA');
 
     // DECLARACION DE VARIABLES
     let nombreClientePDF: any;
+    let clientePDF: any;
     let superficieCorridaPDF: any;
     let prototipoCorridaPDF: any;
     let nivelCorridaPDF: any;
@@ -435,13 +447,17 @@ export class CorridaFinancieraComponent implements OnInit {
     };
 
     nombreClientePDF = $('#cliente_corrida').val();
+    // SEPARAMOS LA CADENA, LA POSICION [1] CONTIENE EL NOMBRE COMPLETO
+    clientePDF = nombreClientePDF.split(':');
     superficieCorridaPDF = $('#metros_cuadrados_prototipo_corrida').val();
     precioPreventaCorridaPDF = $('#precio_preventa_corrida').val();
     superficiePatioCorridaPDF = $('#metros_cuadrados_patio_corrida').val();
     precioPreventaPatioCorridaPDF = $('#costo_venta_metro_cuadrado_patio_corrida').val();
     prototipoCorridaPDF = this.prototipoCorrida;
-    nivelCorridaPDF = this.pisoCorrida;
-    torreCorridaPDF = this.torreCorrida;
+    nivelCorridaPDF = this.pisoCrm;
+    torreCorridaPDF = this.torreCrm;
+    /*nivelCorridaPDF = this.pisoCorrida;
+    torreCorridaPDF = this.torreCorrida;*/
     numeroDepartamentoCorridaPDF = $('#numero_departamento_corrida').val();
     precioPreventaCorridaPDF = $('#costo_venta_metro_cuadrado_corrida').val();
     // precioPreventaCorridaPDF = $('#precio_preventa_corrida').val();
@@ -477,12 +493,16 @@ export class CorridaFinancieraComponent implements OnInit {
     escritura = $('#escritura_venta').val();
 
     // ASIGNAR LETRA AL NIVEL
+    console.log('AAA');
+    console.log(this.torreCrm);
+    console.log(torreLetraCorridaPDF);
     for (const value in conversionTorre) {
 
-      if (value === this.torreCorrida ) {
+      if (value === this.torreCrm ) {
         torreLetraCorridaPDF = conversionTorre[value];
       }
     }
+    console.log(torreLetraCorridaPDF);
     valorInmuebleDescuento = precioPreventaCorridaPDF * superficieCorridaPDF
     * (1 + (plusvaliaPiso / 100)) * (1 - (descuentoVenta / 100 ));
     /* CALCULO DEL PAGO INICIAL Y PAGO A LA FIRMA */
@@ -725,9 +745,9 @@ export class CorridaFinancieraComponent implements OnInit {
     docPdfCorridaFinanciera.setFontSize(16);
     docPdfCorridaFinanciera.addImage(imgDesarrollo, 'PNG', ancho / 7, 54.5, 300, 100);
     xOffset = (docPdfCorridaFinanciera.internal.pageSize.width / 2) -
-    (docPdfCorridaFinanciera.getStringUnitWidth(nombreClientePDF.toUpperCase()) *
+    (docPdfCorridaFinanciera.getStringUnitWidth(clientePDF[1].toUpperCase()) *
     docPdfCorridaFinanciera.internal.getFontSize() / 2);
-    docPdfCorridaFinanciera.text(nombreClientePDF.toUpperCase(), xOffset, 155);
+    docPdfCorridaFinanciera.text(clientePDF[1].toUpperCase(), xOffset, 155);
 
     // CARACTERISTICAS
     docPdfCorridaFinanciera.autoTable({
@@ -748,7 +768,7 @@ export class CorridaFinancieraComponent implements OnInit {
       body: [
         [
           {colSpan: 2, content: 'Unidad', styles: {valign: 'middle', halign: 'center'}},
-          {colSpan: 2, content: torreLetraCorridaPDF +
+          {colSpan: 2, content: /*this.ubicacionCrm*/this.torreCrmLetra +
             '-' + nivelCorridaPDF +
             '-' + numeroDepartamentoCorridaPDF,
             styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}
@@ -772,7 +792,7 @@ export class CorridaFinancieraComponent implements OnInit {
         ],
         [
           {colSpan: 2, content: 'Torre', styles: {valign: 'middle', halign: 'center'}},
-          {colSpan: 2, content: torreLetraCorridaPDF, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
+          {colSpan: 2, content: this.torreCrmLetra, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
         ],
         [
           {colSpan: 2, content: 'Precio preventa', styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}},
@@ -958,7 +978,7 @@ export class CorridaFinancieraComponent implements OnInit {
     });
 
     // SE GUARDA EL DOCUMENTO PDF
-    docPdfCorridaFinanciera.save('Corrida financiera-' + nombreClientePDF + '-' + numeroDepartamentoCorridaPDF
+    docPdfCorridaFinanciera.save('Corrida financiera-' + clientePDF[1] + '-' + numeroDepartamentoCorridaPDF
     + '-' + $('#desarrollo').val() + '.pdf');
     this.notificacion.info('El archivo ha sido generado.', 'PDF Generado', {
       showProgressBar: false,
@@ -974,7 +994,7 @@ export class CorridaFinancieraComponent implements OnInit {
     // Stop the foreground loading after 5s
     setTimeout(() => {
       this.ngxService.stop(); // stop foreground loading with 'default' id
-    }, 1500);
+    }, 3000);
     this.actualizarListaDesarrollos();
 
     $( () => {
@@ -998,17 +1018,18 @@ export class CorridaFinancieraComponent implements OnInit {
       /* FIN MUESTRA FORMULARIO DE LA CORRIDA */
 
       /* VALIDA SELECCION DEL NIVEL */
-      if ($('#nivel_corrida').val() === null) {
+      if ($('#nivel_crm').val() === 0) {
 
         $('#div_calcular_costo_patio_corrida').hide();
+        alert('Es 0');
 
       }
       /* FIN VALIDA SELECCION DEL NIVEL */
 
       /* MUESTRA EL DIV DEL FORMULARIO CALCULO COSTO PATIO */
-      $('#nivel_corrida').on('change', () => {
+      $('#nivel_crm').on('change', () => {
 
-        if (this.pisoCorrida === 'PB' || this.pisoCorrida === '2') {
+        if (this.pisoCorrida === 'PB' || this.pisoCorrida === '04') {
 
           $('#div_calcular_costo_patio_corrida').show();
         } else {
@@ -1040,11 +1061,11 @@ export class CorridaFinancieraComponent implements OnInit {
       });
       /* FIN MUESTRA FORMULARIO DE LA CORRIDA */
       $('#recalcular_costo').on('click', () => {
-        $('#precio_preventa_corrida').show();
+        $('#div_precio_preventa_corrida').show();
       });
 
       $('#recalcular_costo_patio').on('click', () => {
-        $('#precio_preventa_patio_corrida').show();
+        $('#div_precio_preventa_patio_corrida').show();
       });
 
     });
