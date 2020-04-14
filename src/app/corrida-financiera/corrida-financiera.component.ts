@@ -1063,6 +1063,51 @@ export class CorridaFinancieraComponent implements OnInit {
 
     $( () => {
 
+      /* VALIDA SELECCION DEL CLIENTE */
+      if ($('#cliente_corrida').val() === null) {
+
+        $('#div_formulario_corrida_financiera').hide();
+
+      }
+      /* FIN VALIDA SELECCION DEL CLIENTE */
+
+      /* MUESTRA DIV CON TODO EL FORMULARIO */
+      $('#cliente_corrida').on('change', () => {
+
+        if ($('#cliente_corrida').val() != null) {
+
+          $('#div_formulario_corrida_financiera').show();
+          // LIMPIA EL CAMPO DEL PROTOTIPO
+          $('#prototipo_corrida').val(0);
+
+          // OCULTA EL FORMULARIO PARA CALCULAR EL COSTO DEL PROTOTIPO
+          $('#div_calcular_costo_corrida').hide();
+          // LIMPIA LOS CAMPOS DEL FORMUALRIO CALCULAR COSTO
+          $('#metros_cuadrados_prototipo_corrida').val(0);
+          $('#costo_venta_metro_cuadrado_corrida').val(0);
+          $('#precio_preventa_corrida').val(0);
+
+          // OCULTA EL FORMULARIO PARA CALCULAR EL COSTO DEL EXCENDENTE
+          $('#div_calcular_costo_patio_corrida').hide();
+          // LIMPIA LOS CAMPOS DEL FORMUALRIO CALCULAR COSTO
+          $('#metros_cuadrados_patio_corrida').val(0);
+          $('#costo_venta_metro_cuadrado_patio_corrida').val(0);
+          $('#precio_preventa_patio_corrida').val(0);
+
+          // LIMPIAMOS LOS CAMPOS DEL METODO DE FINANCIAMIENTO
+          $('#metodo_financiamiento_corrida').val(0);
+          $('#meses_financiamiento_corrida').val(0);
+          $('#fecha_pago_apartado_corrida').val(0);
+          $('#fecha_inicio_contrato_corrida').val(0);
+          $('#fecha_firma_corrida').val(0);
+          $('#dia_pago_corrida').val(0);
+        } else {
+
+          $('#div_formulario_corrida_financiera').hide();
+        }
+      });
+      /* FIN MUESTRA DIV CON TODO EL FORMULARIO */
+
       /* VALIDA SELECCION DEL PROTOTIPO */
       if ($('#prototipo_corrida').val() === null) {
 

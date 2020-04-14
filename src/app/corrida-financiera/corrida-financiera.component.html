@@ -112,7 +112,7 @@
                             <div class="form-group" id="div_nombre_cliente_corrida">
                                 <label for="cliente_corrida"><strong>Cliente</strong></label>
                                 <select [(ngModel)]="idNegociacionCrm" [(ngModel)]="nombreClienteCorrida" class="form-control custom-select form-control-md" (change)="detallesNegociacion(idNegociacionCrm)" id="cliente_corrida">
-                                <option *ngFor="let apartadoCrm of apartadosCrm" value="{{ apartadoCrm.id_negociacion }} {{ apartadoCrm.nombre_negociacion }}">{{ apartadoCrm.id_negociacion }} - {{ apartadoCrm.nombre_negociacion }}</option>
+                                    <option *ngFor="let apartadoCrm of apartadosCrm" value="{{ apartadoCrm.id_negociacion }} {{ apartadoCrm.nombre_negociacion }}">{{ apartadoCrm.id_negociacion }} - {{ apartadoCrm.nombre_negociacion }}</option>
                                 </select>
                             </div>
                             <!-- FIN NOMBRE DEL CLIENTE -->
@@ -120,7 +120,7 @@
                     </div>
                     <hr class="my-8">
 
-                    <div class="row">
+                    <div class="row" id="div_formulario_corrida_financiera">
 
                         <!-- INFORMACION DEL PRODUCTO -->
                         <div class="col">
@@ -342,6 +342,23 @@
                         </div>
                         <!-- FIN INFORMACION FINANCIAMIENTO -->
 
+                        <!-- BOTONES -->
+                        <hr class="my-8">
+                        <div class="container">
+                            <div class="row">
+                              <div class="col text-center">
+                                <button class="btn btn-outline-info btn-lg" id="btn_corrida_financiera" (click)="generarPDF()">
+                                    Generar corrida financiera.
+                                </button>
+                              </div>
+                              <div class="col text-center">
+                                <button class="btn btn-outline-info btn-lg" id="btn_corrida_financiera" (click)="autorizacion()">
+                                    Solicitar autorizacion.
+                                </button>
+                              </div>
+                            </div>
+                        </div>
+                        <!-- FIN BOTONES -->
                     </div>
                 </div>
 
@@ -492,22 +509,6 @@
                         </tr>
                     </tbody> 
                 </table> -->
-                <hr class="my-8">
-                <div class="container">
-                    <div class="row">
-                      <div class="col text-center">
-                        <button class="btn btn-outline-info btn-lg" id="btn_corrida_financiera" (click)="generarPDF()">
-                            Generar corrida financiera.
-                        </button>
-                      </div>
-                      <div class="col text-center">
-                        <button class="btn btn-outline-info btn-lg" id="btn_corrida_financiera" (click)="autorizacion()">
-                            Solicitar autorizacion.
-                        </button>
-                      </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
