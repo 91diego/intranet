@@ -37,6 +37,21 @@ const formatterPercent = new Intl.NumberFormat('en-US', {
 })
 export class CorridaFinancieraComponent implements OnInit {
 
+  // VARIABLES PARA GUARDAR INFORMACION DE LA CORRIDA FINANCIERA
+
+  /* VARIABLES QUE ALMACENAN LA INFORMACION DE LA CORRIDA FINANCIERA
+     PARA SU USO POSTERIOR EN EL METODO autorizacion() */
+  corridaFinanciera;
+  // ENCABEZADO CORRIDA FINANCIERA
+  encabezadoCorridaFinanciera;
+  idCrmNegociacion;
+  // INFORMACION GENERAL CORRIDA FINANCIERA
+  generalesCorridaFinanciera;
+  // TABLA DE PAGOS CORRIDA FINANCIERA
+  tablaCorridaFinanciera;
+
+  /** FIN VARIABLES */
+
   // GUARDA LOS DATOS LA RESPUESTA GET DE LA API
   desarrollos: Desarrollo[];
   desarrolloDetalles: Desarrollo[];
@@ -138,6 +153,7 @@ export class CorridaFinancieraComponent implements OnInit {
     // SEPARAMOS EL ID DE LA CADENA
     let onlyId: any;
     onlyId = id.split(' ');
+    this.idCrmNegociacion = onlyId[0];
 
     this.httpClient.get(environment.API_ENDPOINT + '/apartados-crm/detalles-negociacion/' + onlyId[0]).subscribe(
       (data: Apartados[]) => {
@@ -396,6 +412,20 @@ export class CorridaFinancieraComponent implements OnInit {
       costoVentaMtsCuadrados = $('#costo_venta_metro_cuadrado_patio_corrida').val();
       precio = $('#precio_preventa_patio_corrida').val(costoVentaMtsCuadrados * mtsCuadrados);
     }
+  }
+
+  // SE GENERA REGISTRO DE LA CORRIDA FINANCIERA PARA SER AUTORIZADO
+  autorizacion() {
+
+    // CUERPO DE LA CORRIDA FINANCIERA
+    console.log('CORRIDA FINANCIERA');
+    this.corridaFinanciera = [
+      {id_negociacion_crm: this.idCrmNegociacion},
+      {encabezado: this.encabezadoCorridaFinanciera},
+      {generales: this.generalesCorridaFinanciera},
+      {tabla: this.tablaCorridaFinanciera}
+    ];
+    console.log(this.corridaFinanciera);
   }
 
   generarPDF() {
@@ -770,7 +800,7 @@ export class CorridaFinancieraComponent implements OnInit {
       body: [
         [
           {colSpan: 2, content: 'Unidad', styles: {valign: 'middle', halign: 'center'}},
-          {colSpan: 2, content: /*this.ubicacionCrm*/this.torreCrmLetra +
+          {colSpan: 2, content: this.torreCrmLetra +
             '-' + nivelCorridaPDF +
             '-' + numeroDepartamentoCorridaPDF,
             styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}
@@ -806,8 +836,19 @@ export class CorridaFinancieraComponent implements OnInit {
       theme: 'plain'
     });
 
+    // GUARDAMOS LA INFORMACION PARA SER UTILIZADA POR EL METODO autorizar()
+    this.encabezadoCorridaFinanciera = [
+      {cliente: clientePDF[1]},
+      {unidad: this.torreCrmLetra + '-' + nivelCorridaPDF + '-' + numeroDepartamentoCorridaPDF},
+      {superficie_m2: superficieCorridaPDF},
+      {patio_m2: superficiePatioCorridaPDF},
+      {prototipo: this.prototipoCorrida},
+      {nivel: this.pisoCorrida},
+      {torre: this.torreCrmLetra},
+      {precio_preventa: calculoPrecioPreventa}
+    ];
 
-    // PLAN HIPOTECARIO
+    // PLAN DE FINANCIAMIENTO
     docPdfCorridaFinanciera.autoTable({
       margin: {top: 60},
       styles: {
@@ -860,6 +901,25 @@ export class CorridaFinancieraComponent implements OnInit {
       ],
       theme: 'grid'
     });
+
+    // GUARDAMOS LA INFORMACION GENERAL DE LA CORRIDA FINANCIERA
+    this.generalesCorridaFinanciera = [
+      {precio: calculoPrecioPreventa},
+      {enganche_firma: pagoInicial},
+      {enganche_financiado: [
+        {porcentaje: plazoVenta / 100},
+        {monto: Math.round( (plazoVenta / 100) * calculoPrecioPreventa )},
+        {financiamiento: mesesFinanciamientoContrato},
+        {mensualidad: Math.round( ( ( (plazoVenta / 100) * calculoPrecioPreventa ) -
+        pagoInicial) / mesesFinanciamientoContrato )}
+      ]},
+      {pago_escritura: [
+        {firma_porcentaje: escritura / 100},
+        {firma_monto: Math.round( (escritura / 100) * calculoPrecioPreventa )}
+      ]},
+      {total: Math.round( ( (escritura / 100) * calculoPrecioPreventa ) +
+      ( (plazoVenta / 100) * calculoPrecioPreventa ) )}
+    ];
 
     // TABLA CORRIDA FINANCIERA
     const bodyCorridaFinanciera: any = [];
@@ -987,6 +1047,8 @@ export class CorridaFinancieraComponent implements OnInit {
       titleMaxLength: 200
     });
 
+    // SE GUARDAN LOS DATOS PARA SER UTILIZADOS EN EL METODO autorizacion()
+    this.tablaCorridaFinanciera = bodyCorridaFinanciera;
   }
 
   ngOnInit() {

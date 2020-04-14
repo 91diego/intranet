@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit {
   // GUARDA LOS DATOS DEL DESARROLLO OBTENIDOS DE LA RESPUESTA GET DEL API
   datosUsuario: Datos[];
 
-  // PUESTO DEL USUARIO, SE UTILIZA PARA REGRESAR A LA TURA HOME
+  // PUESTO DEL USUARIO, SE UTILIZA PARA REGRESAR A LA RUTA HOME
   workPosition;
 
   constructor(private auth: AuthService,
