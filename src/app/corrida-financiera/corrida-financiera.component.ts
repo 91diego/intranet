@@ -117,7 +117,9 @@ export class CorridaFinancieraComponent implements OnInit {
 
   /* DETALLES DEL NIVEL POR NOMBRE Y ID DE DESARROLLO */
   detallesNivel(id: any, nivel: any) {
-    this.httpClient.get(environment.API_ENDPOINT + '/pisos/' + id + '/' + parseInt(nivel, 10)).subscribe(
+    let onlyId: any;
+    onlyId = id.split(' ');
+    this.httpClient.get(environment.API_ENDPOINT + '/pisos/' + onlyId[0] + '/' + parseInt(nivel, 10)).subscribe(
       (data: Piso[]) => {
         this.nivelDetalles = data;
         this.pisoCorrida = data[0].numero_piso;
