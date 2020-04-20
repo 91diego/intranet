@@ -87,6 +87,10 @@ export class CorridaFinancieraComponent implements OnInit {
   torreCrmLetra;
   pisoCrm;
   departamentoCrm;
+  prototipoCrm;
+  metrosCuadradosCrm;
+  metrosPatioCrm;
+  vistaCrm;
 
   // PUESTO DEL USUARIO
   workPosition;
@@ -162,14 +166,18 @@ export class CorridaFinancieraComponent implements OnInit {
         let ubicacion: any;
         let ubicacionCompleta: any;
         this.apartadosCrmDetalles = data;
-        ubicacionCompleta = data[0].producto1;
-        ubicacion = data[0].producto1.split('-');
+        ubicacionCompleta = data[0].producto;
+        ubicacion = data[0].producto.split('-');
         this.proyectoCrm = ubicacion[0];
         this.torreCrmLetra = ubicacion[1];
         this.torreCrm = ubicacion[1];
         this.pisoCrm = ubicacion[2];
         this.departamentoCrm = ubicacion[3];
         this.ubicacionCrm = ubicacionCompleta;
+        this.prototipoCrm = data[0].prototipo;
+        this.metrosCuadradosCrm = data[0].m2;
+        this.vistaCrm = data[0].vista;
+        this.metrosPatioCrm = data[0].patio;
 
         // ASIGNACION DE VALORES
         conversionTorre = {
@@ -485,7 +493,7 @@ export class CorridaFinancieraComponent implements OnInit {
     precioPreventaCorridaPDF = $('#precio_preventa_corrida').val();
     superficiePatioCorridaPDF = $('#metros_cuadrados_patio_corrida').val();
     precioPreventaPatioCorridaPDF = $('#costo_venta_metro_cuadrado_patio_corrida').val();
-    prototipoCorridaPDF = this.prototipoCorrida;
+    prototipoCorridaPDF = this.prototipoCrm;
     nivelCorridaPDF = this.pisoCrm;
     torreCorridaPDF = this.torreCrm;
     /*nivelCorridaPDF = this.pisoCorrida;
@@ -816,7 +824,7 @@ export class CorridaFinancieraComponent implements OnInit {
         ],
         [
           {colSpan: 2, content: 'Prototipo', styles: {valign: 'middle', halign: 'center'}},
-          {colSpan: 2, content: this.prototipoCorrida, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
+          {colSpan: 2, content: this.prototipoCrm, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
         ],
         [
           {colSpan: 2, content: 'Nivel', styles: {valign: 'middle', halign: 'center'}},
@@ -825,6 +833,10 @@ export class CorridaFinancieraComponent implements OnInit {
         [
           {colSpan: 2, content: 'Torre', styles: {valign: 'middle', halign: 'center'}},
           {colSpan: 2, content: this.torreCrmLetra, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
+        ],
+        [
+          {colSpan: 2, content: 'Vista', styles: {valign: 'middle', halign: 'center'}},
+          {colSpan: 2, content: this.vistaCrm, styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}}
         ],
         [
           {colSpan: 2, content: 'Precio preventa', styles: {valign: 'middle', halign: 'center', fontStyle: 'bold'}},
@@ -842,7 +854,7 @@ export class CorridaFinancieraComponent implements OnInit {
       {unidad: this.torreCrmLetra + '-' + nivelCorridaPDF + '-' + numeroDepartamentoCorridaPDF},
       {superficie_m2: superficieCorridaPDF},
       {patio_m2: superficiePatioCorridaPDF},
-      {prototipo: this.prototipoCorrida},
+      {prototipo: this.prototipoCrm},
       {nivel: this.pisoCorrida},
       {torre: this.torreCrmLetra},
       {precio_preventa: calculoPrecioPreventa}
@@ -1078,7 +1090,7 @@ export class CorridaFinancieraComponent implements OnInit {
 
           $('#div_formulario_corrida_financiera').show();
           // LIMPIA EL CAMPO DEL PROTOTIPO
-          $('#prototipo_corrida').val(0);
+          $('#prototipo_corrida').val('');
 
           // OCULTA EL FORMULARIO PARA CALCULAR EL COSTO DEL PROTOTIPO
           $('#div_calcular_costo_corrida').hide();
@@ -1104,12 +1116,13 @@ export class CorridaFinancieraComponent implements OnInit {
         } else {
 
           $('#div_formulario_corrida_financiera').hide();
+          $('#div_calcular_costo_corrida').show();
         }
       });
       /* FIN MUESTRA DIV CON TODO EL FORMULARIO */
 
       /* VALIDA SELECCION DEL PROTOTIPO */
-      if ($('#prototipo_corrida').val() === null) {
+      if ($('#cliente_corrida').val() === null) {
 
         $('#div_calcular_costo_corrida').hide();
 
@@ -1117,9 +1130,9 @@ export class CorridaFinancieraComponent implements OnInit {
       /* FIN VALIDA SELECCION DEL PROTOTIPO */
 
       /* MUESTRA EL DIV DEL FORMULARIO DE LA CORRIDA */
-      $('#prototipo_corrida').on('change', () => {
+      $('#cliente_corrida').on('change', () => {
 
-        if ($('#prototipo_corrida').val() != null) {
+        if ($('#cliente_corrida').val() != null) {
 
           $('#div_calcular_costo_corrida').show();
         }

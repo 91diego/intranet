@@ -81,10 +81,10 @@
 
                         <div class="col">
                             <p class="lead">
-                                <strong><label>Desarrollo: </label> {{desarrolloCorrida}}</strong><br>
-                                <strong><label>Cliente: </label> {{idNegociacionCrm}}</strong><br>
-                                <strong><label>Ubicacion: </label> {{ubicacionCrm}}</strong><br>
-                                <strong><label>Prototipo: </label> {{prototipoCorrida}}</strong>
+                                <strong><label>Desarrollo: </label> {{ desarrolloCorrida }}</strong><br>
+                                <strong><label>Cliente: </label> {{ idNegociacionCrm }}</strong><br>
+                                <strong><label>Ubicacion: </label> {{ ubicacionCrm }}</strong><br>
+                                <strong><label>Prototipo: </label> {{ prototipoCrm }}</strong>
                             </p>
                         </div>
 
@@ -162,35 +162,9 @@
                                      </select>
                                     <input *ngFor="let detalles of nivelDetalles" type="text" class="form-control" id="plusvalia_piso" value="{{detalles.descuento}}" readonly style="display: none;">
                                     <input *ngFor="let detalles of nivelDetalles" type="text" class="form-control" id="numero_piso_piso" value="{{detalles.numero_piso}}" readonly style="display: none;">
-                                    <br>
-                                    <div class="form-inline" id="div_calcular_costo_patio_corrida" style="display: none;">
-            
-                                        <div class="container">
-
-                                            <div class="row">
-                                                <h5 class="text-center">Calcular excedente.</h5>
-                                            </div>
-                                            <div class="row">
-                                                <label for="metros_cuadrados_patio_corrida"><strong>Metros cuadrados:</strong></label>
-                                                <input type="number" class="form-control" id="metros_cuadrados_patio_corrida">
-                                            </div>
-                                            <div class="row">
-                                                <label for="costo_venta_metro_cuadrado_patio_corrida"><strong>Precio:</strong></label>
-                                                <input type="number" class="form-control" id="costo_venta_metro_cuadrado_patio_corrida">
-                                            </div>
-                                            <div class="row" id="div_precio_preventa_patio_corrida" style="display: none;">
-                                                <label for="precio_preventa_patio_corrida"><strong>Total:</strong></label>
-                                                <input type="number" class="form-control" readonly id="precio_preventa_patio_corrida">
-                                            </div>
-                                            <div class="row">
-                                                <button (click)="calcularCosto('excedente')" class="btn btn-lg btn-outline-info" id="recalcular_costo_patio">Calcular costo</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
 
                                 </div>
-                                <!-- FIN NIVEL -->
+                                <!-- FIN NIVEL -->                      
 
                                 <!-- DEPARTAMENTO -->
                                 <div class="col">
@@ -204,15 +178,57 @@
                             </div>
                             <!-- FIN UBICACION -->
 
+                            <br>
+                            <!-- EXCEDENTE NIVEL -->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-inline" id="div_calcular_costo_patio_corrida" style="display: none;">
+                                        <div class="container">
+        
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5 class="text-center">Calcular excedente.</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="metros_cuadrados_patio_corrida"><strong>Metros cuadrados:</strong></label>
+                                                <div class="col">
+                                                    <input type="number" class="form-control" id="metros_cuadrados_patio_corrida" value="{{ metrosPatioCrm }}" readonly>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <label for="costo_venta_metro_cuadrado_patio_corrida"><strong>Precio:</strong></label>
+                                                <div class="col">
+                                                    <input type="number" class="form-control" id="costo_venta_metro_cuadrado_patio_corrida">
+                                                </div>
+                                            </div>
+                                            <div class="row" id="div_precio_preventa_patio_corrida" style="display: none;">
+                                                <label for="precio_preventa_patio_corrida"><strong>Total:</strong></label>
+                                                <div class="col">
+                                                    <input type="number" class="form-control" readonly id="precio_preventa_patio_corrida">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button (click)="calcularCosto('excedente')" class="btn btn-lg btn-outline-info" id="recalcular_costo_patio">Calcular costo</button>
+                                                </div>
+                                            </div>
+        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIN EXCEDENTE NIVEL -->    
+
                             <!-- PROTOTIPO -->
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group" id="div_prototipo_corrida">
                                         <label for="prototipo_corrida"><strong>Prototipo:</strong></label>
-                                        <select [(ngModel)]="idPrototipo" [(ngModel)]="prototipoCorrida" (change)="obtenerDetallePrototipo(idPrototipo)" class="form-control custom-select" id="prototipo_corrida" name="prototipo_corrida">
-                                            <option *ngFor="let prototipo of prototipos" value="{{prototipo.id}} {{prototipo.prototipo}}">{{prototipo.prototipo}}</option>
-                                        </select>
+                                        <input [(ngModel)]="prototipoCorrida" type="text" class="form-control" id="proto" value="{{ prototipoCrm }}" readonly>
                                         <br>
+
                                         <div id="div_calcular_costo_corrida">
 
                                             <div class="container">
@@ -226,11 +242,11 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <label for="metros_cuadrados_prototipo_corrida"><strong>Metros cuadrados:</strong></label>&nbsp;&nbsp;
-                                                        <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="metros_cuadrados_prototipo_corrida" value="{{detalles.metros_cuadrados}}">
+                                                        <input type="number" class="form-control" id="metros_cuadrados_prototipo_corrida" value="{{ metrosCuadradosCrm }}" readonly>
                                                     </div>
                                                     <div class="col">
                                                         <label for="costo_venta_metro_cuadrado_corrida"><strong>Precio:</strong></label>&nbsp;&nbsp;
-                                                    <input *ngFor="let detalles of prototipoDetalles" type="number" class="form-control" id="costo_venta_metro_cuadrado_corrida" value="{{detalles.costo_venta_metro_cuadrado}}">
+                                                        <input type="number" class="form-control" id="costo_venta_metro_cuadrado_corrida" value="0">
                                                     </div>
                                                     
                                                 </div>
@@ -238,7 +254,7 @@
                                                 <div class="row" id="div_precio_preventa_corrida" style="display: none;">
                                                     <div class="col">
                                                         <label for="precio_preventa_corrida"><strong>Total:</strong></label>
-                                                        <input type="number" class="form-control" readonly id="precio_preventa_corrida">
+                                                        <input type="text" class="form-control" readonly id="precio_preventa_corrida">
                                                     </div>
                                                 </div>
                                                 <br>

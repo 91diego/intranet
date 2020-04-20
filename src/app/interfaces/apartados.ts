@@ -5,12 +5,21 @@ export interface Apartados {
     id_negociacion: number;
     id_lead: number;
     nombre_negociacion: string;
-    producto1: string;
-    producto2: string;
+    id_responsable: number;
+    nombre: string;
+    email: string;
+    puesto; string;
+    producto: string;
+    precio: any;
     total: any;
-    precio_producto: any;
-    estatus_apartado: any;
+    apartado: any;
+    autorizado: any;
     desarrollo: string;
+    prototipo: any;
+    torre: any;
+    patio: any;
+    m2: any;
+    vista: any;
     created_at?: string;
     updated_at?: string;
 }
