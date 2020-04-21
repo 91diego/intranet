@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { environment, position } from './../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +7,7 @@ import { environment, position } from './../../environments/environment';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private activateRoute: ActivatedRoute) {
-    position.work_position = this.activateRoute.snapshot.paramMap.get('workPosition');
-    console.log(position.work_position);
-  }
+  constructor() { }
 
   ngOnInit() {
   }

@@ -27,6 +27,9 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CorridaFinancieraComponent } from './corrida-financiera/corrida-financiera.component';
+import { MisComisionesComponent } from './comisiones/mis-comisiones/mis-comisiones.component';
+import { AutorizarComisionesComponent } from './comisiones/autorizar-comisiones/autorizar-comisiones.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { CorridaFinancieraComponent } from './corrida-financiera/corrida-financi
     ParamPlusvaliaComponent,
     CaratulaComponent,
     CrearUsuarioComponent,
-    CorridaFinancieraComponent
+    CorridaFinancieraComponent,
+    MisComisionesComponent,
+    AutorizarComisionesComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
