@@ -30,6 +30,7 @@ import { CorridaFinancieraComponent } from './corrida-financiera/corrida-financi
 import { MisComisionesComponent } from './comisiones/mis-comisiones/mis-comisiones.component';
 import { AutorizarComisionesComponent } from './comisiones/autorizar-comisiones/autorizar-comisiones.component';
 import { LayoutComponent } from './layout/layout.component';
+import { HistorialComisionesComponent } from './comisiones/historial-comisiones/historial-comisiones.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { LayoutComponent } from './layout/layout.component';
     CorridaFinancieraComponent,
     MisComisionesComponent,
     AutorizarComisionesComponent,
-    LayoutComponent
+    LayoutComponent,
+    HistorialComisionesComponent
   ],
   imports: [
     BrowserModule,

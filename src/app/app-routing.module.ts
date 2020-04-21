@@ -13,6 +13,7 @@ import { CorridaFinancieraComponent } from './corrida-financiera/corrida-financi
 import { MisComisionesComponent } from './comisiones/mis-comisiones/mis-comisiones.component';
 import { AutorizarComisionesComponent } from './comisiones/autorizar-comisiones/autorizar-comisiones.component';
 import { LayoutComponent } from './layout/layout.component';
+import { HistorialComisionesComponent } from './comisiones/historial-comisiones/historial-comisiones.component';
 
 
 const routes: Routes = [
@@ -64,12 +65,24 @@ const routes: Routes = [
         canActivate: [AfterLoginService] */
       },
       {
+        path: 'autorizar-comisiones',
+        component: AutorizarComisionesComponent
+      },
+      {
         path: 'mis-comisiones',
         component: MisComisionesComponent
       },
       {
-        path: 'autorizar-comisiones',
-        component: AutorizarComisionesComponent
+        path: 'historico-comisiones',
+        component: HistorialComisionesComponent
+      },
+      {
+        path: 'mis-comisiones/historico-comisiones/:id',
+        component: HistorialComisionesComponent
+      },
+      {
+        path: 'autorizar-comisiones/historico-comisiones',
+        component: HistorialComisionesComponent
       }
     ]
   }

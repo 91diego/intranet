@@ -1,5 +1,6 @@
 <div class="container">
-    <h2 class="text-center">MIS COMISIONES PENDIENTES POR AUTORIZAR</h2>
+    <h2 class="text-center">HISTORIAL DE COMISIONES</h2>
+
     <input class="form-control mb-4" id="tableSearch" type="text"
     placeholder="Escribe aqui para realizar la busqueda en la tabla">
     <table class="table table-hover">
@@ -18,11 +19,20 @@
                 </th>
                 <th class="text-center">PENDIENTE</th>
             </tr>
+            <tr>
+                <th class="text-center">LIVA: JUAN MAGALLANES QUIROZ</th>
+                <th class="text-center">
+                    <a routerLink="#" class="btn-link">Ver corrida</a>
+                </th>
+                <th class="text-center">AUTORIZADO</th>
+            </tr>
+            <tr>
+                <th class="text-center">BRASILIA: NAYELI PEREZ ULLOA</th>
+                <th class="text-center">
+                    <a routerLink="#" class="btn-link">Ver corrida</a>
+                </th>
+                <th class="text-center">RECHAZADO</th>
+            </tr>
         </tbody>
     </table>
-    <div class="row">
-        <div class="col">
-            <a routerLink="historico-comisiones/{{workPosition}}" class="btn-link">Mi historico de comisiones</a>
-        </div>
-    </div>
 </div>

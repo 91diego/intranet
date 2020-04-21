@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { position } from './../../../environments/environment';
 
 @Component({
-  selector: 'app-autorizar-comisiones',
-  templateUrl: './autorizar-comisiones.component.html',
-  styleUrls: ['./autorizar-comisiones.component.css']
+  selector: 'app-historial-comisiones',
+  templateUrl: './historial-comisiones.component.html',
+  styleUrls: ['./historial-comisiones.component.css']
 })
-export class AutorizarComisionesComponent implements OnInit {
+export class HistorialComisionesComponent implements OnInit {
 
-  constructor() { }
+  workPosition;
+  constructor() {
+
+    this.workPosition = position.work_position;
+    console.log('Mis comisiones historico: ' + this.workPosition);
+   }
 
   ngOnInit() {
 
@@ -24,6 +30,7 @@ export class AutorizarComisionesComponent implements OnInit {
       // FIN BUSQUEDA ELEMENTO
 
     });
+
   }
 
 }

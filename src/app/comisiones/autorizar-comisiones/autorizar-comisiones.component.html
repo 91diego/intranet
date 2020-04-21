@@ -1,1 +1,40 @@
-<p>autorizar-comisiones works!</p>
+<div class="container">
+    <h2 class="text-center">COMISIONES PENDIENTES POR AUTORIZAR.</h2>
+
+    <input class="form-control mb-4" id="tableSearch" type="text"
+    placeholder="Escribe aqui para realizar la busqueda en la tabla">
+    <table class="table table-hover">
+        <thead>
+            <tr class="text-center">
+                <th>Negociacion</th>
+                <th>Responsable</th>
+                <th>Detalles</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            <tr>
+                <th class="text-center">ANUVA: JUAN MAGALLANES QUIROZ</th>
+                <th class="text-center">DIEGO ALBERTO GONZALEZ GONZALEZ</th>
+                <th class="text-center">
+                    <a routerLink="#" class="btn-link">Ver corrida</a>
+                </th>
+                <th>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success btn-sm">Autorizar</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-danger btn-sm">Rechazar</button>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col">
+            <a routerLink="historico-comisiones" class="btn-link">Historico de comisiones</a>
+        </div>
+    </div>
+</div>

@@ -46,12 +46,13 @@
                     Comisiones
                     </a>
                     <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="mis-comisiones">Mis comisiones</a>
                         <div *ngIf="workPosition == '117' || workPosition == '3' || workPosition == '4'
                         || workPosition == '19' || workPosition == '24' || workPosition == '21'
                         || workPosition == '22' || workPosition == '12'">
                             <a class="dropdown-item" routerLink="autorizar-comisiones">Autorizar comisiones</a>
+                            <a class="dropdown-item" routerLink="historico-comisiones">Historial comisiones</a>
                         </div>
-                        <a class="dropdown-item" routerLink="mis-comisiones">Mis comisiones</a>
                     </div>
                 </li>
                 
